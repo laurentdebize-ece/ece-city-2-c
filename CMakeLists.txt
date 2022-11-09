@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 99)
 # ajouter raylib au projet CMake
 add_subdirectory(raylib)
 
-add_executable(ece-city-2-c main.c test.c test.h)
+add_executable(ece-city-2-c main.c)
 # linker statiquement raylib au projet
 target_link_libraries(ece-city-2-c raylib)
 

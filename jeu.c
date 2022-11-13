@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "graphe.h"
 
 void detection_case_souris (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
@@ -87,6 +88,7 @@ bool detectionRouteBatiment (ECE_City * eceCity) {
 void poserBatiment(ECE_City * eceCity) {
     if (eceCity->EtatPlacement != VIDE && eceCity->EtatPlacement != ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             detectionRouteBatiment(eceCity)) {
+        ajoutRouteGraphe(eceCity);
         for (int i = 0; i < NB_LIGNE; ++i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 if (eceCity->tabCase[i][j].selec == true) {
@@ -95,11 +97,12 @@ void poserBatiment(ECE_City * eceCity) {
             }
         }
     }
-    else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
+    else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         for (int i = 0; i < NB_LIGNE; ++i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 if (eceCity->tabCase[i][j].selec == true && eceCity->tabCase[i][j].Etat == VIDE) {
                     eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
+                    ajoutRouteGraphe(eceCity);
                 }
             }
         }
@@ -124,6 +127,17 @@ void fonction_principale(ECE_City * eceCity){
         detectionEtatPlacement(eceCity);
 
         affichageComplet (eceCity);
+
+        if (IsKeyPressed(KEY_Y)){
+            Sommet * parcourGraphe = eceCity->graphe;
+            for (int i = 0; i < eceCity->nbSommetGraphe; ++i) {
+                for (int j = 0; j < parcourGraphe->nbAdjacent; ++j) {
+                    printf ("%d ", parcourGraphe->tabAdjacent[j]);
+                }
+                printf ("\n");
+                parcourGraphe = parcourGraphe->next;
+            }
+        }
 
     }
 }

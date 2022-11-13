@@ -52,6 +52,16 @@ typedef struct batiment {
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
 
+typedef struct Sommet{
+    int id;
+    int ligne;
+    int colonne;
+    int batiment;
+    int nbAdjacent;
+    int * tabAdjacent;
+    struct Sommet * next;
+}Sommet;
+
 typedef struct ece_city{
     float coefTab;
     Case tabCase [NB_LIGNE][NB_COLONNE];
@@ -59,6 +69,9 @@ typedef struct ece_city{
     Souris souris;
     TIME t;
     int EtatPlacement;
+    Sommet * graphe;
+    int nbSommetGraphe;
+    int idEnCours;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

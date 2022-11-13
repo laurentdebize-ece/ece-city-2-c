@@ -8,6 +8,7 @@ void initECECity (ECE_City * eceCity);
 
 void initBatiment (ECE_City * eceCity, char* fichier);
 void initCase (ECE_City * ece_city);
+void initGraphe (ECE_City * eceCity);
 
 void falseCaseSelec (ECE_City * eceCity);
 

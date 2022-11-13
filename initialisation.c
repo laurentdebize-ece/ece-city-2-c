@@ -8,7 +8,13 @@ void initECECity (ECE_City * eceCity) {
     initCase(eceCity);
     eceCity->EtatPlacement = VIDE;
     eceCity->EtatPlacement = false;
+    initGraphe(eceCity);
+}
 
+void initGraphe (ECE_City * eceCity) {
+    eceCity->graphe = NULL;
+    eceCity->nbSommetGraphe = 0;
+    eceCity->idEnCours = 0;
 }
 
 void initBatiment (ECE_City * eceCity, char* fichier){

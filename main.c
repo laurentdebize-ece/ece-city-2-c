@@ -1,13 +1,12 @@
-//
-// Created by maell on 07/11/2022.
-//
-
-#include <raylib.h>
 #include "jeu.h"
+#include "initialisation.h"
+#include "ECE_CITY.h"
 #define FPS 60
 
 int main ()
 {
-    fonction_principale();
+    ECE_City eceCity = {0};
+    initECECity(&eceCity);
+    fonction_principale(&eceCity);
     return 0;
 }

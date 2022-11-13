@@ -1,8 +1,5 @@
-//
-// Created by maell on 10/11/2022.
-//
-
 #include "test.h"
+
 
 TIME temps(TIME *t){
 

@@ -6,9 +6,22 @@ void initECECity (ECE_City * eceCity) {
     eceCity->coefTab = (float) TAILLE_CASE_Y / (float) TAILLE_CASE_X;
     initBatiment(eceCity, "../tailleBatiment");
     initCase(eceCity);
+    initSouris(eceCity);
     eceCity->EtatPlacement = VIDE;
     eceCity->EtatPlacement = false;
+    eceCity->orientation = 0;
     initGraphe(eceCity);
+}
+
+void initSouris (ECE_City * eceCity) {
+    eceCity->souris.pos.x = 0;
+    eceCity->souris.pos.y = 0;
+    eceCity->souris.posLigne = 0;
+    eceCity->souris.posColonne = 0;
+    eceCity->souris.oldPosColonne = 0;
+    eceCity->souris.oldPosLigne = 0;
+    eceCity->souris.repLigne = 0;
+    eceCity->souris.repColonne = 0;
 }
 
 void initGraphe (ECE_City * eceCity) {
@@ -32,6 +45,17 @@ void initBatiment (ECE_City * eceCity, char* fichier){
         fscanf(ifs,"%d", &eceCity->batiment[i].largeur);
         fscanf(ifs,"%d", &eceCity->batiment[i].nbHabitantMax);
         fscanf(ifs,"%d", &eceCity->batiment[i].prix);
+
+        eceCity->batiment[i].nomBatiment = calloc(30, sizeof (char));
+        int j = 0;
+        char  caractere;
+        fscanf (ifs, "%c", &caractere);
+        fscanf (ifs, "%c", &caractere);
+        while (caractere != '!') {
+            eceCity->batiment[i].nomBatiment[j]=caractere;
+            fscanf (ifs, "%c", &caractere);
+            j++;
+        }
     }
 }
 

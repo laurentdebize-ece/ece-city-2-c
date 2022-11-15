@@ -1,13 +1,13 @@
-1 1 0 10
-2 2 10 500
-3 3 50 10000
-4 4 100 100000
-5 5 1000 500000
-4 6 0 100000
-4 6 0 100000
-4 6 0 100000
+1 1 0 10 route!
+3 3 10 500 cabane!
+3 3 50 10000 maison!
+3 3 100 100000 immeuble!
+3 3 1000 500000 gratte-ciel!
+4 6 0 100000 centrale-electrique!
+4 6 0 100000 chateau-eau!
+4 6 0 100000 caserne-pompier!
 
 
 
 
-l L habitants prix
+l L Habitants Prix Nom

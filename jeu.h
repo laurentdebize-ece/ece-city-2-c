@@ -1,10 +1,10 @@
 #ifndef ECE_CITY_2_C_JEU_H
 #define ECE_CITY_2_C_JEU_H
+
 #include "ECE_CITY.h"
 #include "affichage.h"
 #include "test.h"
 
-#define FPS 60
 
 void detection_case_souris (ECE_City * eceCity);
 Vector2 getPosMouse (ECE_City * eceCity);

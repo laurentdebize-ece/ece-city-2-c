@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define FPS 60
 #define NB_LIGNE 35
 #define NB_COLONNE 45
 #define X_TAB 100
@@ -37,6 +38,8 @@ typedef struct Case{
 typedef struct souris{
     int posLigne;
     int posColonne;
+    int oldPosLigne;
+    int oldPosColonne;
     Vector2 pos;
     float repLigne;
     float repColonne;
@@ -48,6 +51,7 @@ typedef struct batiment {
     int nbHabitantMax;
     int nbHabitant;
     int prix;
+    char* nomBatiment;
 }BatimentType;
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
@@ -72,6 +76,7 @@ typedef struct ece_city{
     Sommet * graphe;
     int nbSommetGraphe;
     int idEnCours;
+    int orientation;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

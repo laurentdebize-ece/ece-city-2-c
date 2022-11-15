@@ -113,6 +113,8 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
 
 
 void affichageComplet (ECE_City * eceCity) {
+
+
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
@@ -122,7 +124,15 @@ void affichageComplet (ECE_City * eceCity) {
     affichagePlateau(*eceCity);
 
     DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
-    DrawText(TextFormat("%d", eceCity->EtatPlacement), 12  , 120, 20 , BLACK);
+    DrawText(TextFormat("%s", eceCity->batiment[eceCity->EtatPlacement-1].nomBatiment), 12  , 120, 20 , BLACK);
+    DrawText("Cabane --> C", 12, 140, 20, BLACK);
+    DrawText("Maison --> N", 12, 160, 20, BLACK);
+    DrawText("Immeuble --> I", 12, 180, 20, BLACK);
+    DrawText("Gratte-ciel --> G", 12, 200, 20, BLACK);
+    DrawText("Centrale elec --> E", 12, 220, 20, BLACK);
+    DrawText("Chateau d eau --> H", 12, 240, 20, BLACK);
+    DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
+    DrawText("Route --> R", 12, 300, 20, BLACK);
 
 
     affichage_temps(temps(&eceCity->t));

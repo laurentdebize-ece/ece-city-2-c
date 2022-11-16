@@ -66,10 +66,31 @@ void affichage_temps(ECE_City eceCity){
             DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
         }
     }
+}
 
+void drawPlan () {
+    DrawTriangle((Vector2){X_TAB + (NB_LIGNE)*TAILLE_CASE_X, Y_TAB - (NB_LIGNE)*TAILLE_CASE_Y},
+                 (Vector2){X_TAB-10, Y_TAB + 10},
+                 (Vector2){X_TAB + (NB_COLONNE)*TAILLE_CASE_X, Y_TAB + (NB_COLONNE)*TAILLE_CASE_Y + 20}
+            , GRAY);
+    DrawTriangle((Vector2){X_TAB + (NB_LIGNE)*TAILLE_CASE_X, Y_TAB - (NB_LIGNE)*TAILLE_CASE_Y},
+                 (Vector2){X_TAB + (NB_COLONNE)*TAILLE_CASE_X, Y_TAB + (NB_COLONNE)*TAILLE_CASE_Y + 20},
+                 (Vector2){X_TAB + NB_COLONNE * TAILLE_CASE_X + NB_LIGNE * TAILLE_CASE_X + 10, Y_TAB + (NB_COLONNE - NB_LIGNE) * TAILLE_CASE_Y + 10}
+            , GRAY);
+
+
+    DrawTriangle((Vector2){X_TAB + (NB_LIGNE)*TAILLE_CASE_X, Y_TAB - (NB_LIGNE)*TAILLE_CASE_Y - 10},
+                 (Vector2){X_TAB-10, Y_TAB},
+                 (Vector2){X_TAB + (NB_COLONNE)*TAILLE_CASE_X, Y_TAB + (NB_COLONNE)*TAILLE_CASE_Y + 10}
+            , LIGHTGRAY);
+    DrawTriangle((Vector2){X_TAB + (NB_LIGNE)*TAILLE_CASE_X, Y_TAB - (NB_LIGNE)*TAILLE_CASE_Y - 10},
+                 (Vector2){X_TAB + (NB_COLONNE)*TAILLE_CASE_X, Y_TAB + (NB_COLONNE)*TAILLE_CASE_Y + 10},
+                 (Vector2){X_TAB + NB_COLONNE * TAILLE_CASE_X + NB_LIGNE * TAILLE_CASE_X + 10, Y_TAB + (NB_COLONNE - NB_LIGNE) * TAILLE_CASE_Y}
+            , LIGHTGRAY);
 }
 
 void affichagePlateau (ECE_City eceCity){
+    drawPlan();
     for (int i = 0; i < NB_LIGNE; ++i) {
         DrawLine(eceCity.tabCase[i][0].pos.x, eceCity.tabCase[i][0].pos.y, eceCity.tabCase[i][0].pos.x + TAILLE_CASE_X*NB_COLONNE, eceCity.tabCase[i][0].pos.y + TAILLE_CASE_Y*NB_COLONNE,BLACK);
     }

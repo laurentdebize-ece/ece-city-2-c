@@ -9,6 +9,7 @@
 void detection_case_souris (ECE_City * eceCity);
 Vector2 getPosMouse (ECE_City * eceCity);
 void detectEtat (ECE_City * eceCity, int key, int plac);
+void detectEtage (ECE_City * eceCity);
 void detectionEtatPlacement (ECE_City * eceCity);
 bool detectionRouteBatiment (ECE_City * eceCity);
 void poserBatiment(ECE_City * eceCity);

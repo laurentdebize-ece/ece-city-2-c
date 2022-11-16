@@ -10,6 +10,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->EtatPlacement = VIDE;
     eceCity->EtatPlacement = false;
     eceCity->orientation = 0;
+    eceCity->etage = JEU;
     initGraphe(eceCity);
 }
 

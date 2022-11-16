@@ -27,6 +27,7 @@ typedef struct TIME{
     int secondefictif ;
     int mois ;
     int annee ;
+    int speedTime;
 }TIME;
 
 
@@ -39,7 +40,6 @@ typedef struct Case{
 }Case;
 
 typedef struct souris{
-    Vector2 position; //utiliser pour menu
     int posLigne;
     int posColonne;
     int oldPosLigne;
@@ -80,8 +80,14 @@ typedef struct Sommet{
     int batiment;
     int nbAdjacent;
     int * tabAdjacent;
+    int nbUpgrade;
     struct Sommet * next;
 }Sommet;
+
+typedef struct {
+    int Upgrade;
+    int upgradeEnCours;
+}toUpgrade;
 
 typedef struct ece_city{
     float coefTab;
@@ -97,6 +103,7 @@ typedef struct ece_city{
     int idEnCours;
     int orientation;
     int etage;
+    toUpgrade upgrade;
     bool end;
 }ECE_City;
 

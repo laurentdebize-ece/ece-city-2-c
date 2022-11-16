@@ -14,6 +14,8 @@ void detectEtage (ECE_City * eceCity);
 void detectionEtatPlacement (ECE_City * eceCity);
 bool detectionRouteBatiment (ECE_City * eceCity);
 void poserBatiment(ECE_City * eceCity);
+void upgradeBatiment (ECE_City * eceCity);
+void fontionJeu (ECE_City * eceCity);
 void menu(ECE_City * eceCity);
 void fonction_principale(ECE_City * eceCity);
 void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne);

@@ -180,9 +180,10 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Chateau d eau --> H", 12, 240, 20, BLACK);
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
+    DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
 
 
-    affichage_temps(temps(eceCity));
+    affichage_temps(temps(&eceCity->t, eceCity));
 
     EndDrawing();
 }

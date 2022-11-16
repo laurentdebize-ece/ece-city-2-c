@@ -67,6 +67,18 @@ void detectEtage (ECE_City * eceCity) {
         else if (eceCity->etage == EAU)
             eceCity->etage = ELECTRICITE;
     }
+    if (IsKeyPressed(KEY_RIGHT)) {
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+    if (IsKeyPressed(KEY_LEFT)) {
+        if (eceCity->t.speedTime > 1) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
 }
 
 void detectionEtatPlacement (ECE_City * eceCity) {
@@ -125,8 +137,28 @@ void poserBatiment(ECE_City * eceCity) {
     }
 }
 
+void upgradeBatiment (ECE_City * eceCity) {
+    if (eceCity->upgrade.Upgrade != -1){
+        Sommet * parcoursGraphe = eceCity->graphe;
+        while (parcoursGraphe != NULL) {
+            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade) {
+                if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment < GRATTE_CIEL) {
+                    parcoursGraphe->batiment++;
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment].largeur; ++j) {
+                            eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
+                        }
+                    }
+                }
+            }
+            parcoursGraphe = parcoursGraphe->next;
+        }
+    }
+}
+
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
+    upgradeBatiment(eceCity);
     detection_case_souris (eceCity);
     poserBatiment(eceCity);
 
@@ -137,7 +169,7 @@ void fonctionJeu (ECE_City * eceCity) {
 void menu(ECE_City *eceCity){
 
 
-    eceCity->souris.position = getPosMouse(eceCity);
+    eceCity->souris.pos = getPosMouse(eceCity);
     affichage_menu(*eceCity);
 
     if ((eceCity->image.image_barre1.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_barre1.x2 )&& ( eceCity->image.image_barre1.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_barre1.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){

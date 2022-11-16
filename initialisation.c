@@ -11,7 +11,10 @@ void initECECity (ECE_City * eceCity) {
     eceCity->EtatPlacement = false;
     eceCity->orientation = 0;
     eceCity->etage = JEU;
+    eceCity->upgrade.Upgrade = -1;
+    eceCity->upgrade.upgradeEnCours = 0;
     eceCity->currentJeu = MENU;
+    eceCity->t.speedTime = 1;
     eceCity->end = false;
     initGraphe(eceCity);
     loadImages(eceCity);

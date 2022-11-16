@@ -141,3 +141,50 @@ void fonction_principale(ECE_City * eceCity){
 
     }
 }
+
+void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
+
+
+
+    // Ajout bfs eau prend l echemin le plus court
+    // ce programme uniquemment une reprise j'ai pour l'instant rien fait
+    if (eceCity->tabCase[ligne][colonne].Etat != VIDE) {
+        if (eceCity->tabCase[ligne][colonne].Etat != ROUTE && ajoutGraphe->batiment == ROUTE ||
+            eceCity->tabCase[ligne][colonne].Etat == ROUTE && ajoutGraphe->batiment) {
+            Sommet * parcourGraphe = eceCity->graphe;
+
+            if (eceCity->tabCase[ligne][colonne].Etat == ROUTE){
+
+                while (parcourGraphe->ligne != ligne || parcourGraphe->colonne != colonne) {
+                    parcourGraphe = parcourGraphe->next;
+                }
+            }
+            else {
+                while (ligne < parcourGraphe->ligne ||
+                       ligne >= parcourGraphe->ligne + eceCity->batiment[parcourGraphe->batiment].longueur ||
+                       colonne < parcourGraphe->colonne ||
+                       colonne >= parcourGraphe->colonne + eceCity->batiment[parcourGraphe->batiment].largeur) {
+                    parcourGraphe = parcourGraphe->next;
+                }
+            }
+
+            if (ajoutGraphe->tabAdjacent == NULL) {
+                ajoutGraphe->tabAdjacent = calloc(1, sizeof (int));
+            }
+            else {
+                ajoutGraphe->tabAdjacent = realloc(ajoutGraphe->tabAdjacent, (ajoutGraphe->nbAdjacent+1)*sizeof (int));
+            }
+            ajoutGraphe->nbAdjacent++;
+            ajoutGraphe->tabAdjacent[ajoutGraphe->nbAdjacent-1] = parcourGraphe->id;
+
+            if (parcourGraphe->tabAdjacent == NULL) {
+                parcourGraphe->tabAdjacent = calloc(1, sizeof (int));
+            }
+            else {
+                parcourGraphe->tabAdjacent = realloc(parcourGraphe->tabAdjacent, (parcourGraphe->nbAdjacent+1)*sizeof (int));
+            }
+            parcourGraphe->nbAdjacent++;
+            parcourGraphe->tabAdjacent[parcourGraphe->nbAdjacent-1] = ajoutGraphe->id;
+        }
+    }
+}

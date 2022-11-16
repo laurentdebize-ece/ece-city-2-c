@@ -11,3 +11,4 @@ add_executable(ece-city-2-c main.c jeu.h jeu.c affichage.h affichage.c test.h te
 target_link_libraries(ece-city-2-c raylib)
 
 
+

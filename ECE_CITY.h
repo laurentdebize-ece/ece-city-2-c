@@ -15,6 +15,7 @@
 #define NB_BAT 8
 
 enum{VIDE, ROUTE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
+enum{JEU, ELECTRICITE, EAU};
 
 typedef struct TIME{
     int frames;
@@ -77,6 +78,7 @@ typedef struct ece_city{
     int nbSommetGraphe;
     int idEnCours;
     int orientation;
+    int etage;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

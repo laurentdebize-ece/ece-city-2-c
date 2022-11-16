@@ -54,6 +54,21 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
     }
 }
 
+void detectEtage (ECE_City * eceCity) {
+    if (IsKeyPressed(KEY_DOWN)) {
+        if (eceCity->etage == JEU)
+            eceCity->etage = ELECTRICITE;
+        else if (eceCity->etage == ELECTRICITE)
+            eceCity->etage = EAU;
+    }
+    if (IsKeyPressed(KEY_UP)) {
+        if (eceCity->etage == ELECTRICITE)
+            eceCity->etage = JEU;
+        else if (eceCity->etage == EAU)
+            eceCity->etage = ELECTRICITE;
+    }
+}
+
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
     detectEtat(eceCity, KEY_R, ROUTE);
@@ -64,6 +79,7 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);
     detectEtat(eceCity, KEY_H, CHATEAU_EAU);
     detectEtat(eceCity, KEY_P, CASERNE_POMPIER);
+    detectEtage(eceCity);
 }
 
 bool detectionRouteBatiment (ECE_City * eceCity) {
@@ -109,6 +125,16 @@ void poserBatiment(ECE_City * eceCity) {
     }
 }
 
+void fonctionJeu (ECE_City * eceCity) {
+    eceCity->souris.pos = getPosMouse(eceCity);
+    detection_case_souris (eceCity);
+    poserBatiment(eceCity);
+
+    detectionEtatPlacement(eceCity);
+
+    affichageComplet (eceCity);
+}
+
 void fonction_principale(ECE_City * eceCity){
 
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), "Raylib > Allegro");
@@ -120,15 +146,9 @@ void fonction_principale(ECE_City * eceCity){
 
         float f = (float)GetScreenWidth() / (float)GetScreenHeight();
 
-        eceCity->souris.pos = getPosMouse(eceCity);
-        detection_case_souris (eceCity);
-        poserBatiment(eceCity);
+        fonctionJeu(eceCity);
 
-        detectionEtatPlacement(eceCity);
-
-        affichageComplet (eceCity);
-
-        if (IsKeyPressed(KEY_Y)){
+        /*if (IsKeyPressed(KEY_Y)){
             Sommet * parcourGraphe = eceCity->graphe;
             for (int i = 0; i < eceCity->nbSommetGraphe; ++i) {
                 for (int j = 0; j < parcourGraphe->nbAdjacent; ++j) {
@@ -137,7 +157,7 @@ void fonction_principale(ECE_City * eceCity){
                 printf ("\n");
                 parcourGraphe = parcourGraphe->next;
             }
-        }
+        }*/
 
     }
 }

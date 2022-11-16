@@ -111,6 +111,15 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
     }
 }
 
+void affichageElecEau (ECE_City * eceCity, Color color) {
+    for (int i = 0; i < NB_LIGNE; ++i) {
+        for (int j = 0; j < NB_COLONNE; ++j) {
+            if (eceCity->tabCase[i][j].Etat == ROUTE) {
+                affichageCase(eceCity, i, j, color);
+            }
+        }
+    }
+}
 
 void affichageComplet (ECE_City * eceCity) {
 
@@ -119,8 +128,16 @@ void affichageComplet (ECE_City * eceCity) {
 
     ClearBackground(RAYWHITE);
 
-    affichageCaseSelectionne(eceCity);
-    affichageEtatCase(eceCity);
+    if (eceCity->etage == JEU) {
+        affichageCaseSelectionne(eceCity);
+        affichageEtatCase(eceCity);
+    }
+    if (eceCity->etage == ELECTRICITE) {
+        affichageElecEau(eceCity, YELLOW);
+    }
+    if (eceCity->etage == EAU) {
+        affichageElecEau(eceCity, DARKBLUE);
+    }
     affichagePlateau(*eceCity);
 
     DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);

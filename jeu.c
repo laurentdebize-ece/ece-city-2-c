@@ -84,6 +84,7 @@ void detectEtage (ECE_City * eceCity) {
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
     detectEtat(eceCity, KEY_R, ROUTE);
+    detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
     detectEtat(eceCity, KEY_C, CABANE);
     detectEtat(eceCity, KEY_N, MAISON);
     detectEtat(eceCity, KEY_I, IMMEUBLE);
@@ -124,6 +125,7 @@ void poserBatiment(ECE_City * eceCity) {
                 }
             }
         }
+        eceCity->EtatPlacement = VIDE;
     }
     else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         for (int i = 0; i < NB_LIGNE; ++i) {
@@ -142,10 +144,10 @@ void upgradeBatiment (ECE_City * eceCity) {
         Sommet * parcoursGraphe = eceCity->graphe;
         while (parcoursGraphe != NULL) {
             if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade) {
-                if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment < GRATTE_CIEL) {
+                if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment < GRATTE_CIEL) {
                     parcoursGraphe->batiment++;
-                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment].longueur; ++i) {
-                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment].largeur; ++j) {
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
                             eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
                         }
                     }

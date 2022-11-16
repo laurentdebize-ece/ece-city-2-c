@@ -13,7 +13,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
-    eceCity->currentJeu = MENU;
+    eceCity->currentJeu = JEUMENU;
     eceCity->t.speedTime = 1;
     eceCity->end = false;
     initGraphe(eceCity);
@@ -130,10 +130,10 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.image_barregrise3 = LoadTexture("../7.png");
     eceCity->image.image_quitter = LoadTexture("../10.png");
     eceCity->image.image_quittergris = LoadTexture("../11.png");
-    eceCity->image.image_cabane = LoadTexture("../CABANEOK.png");
-    eceCity->image.image_maison = LoadTexture("../MAISONOK.png");
-    eceCity->image.image_immeuble = LoadTexture("../IMMEUBLEOK.png");
-    eceCity->image.image_gratteciel = LoadTexture("../GRATTECIELOK.png");
+    eceCity->image.tabImageBat[CABANE-2] = LoadTexture("../CABANEOK.png");
+    eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../MAISONOK.png");
+    eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../IMMEUBLEOK.png");
+    eceCity->image.tabImageBat[GRATTE_CIEL-2] = LoadTexture("../GRATTECIELOK.png");
 }
 
 void unloadImages(ECE_City * eceCity){
@@ -146,8 +146,8 @@ void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_barregrise3);
     UnloadTexture(eceCity->image.image_quitter);
     UnloadTexture(eceCity->image.image_quittergris);
-    UnloadTexture(eceCity->image.image_cabane);
-    UnloadTexture(eceCity->image.image_maison);
-    UnloadTexture(eceCity->image.image_immeuble);
-    UnloadTexture(eceCity->image.image_gratteciel);
+    UnloadTexture(eceCity->image.tabImageBat[CABANE-2]);
+    UnloadTexture(eceCity->image.tabImageBat[MAISON-2]);
+    UnloadTexture(eceCity->image.tabImageBat[IMMEUBLE-2]);
+    UnloadTexture(eceCity->image.tabImageBat[GRATTE_CIEL-2]);
 }

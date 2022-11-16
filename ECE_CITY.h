@@ -12,9 +12,15 @@
 #define Y_TAB 475
 #define TAILLE_CASE_X 20
 #define TAILLE_CASE_Y 12
-#define NB_BAT 8
+#define NB_BAT 9
+#define NB_IMAGE_BAT 5
 
-enum{VIDE, ROUTE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
+#define POS_CABANE 78
+#define POS_MAISON 83
+#define POS_IMMEUBLE 140
+#define POS_GRATTE_CIEL 238
+
+enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
 enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{JEU, ELECTRICITE, EAU};
 
@@ -71,10 +77,7 @@ typedef struct image{
     Texture2D image_barregrise3;
     Texture2D image_quitter;
     Texture2D image_quittergris;
-    Texture2D image_cabane;
-    Texture2D image_maison;
-    Texture2D image_immeuble;
-    Texture2D image_gratteciel;
+    Texture2D tabImageBat [NB_IMAGE_BAT];
 
 
 }IMAGE;
@@ -86,6 +89,7 @@ typedef struct Sommet{
     int nbAdjacent;
     int * tabAdjacent;
     int nbUpgrade;
+    bool poser;
     struct Sommet * next;
 }Sommet;
 

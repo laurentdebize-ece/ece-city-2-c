@@ -109,23 +109,48 @@ void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color) {
     }
 }
 
+float posBatAffichage (int Bat) {
+    if (Bat == CABANE)
+        return POS_CABANE;
+    if (Bat == MAISON)
+        return POS_MAISON;
+    if (Bat == IMMEUBLE)
+        return POS_IMMEUBLE;
+    if (Bat == GRATTE_CIEL)
+        return POS_GRATTE_CIEL;
+    return 0;
+}
+
 void affichageEtatCase (ECE_City * eceCity) {
-    for (int i = 0; i < NB_LIGNE; ++i) {
+    Sommet * parcoursGraphe = eceCity->graphe;
+    while (parcoursGraphe != NULL) {
+        parcoursGraphe->poser = false;
+        parcoursGraphe = parcoursGraphe->next;
+    }
+    for (int i = NB_LIGNE-1; i > 0; --i) {
         for (int j = 0; j < NB_COLONNE; ++j) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
                 affichageCase(eceCity, i, j, BLACK);
             }
-            if (eceCity->tabCase[i][j].Etat == CABANE) {
-                affichageCase(eceCity, i, j, BROWN);
+            if (eceCity->tabCase[i][j].Etat == TERRAIN_VAGUE) {
+                affichageCase(eceCity, i, j, GREEN);
             }
-            if (eceCity->tabCase[i][j].Etat == MAISON) {
-                affichageCase(eceCity, i, j, DARKGREEN);
-            }
-            if (eceCity->tabCase[i][j].Etat == IMMEUBLE) {
-                affichageCase(eceCity, i, j, GRAY);
-            }
-            if (eceCity->tabCase[i][j].Etat == GRATTE_CIEL) {
-                affichageCase(eceCity, i, j, LIGHTGRAY);
+            if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
+                parcoursGraphe = eceCity->graphe;
+                while (parcoursGraphe != NULL) {
+                    if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
+                        if (i >= parcoursGraphe->ligne && i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur &&
+                        j >= parcoursGraphe->colonne && j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur) {
+                            if (!parcoursGraphe->poser) {
+                                DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
+                                            eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
+                                            eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(parcoursGraphe->batiment), WHITE);
+                                parcoursGraphe->poser = true;
+                            }
+                        }
+                    }
+                    parcoursGraphe = parcoursGraphe->next;
+                }
             }
             if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
                 affichageCase(eceCity, i, j, YELLOW);
@@ -168,6 +193,9 @@ void affichageElecEau (ECE_City * eceCity, Color color) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
                 affichageCase(eceCity, i, j, color);
             }
+            if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE) {
+                affichageCase(eceCity, i, j, GRAY);
+            }
         }
     }
 }
@@ -179,9 +207,16 @@ void affichageComplet (ECE_City * eceCity) {
 
     ClearBackground(RAYWHITE);
 
-    if (eceCity->etage == JEU) {
+
+    affichagePlateau(*eceCity);
+
+    if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {
         affichageCaseSelectionne(eceCity);
         affichageEtatCase(eceCity);
+    }
+    if (eceCity->etage == JEU && eceCity->EtatPlacement >= ROUTE) {
+        affichageCaseSelectionne(eceCity);
+        affichageElecEau(eceCity, BLACK);
     }
     if (eceCity->etage == ELECTRICITE) {
         affichageElecEau(eceCity, YELLOW);
@@ -189,7 +224,6 @@ void affichageComplet (ECE_City * eceCity) {
     if (eceCity->etage == EAU) {
         affichageElecEau(eceCity, DARKBLUE);
     }
-    affichagePlateau(*eceCity);
 
     DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
     DrawText(TextFormat("%s", eceCity->batiment[eceCity->EtatPlacement-1].nomBatiment), 12  , 120, 20 , BLACK);

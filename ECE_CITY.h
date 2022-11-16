@@ -15,7 +15,9 @@
 #define NB_BAT 8
 
 enum{VIDE, ROUTE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
+enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{JEU, ELECTRICITE, EAU};
+
 
 typedef struct TIME{
     int frames;
@@ -37,6 +39,7 @@ typedef struct Case{
 }Case;
 
 typedef struct souris{
+    Vector2 position; //utiliser pour menu
     int posLigne;
     int posColonne;
     int oldPosLigne;
@@ -57,6 +60,19 @@ typedef struct batiment {
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
 
+
+typedef struct image{
+    Texture2D image_menu ;
+    Texture2D image_barre1 ;
+    Texture2D image_barre2 ;
+    Texture2D image_barre3 ;
+    Texture2D image_barregrise1;
+    Texture2D image_barregrise2;
+    Texture2D image_barregrise3;
+    Texture2D image_quitter;
+    Texture2D image_quittergris;
+
+}IMAGE;
 typedef struct Sommet{
     int id;
     int ligne;
@@ -74,11 +90,14 @@ typedef struct ece_city{
     Souris souris;
     TIME t;
     int EtatPlacement;
+    IMAGE image;
+    int currentJeu;
     Sommet * graphe;
     int nbSommetGraphe;
     int idEnCours;
     int orientation;
     int etage;
+    bool end;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

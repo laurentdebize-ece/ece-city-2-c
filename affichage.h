@@ -4,7 +4,10 @@
 #include "ECE_CITY.h"
 #include "test.h"
 
-void affichage_temps(TIME t);
+
+
+void affichage_menu(ECE_City eceCity);
+void affichage_temps(ECE_City eceCity);
 void affichagePlateau (ECE_City eceCity);
 void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color);
 void affichageEtatCase (ECE_City * eceCity);

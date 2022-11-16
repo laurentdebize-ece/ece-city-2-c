@@ -1,39 +1,69 @@
 #include "affichage.h"
 #include "initialisation.h"
 
-void affichage_temps(TIME t){
+void affichage_menu(ECE_City eceCity){
+  BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    DrawTexture(eceCity.image.image_menu, 0,0, WHITE);
+    DrawTexture(eceCity.image.image_barre1,0,0, WHITE);
+    DrawTexture(eceCity.image.image_barre2,0,0, WHITE);
+    DrawTexture(eceCity.image.image_barre3,0,0, WHITE);
+
+    //DrawRectangle(687,920,504, 88, GRAY)
+    DrawTexture(eceCity.image.image_quitter,0,0, WHITE);
+
+
+
+    if ((eceCity.image.image_barre1.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre1.x2 )&& ( eceCity.image.image_barre1.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre1.y2  )){
+        DrawTexture(eceCity.image.image_barregrise1,0,0, WHITE);
+    }
+    if ((eceCity.image.image_barre2.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre2.x2 )&& ( eceCity.image.image_barre2.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre2.y2  )){
+        DrawTexture(eceCity.image.image_barregrise2,0,0, WHITE);
+    }
+    if ((eceCity.image.image_barre3.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre3.x2 )&& ( eceCity.image.image_barre3.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre3.y2  )){
+        DrawTexture(eceCity.image.image_barregrise3,0,0, WHITE);
+    }
+    if ((eceCity.image.image_quitter.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_quitter.x2 )&& ( eceCity.image.image_quitter.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_quitter.y2  )){
+        DrawTexture(eceCity.image.image_quittergris,0,0, WHITE);
+    }
+  EndDrawing();
+}
+
+
+void affichage_temps(ECE_City eceCity){
     // AFFICHAGE TEMPS REEL DE JEU
-    if(t.minutereel < 10 ){
-        if(t.secondereel < 10){
-            DrawText(TextFormat(" Temps de jeu : 0%d : 0%d : 0%d \n", t.heurereel, t.minutereel,t.secondereel), 20 , 40 , 20 , BLACK);
+    if(eceCity.t.minutereel < 10 ){
+        if(eceCity.t.secondereel < 10){
+            DrawText(TextFormat(" Temps de jeu : 0%d : 0%d : 0%d \n", eceCity.t.heurereel, eceCity.t.minutereel,eceCity.t.secondereel), 20 , 40 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps de jeu : 0%d : 0%d : %d \n", t.heurereel, t.minutereel,t.secondereel), 20 , 40, 20 , BLACK);
+            DrawText(TextFormat(" Temps de jeu : 0%d : 0%d : %d \n", eceCity.t.heurereel, eceCity.t.minutereel,eceCity.t.secondereel), 20 , 40, 20 , BLACK);
         }
     }
     else{
-        if(t.secondereel < 10){
-            DrawText(TextFormat(" Temps de jeu : 0%d : %d : 0%d \n", t.heurereel, t.minutereel,t.secondereel), 20 , 40, 20, BLACK);
+        if(eceCity.t.secondereel < 10){
+            DrawText(TextFormat(" Temps de jeu : 0%d : %d : 0%d \n", eceCity.t.heurereel, eceCity.t.minutereel,eceCity.t.secondereel), 20 , 40, 20, BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps de jeu : 0%d : %d : %d \n", t.heurereel, t.minutereel,t.secondereel), 20 , 40 , 20 , BLACK);
+            DrawText(TextFormat(" Temps de jeu : 0%d : %d : %d \n", eceCity.t.heurereel, eceCity.t.minutereel,eceCity.t.secondereel), 20 , 40 , 20 , BLACK);
         }
     }
 //AFFICHAGE TEMPS FICTIF
-    if(t.annee < 10 ){
-        if(t.mois < 10){
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", t.annee,t.mois), 20 , 60 , 20 , BLACK);
+    if(eceCity.t.annee < 10 ){
+        if(eceCity.t.mois < 10){
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20 , 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", t.annee,t.mois), 20, 60 , 20, BLACK);
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20, BLACK);
         }
     }
     else{
-        if(t.mois < 10){
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", t.annee,t.mois), 20, 60 , 20 , BLACK);
+        if(eceCity.t.mois < 10){
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", t.annee,t.mois), 20, 60, 20 , BLACK);
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
         }
     }
 
@@ -152,7 +182,7 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Route --> R", 12, 300, 20, BLACK);
 
 
-    affichage_temps(temps(&eceCity->t));
+    affichage_temps(temps(eceCity));
 
     EndDrawing();
 }

@@ -3,7 +3,8 @@
 
 #include "ECE_CITY.h"
 
-TIME temps(TIME *t);
+ECE_City temps(ECE_City * eceCity);
+
 void fonction3D(ECE_City * eceCity);
 
 #endif //ECE_CITY_2_C_TEST_H

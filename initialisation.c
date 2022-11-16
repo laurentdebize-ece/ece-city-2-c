@@ -11,7 +11,11 @@ void initECECity (ECE_City * eceCity) {
     eceCity->EtatPlacement = false;
     eceCity->orientation = 0;
     eceCity->etage = JEU;
+    eceCity->currentJeu = MENU;
+    eceCity->end = false;
     initGraphe(eceCity);
+    loadImages(eceCity);
+    initBouton(eceCity);
 }
 
 void initSouris (ECE_City * eceCity) {
@@ -92,4 +96,47 @@ void falseCaseSelec (ECE_City * eceCity) {
             eceCity->tabCase[i][j].selec = false;
         }
     }
+}
+
+void initBouton(ECE_City * eceCity){
+    eceCity->image.image_barre1.x1 = 687;
+    eceCity->image.image_barre1.y1 = 650;
+    eceCity->image.image_barre1.x2 = 1191;
+    eceCity->image.image_barre1.y2 = 738;
+    eceCity->image.image_barre2.x1 = 687;
+    eceCity->image.image_barre2.y1 = 780;
+    eceCity->image.image_barre2.x2 = 1191;
+    eceCity->image.image_barre2.y2 = 868;
+    eceCity->image.image_barre3.x1 = 687;
+    eceCity->image.image_barre3.y1 = 920;
+    eceCity->image.image_barre3.x2 = 1191;
+    eceCity->image.image_barre3.y2 = 1008;
+    eceCity->image.image_quitter.x1 = 1705;
+    eceCity->image.image_quitter.y1 = 1004;
+    eceCity->image.image_quitter.x2 = 1880;
+    eceCity->image.image_quitter.y2 = 1044;
+}
+
+void loadImages(ECE_City * eceCity){
+    eceCity->image.image_menu = LoadTexture("../ACCEUIL.png");
+    eceCity->image.image_barre1 = LoadTexture("../12.png");
+    eceCity->image.image_barre2 = LoadTexture("../8.png");
+    eceCity->image.image_barre3 = LoadTexture("../6.png");
+    eceCity->image.image_barregrise1 = LoadTexture("../13.png");
+    eceCity->image.image_barregrise2 = LoadTexture("../9.png");
+    eceCity->image.image_barregrise3 = LoadTexture("../7.png");
+    eceCity->image.image_quitter = LoadTexture("../10.png");
+    eceCity->image.image_quittergris = LoadTexture("../11.png");
+}
+
+void unloadImages(ECE_City * eceCity){
+    UnloadTexture(eceCity->image.image_menu);
+    UnloadTexture(eceCity->image.image_barre1);
+    UnloadTexture(eceCity->image.image_barre2);
+    UnloadTexture(eceCity->image.image_barre3);
+    UnloadTexture(eceCity->image.image_barregrise1);
+    UnloadTexture(eceCity->image.image_barregrise2);
+    UnloadTexture(eceCity->image.image_barregrise3);
+    UnloadTexture(eceCity->image.image_quitter);
+    UnloadTexture(eceCity->image.image_quittergris);
 }

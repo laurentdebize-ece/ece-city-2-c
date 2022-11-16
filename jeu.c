@@ -134,32 +134,61 @@ void fonctionJeu (ECE_City * eceCity) {
 
     affichageComplet (eceCity);
 }
+void menu(ECE_City *eceCity){
 
+
+    eceCity->souris.position = getPosMouse(eceCity);
+    affichage_menu(*eceCity);
+
+    if ((eceCity->image.image_barre1.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_barre1.x2 )&& ( eceCity->image.image_barre1.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_barre1.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->currentJeu= JEUMENU;
+    }
+    if (eceCity->image.image_barre2.x1 <= eceCity->souris.pos.x && eceCity->souris.pos.x <= eceCity->image.image_barre2.x2 &&  eceCity->image.image_barre2.y1  <= eceCity->souris.pos.y&&eceCity->souris.pos.y <= eceCity->image.image_barre2.y2&&IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+            eceCity->currentJeu = CHARGER;
+
+    }
+    if ((eceCity->image.image_barre3.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_barre3.x2 )&& ( eceCity->image.image_barre3.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_barre3.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->currentJeu = REGLE;
+
+    }
+    if ((eceCity->image.image_quitter.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_quitter.x2 )&& ( eceCity->image.image_quitter.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_quitter.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->currentJeu = QUITTER;
+
+    }
+
+
+
+
+}
 void fonction_principale(ECE_City * eceCity){
 
-    InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), "Raylib > Allegro");
 
-    SetTargetFPS(FPS);
-    TIME t = {0};
 
-    while (!WindowShouldClose()) {
+    while (!eceCity->end){
 
         float f = (float)GetScreenWidth() / (float)GetScreenHeight();
 
-        fonctionJeu(eceCity);
-
-        /*if (IsKeyPressed(KEY_Y)){
-            Sommet * parcourGraphe = eceCity->graphe;
-            for (int i = 0; i < eceCity->nbSommetGraphe; ++i) {
-                for (int j = 0; j < parcourGraphe->nbAdjacent; ++j) {
-                    printf ("%d ", parcourGraphe->tabAdjacent[j]);
-                }
-                printf ("\n");
-                parcourGraphe = parcourGraphe->next;
-            }
-        }*/
-
+        switch (eceCity->currentJeu) {
+            case MENU:
+                menu(eceCity);
+                break;
+            case JEUMENU:
+                fonctionJeu(eceCity);
+                break;
+            case CHARGER:
+                eceCity->end = false;
+                break;
+            case REGLE:
+                break;
+            case QUITTER:
+                eceCity->end = true;
+                break;
+        }
+        if(WindowShouldClose()){
+            eceCity->end = true;
+        }
     }
+    unloadImages(eceCity);
 }
 
 void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {

@@ -253,6 +253,10 @@ typedef struct Texture {
     int height;             // Texture base height
     int mipmaps;            // Mipmap levels, 1 by default
     int format;             // Data format (PixelFormat type)
+    float x1;
+    float x2;
+    float y1;
+    float y2;
 } Texture;
 
 // Texture2D, same as Texture

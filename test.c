@@ -1,34 +1,38 @@
 #include "test.h"
+#include "affichage.h"
 
 
-TIME temps(TIME *t){
+ECE_City temps(ECE_City * eceCity){
 
-    t->frames++;
+    eceCity->t.frames++;
     //TEMPMS REEL
-    if(t->frames==60) {
-        t->secondereel++;
-        t->secondefictif++;
-        t->frames = 0;
-        if(t->secondereel==60){
-            t->minutereel++;
-            t->secondereel = 0;
-            if(t->minutereel==60){
-                t->heurereel++;
-                t->minutereel = 0;
+    if(eceCity->t.frames==60) {
+        eceCity->t.secondereel++;
+        eceCity->t.secondefictif++;
+        eceCity->t.frames = 0;
+        if(eceCity->t.secondereel==60){
+            eceCity->t.minutereel++;
+            eceCity->t.secondereel = 0;
+            if(eceCity->t.minutereel==60){
+                eceCity->t.heurereel++;
+                eceCity->t.minutereel = 0;
             }
         }
-        if(t->secondefictif==15){
-            t->mois++;
-            t->secondefictif = 0;
-            if(t->mois == 12){
-                t->annee ++;
-                t->mois =0;
+        if(eceCity->t.secondefictif==15){
+            eceCity->t.mois++;
+            eceCity->t.secondefictif = 0;
+            if(eceCity->t.mois == 12){
+                eceCity->t.annee ++;
+                eceCity->t.mois =0;
             }
         }
 
     }
-    return *t;
+    return *eceCity;
 }
+
+
+
 
 void drawplateau (){
     for (float i = 0; i <= NB_LIGNE; ++i) {

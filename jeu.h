@@ -4,6 +4,7 @@
 #include "ECE_CITY.h"
 #include "affichage.h"
 #include "test.h"
+#include "initialisation.h"
 
 
 void detection_case_souris (ECE_City * eceCity);
@@ -13,6 +14,7 @@ void detectEtage (ECE_City * eceCity);
 void detectionEtatPlacement (ECE_City * eceCity);
 bool detectionRouteBatiment (ECE_City * eceCity);
 void poserBatiment(ECE_City * eceCity);
+void menu(ECE_City * eceCity);
 void fonction_principale(ECE_City * eceCity);
 void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne);
 

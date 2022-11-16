@@ -139,8 +139,7 @@ void affichageEtatCase (ECE_City * eceCity) {
                 parcoursGraphe = eceCity->graphe;
                 while (parcoursGraphe != NULL) {
                     if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
-                        if (i >= parcoursGraphe->ligne && i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur &&
-                        j >= parcoursGraphe->colonne && j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur) {
+                        if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                             if (!parcoursGraphe->poser) {
                                 DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
                                             eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,

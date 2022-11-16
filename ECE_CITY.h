@@ -71,6 +71,11 @@ typedef struct image{
     Texture2D image_barregrise3;
     Texture2D image_quitter;
     Texture2D image_quittergris;
+    Texture2D image_cabane;
+    Texture2D image_maison;
+    Texture2D image_immeuble;
+    Texture2D image_gratteciel;
+
 
 }IMAGE;
 typedef struct Sommet{

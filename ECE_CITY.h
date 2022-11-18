@@ -15,6 +15,7 @@
 #define NB_BAT 9
 #define NB_IMAGE_BAT 5
 #define NB_IMAGE_ROUTE 6
+#define NB_IMAGE_MENU 8
 
 #define POS_ROUTE_X 1
 #define POS_ROUTE_Y 12
@@ -27,6 +28,7 @@ enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE
 enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{JEU, ELECTRICITE, EAU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEBAS,ROUTEVIRAGEHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEGAUCHE};
+enum{BOUTON_1, BOUTON_2, BOUTON_3, BOUTON_QUITTER, BOUTON_1_GRIS, BOUTON_2_GRIS, BOUTON_3_GRIS, BOUTON_QUITTER_GRIS,NB_BOUTON_MENU = 4};
 
 
 typedef struct TIME{
@@ -73,19 +75,8 @@ typedef struct batiment {
 
 typedef struct image{
     Texture2D image_menu ;
-    Texture2D image_barre1 ;
-    Texture2D image_barre2 ;
-    Texture2D image_barre3 ;
-    Texture2D image_barregrise1;
-    Texture2D image_barregrise2;
-    Texture2D image_barregrise3;
-    Texture2D image_quitter;
-    Texture2D image_quittergris;
 
-    Texture2D image_test;
-
-
-
+    Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
 
@@ -105,6 +96,7 @@ typedef struct Sommet{
 typedef struct {
     int Upgrade;
     int upgradeEnCours;
+    int idEnCours;
 }toUpgrade;
 
 typedef struct ece_city{
@@ -118,7 +110,6 @@ typedef struct ece_city{
     int currentJeu;
     Sommet * graphe;
     int nbSommetGraphe;
-    int idEnCours;
     int orientation;
     int etage;
     toUpgrade upgrade;

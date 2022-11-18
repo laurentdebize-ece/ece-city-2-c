@@ -48,8 +48,8 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
     eceCity->nbSommetGraphe++;
     if (eceCity->graphe == NULL){
         eceCity->graphe = malloc(sizeof(Sommet));
-        eceCity->graphe->id = eceCity->idEnCours;
-        eceCity->idEnCours++;
+        eceCity->graphe->id = eceCity->upgrade.idEnCours;
+        eceCity->upgrade.idEnCours++;
         eceCity->graphe->batiment = eceCity->EtatPlacement;
         eceCity->graphe->colonne = eceCity->souris.posColonne;
         eceCity->graphe->ligne = eceCity->souris.posLigne;
@@ -66,8 +66,8 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         }
 
         ajoutGraphe->next = malloc(sizeof (Sommet));
-        ajoutGraphe->next->id = eceCity->idEnCours;
-        eceCity->idEnCours++;
+        ajoutGraphe->next->id = eceCity->upgrade.idEnCours;
+        eceCity->upgrade.idEnCours++;
         ajoutGraphe->next->batiment = eceCity->EtatPlacement;
         ajoutGraphe->next->ligne = eceCity->souris.posLigne;
         ajoutGraphe->next->colonne = eceCity->souris.posColonne;

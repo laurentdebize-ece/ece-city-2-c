@@ -28,10 +28,30 @@ int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
         return ROUTEVIRAGEBAS;
     }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
     return ROUTEBASHAUT;
 };
 
-void detection_case_souris (ECE_City * eceCity) {
+void detection_case_souris_0 (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
     eceCity->souris.posColonne = -1;
     eceCity->souris.repLigne = eceCity->souris.pos.y - eceCity->coefTab*eceCity->souris.pos.x;
@@ -68,9 +88,48 @@ void detection_case_souris (ECE_City * eceCity) {
     }
 }
 
+
+void detection_case_souris_1 (ECE_City * eceCity) {
+    eceCity->souris.posLigne = -1;
+    eceCity->souris.posColonne = -1;
+    eceCity->souris.repLigne = eceCity->souris.pos.y + eceCity->coefTab*eceCity->souris.pos.x;
+    eceCity->souris.repColonne = eceCity->souris.pos.y - eceCity->coefTab*eceCity->souris.pos.x;
+    for (int i = 0; i < NB_LIGNE; ++i) {
+        if (eceCity->tabCase[i][0].repLigne > eceCity->souris.repLigne){
+            if (i!=NB_LIGNE-1 && eceCity->tabCase[i+1][0].repLigne < eceCity->souris.repLigne) {
+                eceCity->souris.posLigne = i;
+                i=NB_LIGNE;
+            }
+            else if (i == NB_LIGNE-1 && eceCity->tabCase[i][0].repLigne > eceCity->souris.repLigne) {
+                if (eceCity->souris.repLigne > eceCity->tabCase[i][0].pos.y-TAILLE_CASE_Y - eceCity->coefTab*(eceCity->tabCase[i][0].pos.x+TAILLE_CASE_X)) {
+                    eceCity->souris.posLigne = i;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < NB_COLONNE; ++i) {
+        if (eceCity->tabCase[0][i].repColonne > eceCity->souris.repColonne){
+            if (i!=NB_COLONNE-1 && eceCity->tabCase[0][i+1].repColonne < eceCity->souris.repColonne) {
+                eceCity->souris.posColonne = i;
+                i=NB_COLONNE;
+            }
+            else if (i == NB_COLONNE-1 && eceCity->tabCase[0][i].repColonne > eceCity->souris.repColonne) {
+                if (eceCity->souris.repColonne > eceCity->tabCase[0][i].pos.y+TAILLE_CASE_Y + eceCity->coefTab*(eceCity->tabCase[0][i].pos.x+TAILLE_CASE_X)) {
+                    eceCity->souris.posColonne = i;
+                }
+            }
+        }
+    }
+    if(eceCity->souris.posLigne == -1 || eceCity->souris.posColonne == -1) {
+        eceCity->souris.posLigne = -1;
+        eceCity->souris.posColonne = -1;
+    }
+}
+
 Vector2 getPosMouse (ECE_City * eceCity) {
     eceCity->souris.pos = GetMousePosition();
     eceCity->souris.pos.y += 13;
+    //eceCity->souris.pos.x -= 16;
     return eceCity->souris.pos;
 }
 
@@ -187,7 +246,7 @@ void upgradeBatiment (ECE_City * eceCity) {
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     upgradeBatiment(eceCity);
-    detection_case_souris (eceCity);
+    detection_case_souris_0(eceCity);
     poserBatiment(eceCity);
 
     detectionEtatPlacement(eceCity);
@@ -196,28 +255,14 @@ void fonctionJeu (ECE_City * eceCity) {
 }
 void menu(ECE_City *eceCity){
 
-
     eceCity->souris.pos = getPosMouse(eceCity);
     affichage_menu(*eceCity);
 
-    if ((eceCity->image.image_barre1.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_barre1.x2 )&& ( eceCity->image.image_barre1.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_barre1.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
-            eceCity->currentJeu= JEUMENU;
+    for (int i = BOUTON_1; i <= BOUTON_QUITTER; ++i) {
+        if ((eceCity->image.tabBoutonMenu[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonMenu[i].x2 )&& ( eceCity->image.tabBoutonMenu[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonMenu[i].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->currentJeu= i==BOUTON_1?JEUMENU:i==BOUTON_2?CHARGER:i==BOUTON_3?REGLE:QUITTER;
+        }
     }
-    if (eceCity->image.image_barre2.x1 <= eceCity->souris.pos.x && eceCity->souris.pos.x <= eceCity->image.image_barre2.x2 &&  eceCity->image.image_barre2.y1  <= eceCity->souris.pos.y&&eceCity->souris.pos.y <= eceCity->image.image_barre2.y2&&IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-            eceCity->currentJeu = CHARGER;
-
-    }
-    if ((eceCity->image.image_barre3.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_barre3.x2 )&& ( eceCity->image.image_barre3.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_barre3.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
-            eceCity->currentJeu = REGLE;
-
-    }
-    if ((eceCity->image.image_quitter.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.image_quitter.x2 )&& ( eceCity->image.image_quitter.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.image_quitter.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
-        eceCity->currentJeu = QUITTER;
-
-    }
-
-
-
 
 }
 void fonction_principale(ECE_City * eceCity){

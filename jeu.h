@@ -8,7 +8,8 @@
 
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);
-void detection_case_souris (ECE_City * eceCity);
+void detection_case_souris_0 (ECE_City * eceCity);
+void detection_case_souris_1 (ECE_City * eceCity);
 Vector2 getPosMouse (ECE_City * eceCity);
 void detectEtat (ECE_City * eceCity, int key, int plac);
 void detectEtage (ECE_City * eceCity);

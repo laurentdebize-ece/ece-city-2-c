@@ -7,27 +7,17 @@ void affichage_menu(ECE_City eceCity){
     ClearBackground(RAYWHITE);
 
     DrawTexture(eceCity.image.image_menu, 0,0, WHITE);
-    DrawTexture(eceCity.image.image_barre1,0,0, WHITE);
-    DrawTexture(eceCity.image.image_barre2,0,0, WHITE);
-    DrawTexture(eceCity.image.image_barre3,0,0, WHITE);
 
-    //DrawRectangle(687,920,504, 88, GRAY)
-    DrawTexture(eceCity.image.image_quitter,0,0, WHITE);
+    for (int i = BOUTON_1; i <= BOUTON_QUITTER; ++i) {
+        DrawTexture(eceCity.image.tabBoutonMenu[i],0,0, WHITE);
+    }
 
+    for (int i = BOUTON_1; i <= BOUTON_QUITTER; ++i) {
+        if ((eceCity.image.tabBoutonMenu[i].x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.tabBoutonMenu[i].x2 )&& ( eceCity.image.tabBoutonMenu[i].y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.tabBoutonMenu[i].y2  )){
+            DrawTexture(eceCity.image.tabBoutonMenu[i+NB_BOUTON_MENU],0,0, WHITE);
+        }
+    }
 
-
-    if ((eceCity.image.image_barre1.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre1.x2 )&& ( eceCity.image.image_barre1.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre1.y2  )){
-        DrawTexture(eceCity.image.image_barregrise1,0,0, WHITE);
-    }
-    if ((eceCity.image.image_barre2.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre2.x2 )&& ( eceCity.image.image_barre2.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre2.y2  )){
-        DrawTexture(eceCity.image.image_barregrise2,0,0, WHITE);
-    }
-    if ((eceCity.image.image_barre3.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_barre3.x2 )&& ( eceCity.image.image_barre3.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_barre3.y2  )){
-        DrawTexture(eceCity.image.image_barregrise3,0,0, WHITE);
-    }
-    if ((eceCity.image.image_quitter.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_quitter.x2 )&& ( eceCity.image.image_quitter.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_quitter.y2  )){
-        DrawTexture(eceCity.image.image_quittergris,0,0, WHITE);
-    }
   EndDrawing();
 }
 
@@ -56,15 +46,15 @@ void affichage_temps(ECE_City eceCity){
             DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20 , 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20, BLACK);
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  %d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20, BLACK);
         }
     }
     else{
         if(eceCity.t.mois < 10){
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20 , BLACK);
+            DrawText(TextFormat(" Temps fictif : années : %d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
+            DrawText(TextFormat(" Temps fictif : années : %d mois :  %d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
         }
     }
 }
@@ -90,7 +80,7 @@ void drawPlan () {
             , LIGHTGRAY);
 }
 
-void affichagePlateau (ECE_City eceCity){
+void affichagePlateau0 (ECE_City eceCity){
     drawPlan();
     for (int i = 0; i < NB_LIGNE; ++i) {
         DrawLine(eceCity.tabCase[i][0].pos.x, eceCity.tabCase[i][0].pos.y, eceCity.tabCase[i][0].pos.x + TAILLE_CASE_X*NB_COLONNE, eceCity.tabCase[i][0].pos.y + TAILLE_CASE_Y*NB_COLONNE,BLACK);
@@ -101,6 +91,19 @@ void affichagePlateau (ECE_City eceCity){
         DrawLine(eceCity.tabCase[0][i].pos.x, eceCity.tabCase[0][i].pos.y, eceCity.tabCase[0][i].pos.x + TAILLE_CASE_X*NB_LIGNE, eceCity.tabCase[0][i].pos.y - TAILLE_CASE_Y*NB_LIGNE,BLACK);
     }
     DrawLine(eceCity.tabCase[0][44].pos.x+TAILLE_CASE_X, eceCity.tabCase[0][44].pos.y+TAILLE_CASE_Y, eceCity.tabCase[0][44].pos.x+TAILLE_CASE_X + TAILLE_CASE_X*NB_LIGNE, eceCity.tabCase[0][44].pos.y+TAILLE_CASE_Y - TAILLE_CASE_Y*NB_LIGNE,BLACK);
+}
+
+void affichagePlateau1 (ECE_City eceCity){
+    drawPlan();
+    for (int i = 0; i < NB_LIGNE; ++i) {
+        DrawLine(eceCity.tabCase[i][0].pos.x, eceCity.tabCase[i][0].pos.y, eceCity.tabCase[i][0].pos.x + TAILLE_CASE_X*NB_COLONNE, eceCity.tabCase[i][0].pos.y - TAILLE_CASE_Y*NB_COLONNE,BLACK);
+    }
+    DrawLine(eceCity.tabCase[0][0].pos.x+TAILLE_CASE_X, eceCity.tabCase[0][0].pos.y+TAILLE_CASE_Y, eceCity.tabCase[0][0].pos.x + TAILLE_CASE_X*(NB_COLONNE+1), eceCity.tabCase[0][0].pos.y - TAILLE_CASE_Y*(NB_COLONNE-1),BLACK);
+
+    for (int i = 0; i < NB_COLONNE; ++i) {
+        DrawLine(eceCity.tabCase[0][i].pos.x+TAILLE_CASE_X, eceCity.tabCase[0][i].pos.y+TAILLE_CASE_Y, eceCity.tabCase[0][i].pos.x - TAILLE_CASE_X*(NB_LIGNE-1), eceCity.tabCase[0][i].pos.y - TAILLE_CASE_Y*(NB_LIGNE-1),BLACK);
+    }
+    DrawLine(eceCity.tabCase[0][44].pos.x+TAILLE_CASE_X*2, eceCity.tabCase[0][44].pos.y, eceCity.tabCase[0][44].pos.x+TAILLE_CASE_X*2 - TAILLE_CASE_X*NB_LIGNE, eceCity.tabCase[0][44].pos.y- TAILLE_CASE_Y*NB_LIGNE,BLACK);
 }
 
 void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color) {
@@ -200,6 +203,20 @@ void affichageElecEau (ECE_City * eceCity, Color color) {
     }
 }
 
+void affichageRoutePoser (ECE_City * eceCity) {
+    for (int i = 0; i < NB_LIGNE; ++i) {
+        for (int j = 0; j < NB_COLONNE; ++j) {
+            if (eceCity->tabCase[i][j].Etat == ROUTE) {
+                DrawTexture(eceCity->image.tabImageRoute[detectionImageRoute(eceCity, i, j)], eceCity->tabCase[i][j].pos.x + POS_ROUTE_X,eceCity->tabCase[i][j].pos.y - POS_ROUTE_Y,WHITE);
+            }
+            if (eceCity->tabCase[i][j].Etat > ROUTE) {
+                affichageCase(eceCity, i, j, GRAY);
+            }
+        }
+    }
+}
+
+
 void affichageComplet (ECE_City * eceCity) {
 
 
@@ -208,7 +225,7 @@ void affichageComplet (ECE_City * eceCity) {
     ClearBackground(RAYWHITE);
 
 
-    affichagePlateau(*eceCity);
+    affichagePlateau0(*eceCity);
 
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {
         affichageCaseSelectionne(eceCity);
@@ -216,7 +233,7 @@ void affichageComplet (ECE_City * eceCity) {
     }
     if (eceCity->etage == JEU && eceCity->EtatPlacement >= ROUTE) {
         affichageCaseSelectionne(eceCity);
-        affichageElecEau(eceCity, BLACK);
+        affichageRoutePoser(eceCity);
     }
     if (eceCity->etage == ELECTRICITE) {
         affichageElecEau(eceCity, YELLOW);
@@ -240,10 +257,5 @@ void affichageComplet (ECE_City * eceCity) {
 
     affichage_temps(temps(&eceCity->t, eceCity));
     DrawTexture(eceCity->image.tabImageRoute[ROUTEBASHAUT], eceCity->tabCase[0][0].pos.x+1,eceCity->tabCase[0][0].pos.y-12,WHITE);
-    DrawTexture(eceCity->image.tabImageRoute[ROUTEHAUTBAS], eceCity->tabCase[1][1].pos.x+1,eceCity->tabCase[1][1].pos.y-12,WHITE);
-    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEBAS], eceCity->tabCase[2][2].pos.x+1,eceCity->tabCase[2][2].pos.y-12,WHITE);
-    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE], eceCity->tabCase[3][3].pos.x+1,eceCity->tabCase[3][3].pos.y-12,WHITE);
-    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE], eceCity->tabCase[4][4].pos.x+1,eceCity->tabCase[4][4].pos.y-12,WHITE);
-    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEHAUT], eceCity->tabCase[5][5].pos.x+1,eceCity->tabCase[5][5].pos.y-12,WHITE);
     EndDrawing();
 }

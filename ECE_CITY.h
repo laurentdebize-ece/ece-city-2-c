@@ -14,6 +14,7 @@
 #define TAILLE_CASE_Y 12
 #define NB_BAT 9
 #define NB_IMAGE_BAT 5
+#define NB_IMAGE_ROUTE 6
 
 #define POS_CABANE 78
 #define POS_MAISON 83
@@ -23,6 +24,7 @@
 enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
 enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{JEU, ELECTRICITE, EAU};
+enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEBAS,ROUTEVIRAGEHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEGAUCHE};
 
 
 typedef struct TIME{
@@ -79,10 +81,11 @@ typedef struct image{
     Texture2D image_quittergris;
 
     Texture2D image_test;
-    Texture2D image_route;
+
+
 
     Texture2D tabImageBat [NB_IMAGE_BAT];
-
+    Texture2D tabImageRoute [NB_IMAGE_ROUTE];
 
 }IMAGE;
 typedef struct Sommet{

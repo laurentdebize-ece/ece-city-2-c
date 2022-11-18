@@ -131,7 +131,12 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.image_quitter = LoadTexture("../Images/Boutons/10.png");
     eceCity->image.image_quittergris = LoadTexture("../Images/Boutons/11.png");
     eceCity->image.image_test = LoadTexture("../Images/TESTFOND.png");
-    eceCity->image.image_route = LoadTexture("../Images/Routes/ROUTEDROITE1.png");
+    eceCity->image.tabImageRoute[ROUTEBASHAUT] = LoadTexture("../Images/Routes/ROUTEDROITEBASHAUT.png");
+    eceCity->image.tabImageRoute[ROUTEHAUTBAS] = LoadTexture("../Images/Routes/ROUTEDROITEHAUTBAS.png");
+    eceCity->image.tabImageRoute[ROUTEVIRAGEHAUT] = LoadTexture("../Images/Routes/ROUTEVIRAGEHAUT.png");
+    eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE] = LoadTexture("../Images/Routes/ROUTEVIRAGEDROITE.png");
+    eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE] = LoadTexture("../Images/Routes/ROUTEVIRAGEGAUCHE.png");
+    eceCity->image.tabImageRoute[ROUTEVIRAGEBAS] = LoadTexture("../Images/Routes/ROUTEVIRAGEBAS.png");
     eceCity->image.tabImageBat[CABANE-2] = LoadTexture("../Images/Batiments/CABANEOK.png");
     eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../Images/Batiments/MAISONOK.png");
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/IMMEUBLEOK.png");
@@ -149,7 +154,12 @@ void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_quitter);
     UnloadTexture(eceCity->image.image_quittergris);
     UnloadTexture(eceCity->image.image_test);
-    UnloadTexture(eceCity->image.image_route);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEHAUTBAS]);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEBASHAUT]);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE]);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE]);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEHAUT]);
+    UnloadTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEBAS]);
     UnloadTexture(eceCity->image.tabImageBat[CABANE-2]);
     UnloadTexture(eceCity->image.tabImageBat[MAISON-2]);
     UnloadTexture(eceCity->image.tabImageBat[IMMEUBLE-2]);

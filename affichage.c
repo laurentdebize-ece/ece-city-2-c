@@ -1,8 +1,15 @@
 #include "affichage.h"
 #include "initialisation.h"
 
+unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur){// duplication fonction à optimiser
+    if(mouse_x >= x && mouse_y >= y && mouse_x <= x + largeur && mouse_y <= y + hauteur){
+        return 1;
+    }
+    return 0;
+}
+
 void affichage_menu(ECE_City eceCity){
-  BeginDrawing();
+    BeginDrawing();
     ClearBackground(RAYWHITE);
 
     DrawTexture(eceCity.image.image_menu, 0,0, WHITE);
@@ -27,7 +34,7 @@ void affichage_menu(ECE_City eceCity){
     if ((eceCity.image.image_quitter.x1 <= eceCity.souris.pos.x )&&(eceCity.souris.pos.x <= eceCity.image.image_quitter.x2 )&& ( eceCity.image.image_quitter.y1  <= eceCity.souris.pos.y)&&( eceCity.souris.pos.y <= eceCity.image.image_quitter.y2  )){
         DrawTexture(eceCity.image.image_quittergris,0,0, WHITE);
     }
-  EndDrawing();
+    EndDrawing();
 }
 
 
@@ -192,9 +199,6 @@ void affichageElecEau (ECE_City * eceCity, Color color) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
                 affichageCase(eceCity, i, j, color);
             }
-            if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE) {
-                affichageCase(eceCity, i, j, GRAY);
-            }
         }
     }
 }
@@ -238,6 +242,6 @@ void affichageComplet (ECE_City * eceCity) {
 
 
     affichage_temps(temps(&eceCity->t, eceCity));
-
+    DrawTexture(eceCity->image.image_route, 500,500,WHITE);
     EndDrawing();
 }

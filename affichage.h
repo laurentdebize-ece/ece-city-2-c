@@ -4,8 +4,7 @@
 #include "ECE_CITY.h"
 #include "test.h"
 
-
-
+unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur);
 void affichage_menu(ECE_City eceCity);
 void affichage_temps(ECE_City eceCity);
 void affichagePlateau (ECE_City eceCity);

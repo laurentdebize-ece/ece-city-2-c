@@ -235,6 +235,6 @@ void affichageComplet (ECE_City * eceCity) {
 
 
     affichage_temps(temps(&eceCity->t, eceCity));
-    DrawTexture(eceCity->image.image_route, 500,500,WHITE);
+    DrawTexture(eceCity->image.image_route, eceCity->tabCase[0][0].pos.x,eceCity->tabCase[0][0].pos.y-12,WHITE);
     EndDrawing();
 }

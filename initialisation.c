@@ -13,7 +13,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
-    eceCity->currentJeu = MENU;
+    eceCity->currentJeu = JEUMENU;
     eceCity->t.speedTime = 1;
     eceCity->end = false;
     initGraphe(eceCity);

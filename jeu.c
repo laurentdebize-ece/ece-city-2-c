@@ -74,7 +74,7 @@ void detectEtage (ECE_City * eceCity) {
         }
     }
     if (IsKeyPressed(KEY_LEFT)) {
-        if (eceCity->t.speedTime > 1) {
+        if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
             eceCity->t.speedTime--;
         }
@@ -86,10 +86,6 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     detectEtat(eceCity, KEY_R, ROUTE);
     detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
     detectEtat(eceCity, KEY_C, CABANE);
-    detectEtat(eceCity, KEY_N, MAISON);
-    detectEtat(eceCity, KEY_I, IMMEUBLE);
-    detectEtat(eceCity, KEY_G, GRATTE_CIEL);
-    detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);
     detectEtat(eceCity, KEY_H, CHATEAU_EAU);
     detectEtat(eceCity, KEY_P, CASERNE_POMPIER);
     detectEtage(eceCity);
@@ -210,9 +206,10 @@ void fonction_principale(ECE_City * eceCity){
                 fonctionJeu(eceCity);
                 break;
             case CHARGER:
-                eceCity->end = false;
+                menu(eceCity);
                 break;
             case REGLE:
+                menu(eceCity);
                 break;
             case QUITTER:
                 eceCity->end = true;

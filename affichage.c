@@ -1,4 +1,5 @@
 #include "affichage.h"
+#include "jeu.h"
 #include "initialisation.h"
 
 void affichage_menu(ECE_City eceCity){
@@ -130,7 +131,7 @@ void affichageEtatCase (ECE_City * eceCity) {
     for (int i = NB_LIGNE-1; i > 0; --i) {
         for (int j = 0; j < NB_COLONNE; ++j) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
-                affichageCase(eceCity, i, j, BLACK);
+                DrawTexture(eceCity->image.tabImageRoute[detectionImageRoute(eceCity, i, j)], eceCity->tabCase[i][j].pos.x + POS_ROUTE_X,eceCity->tabCase[i][j].pos.y - POS_ROUTE_Y,WHITE);
             }
             if (eceCity->tabCase[i][j].Etat == TERRAIN_VAGUE) {
                 affichageCase(eceCity, i, j, GREEN);
@@ -192,6 +193,9 @@ void affichageElecEau (ECE_City * eceCity, Color color) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
                 affichageCase(eceCity, i, j, color);
             }
+            if (eceCity->tabCase[i][j].Etat > ROUTE) {
+                affichageCase(eceCity, i, j, GRAY);
+            }
         }
     }
 }
@@ -235,6 +239,11 @@ void affichageComplet (ECE_City * eceCity) {
 
 
     affichage_temps(temps(&eceCity->t, eceCity));
-    DrawTexture(eceCity->image.image_route, eceCity->tabCase[0][0].pos.x,eceCity->tabCase[0][0].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEBASHAUT], eceCity->tabCase[0][0].pos.x+1,eceCity->tabCase[0][0].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEHAUTBAS], eceCity->tabCase[1][1].pos.x+1,eceCity->tabCase[1][1].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEBAS], eceCity->tabCase[2][2].pos.x+1,eceCity->tabCase[2][2].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE], eceCity->tabCase[3][3].pos.x+1,eceCity->tabCase[3][3].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE], eceCity->tabCase[4][4].pos.x+1,eceCity->tabCase[4][4].pos.y-12,WHITE);
+    DrawTexture(eceCity->image.tabImageRoute[ROUTEVIRAGEHAUT], eceCity->tabCase[5][5].pos.x+1,eceCity->tabCase[5][5].pos.y-12,WHITE);
     EndDrawing();
 }

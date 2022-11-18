@@ -16,6 +16,8 @@
 #define NB_IMAGE_BAT 5
 #define NB_IMAGE_ROUTE 6
 
+#define POS_ROUTE_X 1
+#define POS_ROUTE_Y 12
 #define POS_CABANE 78
 #define POS_MAISON 83
 #define POS_IMMEUBLE 140

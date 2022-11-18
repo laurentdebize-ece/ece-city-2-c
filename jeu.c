@@ -1,6 +1,36 @@
 #include "jeu.h"
 #include "graphe.h"
 
+
+
+int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
+    if ((eceCity->tabCase[ligne-1][colonne].Etat == ROUTE || eceCity->tabCase[ligne+1][colonne].Etat == ROUTE) &&
+            eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
+        return ROUTEBASHAUT;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
+            (eceCity->tabCase[ligne][colonne+1].Etat == ROUTE || eceCity->tabCase[ligne][colonne-1].Etat == ROUTE)) {
+        return ROUTEHAUTBAS;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
+        return ROUTEVIRAGEDROITE;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEHAUT;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
+        return ROUTEVIRAGEGAUCHE;
+    }
+    if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
+        eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
+        return ROUTEVIRAGEBAS;
+    }
+    return ROUTEBASHAUT;
+};
+
 void detection_case_souris (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
     eceCity->souris.posColonne = -1;

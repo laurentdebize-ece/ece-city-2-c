@@ -192,9 +192,6 @@ void affichageElecEau (ECE_City * eceCity, Color color) {
             if (eceCity->tabCase[i][j].Etat == ROUTE) {
                 affichageCase(eceCity, i, j, color);
             }
-            if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE) {
-                affichageCase(eceCity, i, j, GRAY);
-            }
         }
     }
 }
@@ -238,6 +235,6 @@ void affichageComplet (ECE_City * eceCity) {
 
 
     affichage_temps(temps(&eceCity->t, eceCity));
-
+    DrawTexture(eceCity->image.image_route, 500,500,WHITE);
     EndDrawing();
 }

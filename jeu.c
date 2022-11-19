@@ -5,28 +5,28 @@
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
     if ((eceCity->tabCase[ligne-1][colonne].Etat == ROUTE || eceCity->tabCase[ligne+1][colonne].Etat == ROUTE) &&
-            eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
-        return ROUTEBASHAUT;
+        eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
+        return ROUTEBASHAUT-eceCity->orientation==0?0:1;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
-            (eceCity->tabCase[ligne][colonne+1].Etat == ROUTE || eceCity->tabCase[ligne][colonne-1].Etat == ROUTE)) {
-        return ROUTEHAUTBAS;
+        (eceCity->tabCase[ligne][colonne+1].Etat == ROUTE || eceCity->tabCase[ligne][colonne-1].Etat == ROUTE)) {
+        return ROUTEHAUTBAS+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
-        return ROUTEVIRAGEDROITE;
+        return ROUTEVIRAGEDROITE+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEHAUT;
+        return ROUTEVIRAGEHAUT+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEGAUCHE;
+        return ROUTEVIRAGEGAUCHE+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTEVIRAGEBAS-(eceCity->orientation==0?0:3);
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
@@ -49,7 +49,8 @@ int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
         return ROUTEVIRAGEBAS;
     }
     return ROUTEBASHAUT;
-};
+}
+
 
 void detection_case_souris_0 (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
@@ -128,8 +129,10 @@ void detection_case_souris_1 (ECE_City * eceCity) {
 
 Vector2 getPosMouse (ECE_City * eceCity) {
     eceCity->souris.pos = GetMousePosition();
-    eceCity->souris.pos.y += 13;
-    //eceCity->souris.pos.x -= 16;
+    if (eceCity->orientation == 0)
+        eceCity->souris.pos.y += 13;
+    else
+        eceCity->souris.pos.x -= 16;
     return eceCity->souris.pos;
 }
 
@@ -166,6 +169,16 @@ void detectEtage (ECE_City * eceCity) {
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
             eceCity->t.speedTime--;
+        }
+    }
+    if (IsKeyPressed(KEY_O)) {
+        if (eceCity->orientation == 0) {
+            eceCity->orientation++;
+            initCase1(eceCity);
+        }
+        else {
+            eceCity->orientation--;
+            initCase0(eceCity);
         }
     }
 }
@@ -246,7 +259,9 @@ void upgradeBatiment (ECE_City * eceCity) {
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     upgradeBatiment(eceCity);
-    detection_case_souris_0(eceCity);
+
+    eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
+
     poserBatiment(eceCity);
 
     detectionEtatPlacement(eceCity);

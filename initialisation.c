@@ -6,6 +6,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->coefTab = (float) TAILLE_CASE_Y / (float) TAILLE_CASE_X;
     initBatiment(eceCity, "../tailleBatiment");
     initCase0(eceCity);
+    initEtatCase(eceCity);
     initSouris(eceCity);
     eceCity->EtatPlacement = VIDE;
     eceCity->EtatPlacement = false;
@@ -67,6 +68,15 @@ void initBatiment (ECE_City * eceCity, char* fichier){
     }
 }
 
+void initEtatCase (ECE_City * eceCity) {
+    for (int i = 0; i < NB_LIGNE; ++i) {
+        for (int j = 0; j < NB_COLONNE; ++j) {
+            eceCity->tabCase[i][j].Etat = VIDE;
+            eceCity->tabCase[i][j].selec = false;
+        }
+    }
+}
+
 void initCase0 (ECE_City * ece_city){
 
     int x, y;
@@ -75,9 +85,6 @@ void initCase0 (ECE_City * ece_city){
         x = X_TAB + i*TAILLE_CASE_X;
         y = Y_TAB - i*TAILLE_CASE_Y;
         for (int j = 0; j < NB_COLONNE; ++j) {
-            ece_city->tabCase[i][j].Etat = VIDE;
-            ece_city->tabCase[i][j].selec = false;
-
             ece_city->tabCase[i][j].pos.x = (float)x;
             ece_city->tabCase[i][j].pos.y = (float)y;
             if (i == 0) {

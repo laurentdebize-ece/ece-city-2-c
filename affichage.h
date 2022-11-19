@@ -11,6 +11,7 @@ void affichage_temps(ECE_City eceCity);
 void affichagePlateau0 (ECE_City eceCity);
 void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color);
 void affichageEtatCase (ECE_City * eceCity);
+void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe);
 void affichageCaseSelectionne (ECE_City * eceCity);
 void affichageElecEau (ECE_City * eceCity, Color color);
 void affichageRoutePoser (ECE_City * eceCity);

@@ -11,6 +11,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->EtatPlacement = VIDE;
     eceCity->EtatPlacement = false;
     eceCity->orientation = 0;
+    eceCity->eceFlouz = 500000;
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
@@ -165,6 +166,11 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE] = LoadTexture("../Images/Routes/ROUTEVIRAGEDROITE.png");
     eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE] = LoadTexture("../Images/Routes/ROUTEVIRAGEGAUCHE.png");
     eceCity->image.tabImageRoute[ROUTEVIRAGEBAS] = LoadTexture("../Images/Routes/ROUTEVIRAGEBAS.png");
+    eceCity->image.tabImageRoute[ROUTETRIPLE] = LoadTexture("../Images/Routes/ROUTETRIPLEHAUTGAUCHE.png");
+    eceCity->image.tabImageRoute[ROUTETRIPLEBASDROITE] = LoadTexture("../Images/Routes/ROUTETRIPLEBASDROITE.png");
+    eceCity->image.tabImageRoute[ROUTETRIPLEBASGAUCHE] = LoadTexture("../Images/Routes/ROUTETRIPLEBASGAUCHE.png");
+    eceCity->image.tabImageRoute[ROUTETRIPLEHAUTDROITE] = LoadTexture("../Images/Routes/ROUTETRIPLEHAUTDROITE.png");
+    eceCity->image.tabImageRoute[ROUTECROISEMENT] = LoadTexture("../Images/Routes/ROUTECROISEMENT.png");
     eceCity->image.tabImageBat[CABANE-2] = LoadTexture("../Images/Batiments/CABANEOK.png");
     eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../Images/Batiments/MAISONOK.png");
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/IMMEUBLEOK.png");

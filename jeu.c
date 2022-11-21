@@ -30,25 +30,32 @@ int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTETRIPLEHAUTDROITE-(eceCity->orientation==0?0:3);
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat != ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTETRIPLE+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat != ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTETRIPLEBASDROITE+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTETRIPLEBASGAUCHE+eceCity->orientation;
     }
     if (eceCity->tabCase[ligne-1][colonne].Etat == ROUTE && eceCity->tabCase[ligne+1][colonne].Etat == ROUTE &&
         eceCity->tabCase[ligne][colonne+1].Etat == ROUTE && eceCity->tabCase[ligne][colonne-1].Etat == ROUTE) {
-        return ROUTEVIRAGEBAS;
+        return ROUTECROISEMENT;
     }
     return ROUTEBASHAUT;
+}
+
+int positionRoute (int route) {
+    if (route == ROUTEHAUTBAS || route == ROUTEVIRAGEGAUCHE) {
+        return POS_ROUTE_Y_2;
+    }
+    return POS_ROUTE_Y;
 }
 
 
@@ -187,7 +194,7 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
     detectEtat(eceCity, KEY_R, ROUTE);
     detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
-    detectEtat(eceCity, KEY_C, CABANE);
+    detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);
     detectEtat(eceCity, KEY_H, CHATEAU_EAU);
     detectEtat(eceCity, KEY_P, CASERNE_POMPIER);
     detectEtage(eceCity);
@@ -216,21 +223,27 @@ void poserBatiment(ECE_City * eceCity) {
     if (eceCity->EtatPlacement != VIDE && eceCity->EtatPlacement != ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             detectionRouteBatiment(eceCity)) {
         ajoutRouteGraphe(eceCity);
-        for (int i = 0; i < NB_LIGNE; ++i) {
-            for (int j = 0; j < NB_COLONNE; ++j) {
-                if (eceCity->tabCase[i][j].selec == true) {
-                    eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
+        if (eceCity->eceFlouz > eceCity->batiment[eceCity->EtatPlacement-1].prix) {
+            eceCity->eceFlouz -= eceCity->batiment[eceCity->EtatPlacement-1].prix;
+            for (int i = 0; i < NB_LIGNE; ++i) {
+                for (int j = 0; j < NB_COLONNE; ++j) {
+                    if (eceCity->tabCase[i][j].selec == true) {
+                        eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
+                    }
                 }
             }
         }
         eceCity->EtatPlacement = VIDE;
     }
     else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-        for (int i = 0; i < NB_LIGNE; ++i) {
-            for (int j = 0; j < NB_COLONNE; ++j) {
-                if (eceCity->tabCase[i][j].selec == true && eceCity->tabCase[i][j].Etat == VIDE) {
-                    eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
-                    ajoutRouteGraphe(eceCity);
+        if (eceCity->eceFlouz > eceCity->batiment[eceCity->EtatPlacement-1].prix) {
+            eceCity->eceFlouz -= eceCity->batiment[eceCity->EtatPlacement-1].prix;
+            for (int i = 0; i < NB_LIGNE; ++i) {
+                for (int j = 0; j < NB_COLONNE; ++j) {
+                    if (eceCity->tabCase[i][j].selec == true && eceCity->tabCase[i][j].Etat == VIDE) {
+                        eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
+                        ajoutRouteGraphe(eceCity);
+                    }
                 }
             }
         }

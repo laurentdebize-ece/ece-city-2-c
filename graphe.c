@@ -55,7 +55,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         eceCity->graphe->ligne = eceCity->souris.posLigne;
         eceCity->graphe->next = NULL;
         eceCity->graphe->poser = NULL;
-        eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours? eceCity->upgrade.upgradeEnCours: eceCity->upgrade.upgradeEnCours+1;
+        eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours;
         eceCity->graphe->tabAdjacent = NULL;
         eceCity->graphe->nbAdjacent = 0;
     }
@@ -72,7 +72,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         ajoutGraphe->next->ligne = eceCity->souris.posLigne;
         ajoutGraphe->next->colonne = eceCity->souris.posColonne;
         ajoutGraphe->next->next = NULL;
-        ajoutGraphe->next->nbUpgrade = eceCity->upgrade.upgradeEnCours? eceCity->upgrade.upgradeEnCours: 60/eceCity->t.speedTime;
+        ajoutGraphe->next->nbUpgrade = eceCity->upgrade.upgradeEnCours;
         ajoutGraphe->next->tabAdjacent = NULL;
         ajoutGraphe->next->poser = NULL;
         ajoutGraphe->next->nbAdjacent = 0;

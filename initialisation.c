@@ -160,7 +160,7 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabBoutonMenu[BOUTON_QUITTER] = LoadTexture("../Images/Boutons/10.png");
     eceCity->image.tabBoutonMenu[BOUTON_QUITTER_GRIS] = LoadTexture("../Images/Boutons/11.png");
     eceCity->image.tabImageRoute[ROUTEBASHAUT] = LoadTexture("../Images/Routes/ROUTEDROITEBASHAUT.png");
-    eceCity->image.tabImageRoute[ROUTEHAUTBAS] = LoadTexture("../Images/Routes/ROUTEDROITEHAUTBAS.png");
+    eceCity->image.tabImageRoute[ROUTEHAUTBAS] = LoadTexture("../Images/Routes/ROUTEDROITEHAUTBAS3.png");
     eceCity->image.tabImageRoute[ROUTEVIRAGEHAUT] = LoadTexture("../Images/Routes/ROUTEVIRAGEHAUT.png");
     eceCity->image.tabImageRoute[ROUTEVIRAGEDROITE] = LoadTexture("../Images/Routes/ROUTEVIRAGEDROITE.png");
     eceCity->image.tabImageRoute[ROUTEVIRAGEGAUCHE] = LoadTexture("../Images/Routes/ROUTEVIRAGEGAUCHE.png");

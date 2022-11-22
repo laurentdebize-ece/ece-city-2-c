@@ -7,7 +7,10 @@
 #include "initialisation.h"
 
 
-void detection_case_souris (ECE_City * eceCity);
+int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);
+int positionRoute (int route);
+void detection_case_souris_0 (ECE_City * eceCity);
+void detection_case_souris_1 (ECE_City * eceCity);
 Vector2 getPosMouse (ECE_City * eceCity);
 void detectEtat (ECE_City * eceCity, int key, int plac);
 void detectEtage (ECE_City * eceCity);

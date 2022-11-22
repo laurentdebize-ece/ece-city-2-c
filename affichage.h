@@ -7,10 +7,14 @@
 unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur);
 void affichage_menu(ECE_City eceCity);
 void affichage_temps(ECE_City eceCity);
-void affichagePlateau (ECE_City eceCity);
+void affichagePlateau0 (ECE_City eceCity);
 void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color);
 void affichageEtatCase (ECE_City * eceCity);
+void afficherRoute (ECE_City * eceCity, int i, int j);
+void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe);
 void affichageCaseSelectionne (ECE_City * eceCity);
+void affichageElecEau (ECE_City * eceCity, Color color);
+void affichageRoutePoser (ECE_City * eceCity);
 
 void affichageComplet (ECE_City * eceCity);
 

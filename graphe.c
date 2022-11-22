@@ -48,14 +48,14 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
     eceCity->nbSommetGraphe++;
     if (eceCity->graphe == NULL){
         eceCity->graphe = malloc(sizeof(Sommet));
-        eceCity->graphe->id = eceCity->idEnCours;
-        eceCity->idEnCours++;
+        eceCity->graphe->id = eceCity->upgrade.idEnCours;
+        eceCity->upgrade.idEnCours++;
         eceCity->graphe->batiment = eceCity->EtatPlacement;
         eceCity->graphe->colonne = eceCity->souris.posColonne;
         eceCity->graphe->ligne = eceCity->souris.posLigne;
         eceCity->graphe->next = NULL;
         eceCity->graphe->poser = NULL;
-        eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours? eceCity->upgrade.upgradeEnCours: eceCity->upgrade.upgradeEnCours+1;
+        eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours;
         eceCity->graphe->tabAdjacent = NULL;
         eceCity->graphe->nbAdjacent = 0;
     }
@@ -66,13 +66,13 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         }
 
         ajoutGraphe->next = malloc(sizeof (Sommet));
-        ajoutGraphe->next->id = eceCity->idEnCours;
-        eceCity->idEnCours++;
+        ajoutGraphe->next->id = eceCity->upgrade.idEnCours;
+        eceCity->upgrade.idEnCours++;
         ajoutGraphe->next->batiment = eceCity->EtatPlacement;
         ajoutGraphe->next->ligne = eceCity->souris.posLigne;
         ajoutGraphe->next->colonne = eceCity->souris.posColonne;
         ajoutGraphe->next->next = NULL;
-        ajoutGraphe->next->nbUpgrade = eceCity->upgrade.upgradeEnCours? eceCity->upgrade.upgradeEnCours: 60/eceCity->t.speedTime;
+        ajoutGraphe->next->nbUpgrade = eceCity->upgrade.upgradeEnCours;
         ajoutGraphe->next->tabAdjacent = NULL;
         ajoutGraphe->next->poser = NULL;
         ajoutGraphe->next->nbAdjacent = 0;

@@ -198,6 +198,7 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     detectEtat(eceCity, KEY_H, CHATEAU_EAU);
     detectEtat(eceCity, KEY_P, CASERNE_POMPIER);
     detectEtage(eceCity);
+    modeNuit(eceCity);
 }
 
 bool detectionRouteBatiment (ECE_City * eceCity) {
@@ -235,6 +236,7 @@ void poserBatiment(ECE_City * eceCity) {
         }
         repartitionEau(eceCity);
         eceCity->EtatPlacement = VIDE;
+
     }
     else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         if (eceCity->eceFlouz > eceCity->batiment[eceCity->EtatPlacement-1].prix) {
@@ -270,7 +272,18 @@ void upgradeBatiment (ECE_City * eceCity) {
         }
     }
 }
-
+void modeNuit(ECE_City * eceCity){
+    if(IsKeyPressed(KEY_SPACE)){
+        if(eceCity->nuit==0){
+            eceCity->nuit = 1;
+            eceCity->image.varTabImageBat = 8;
+        }
+        else if(eceCity->nuit==1){
+            eceCity->nuit = 0;
+            eceCity->image.varTabImageBat = 0;
+            }
+    }
+}
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     upgradeBatiment(eceCity);
@@ -308,6 +321,7 @@ void fonction_principale(ECE_City * eceCity){
                 menu(eceCity);
                 break;
             case JEUMENU:
+
                 fonctionJeu(eceCity);
                 break;
             case CHARGER:

@@ -13,7 +13,7 @@
 #define TAILLE_CASE_X 20
 #define TAILLE_CASE_Y 11
 #define NB_BAT 9
-#define NB_IMAGE_BAT 5
+#define NB_IMAGE_BAT 50
 #define NB_IMAGE_ROUTE 11
 #define NB_IMAGE_MENU 8
 
@@ -25,12 +25,11 @@
 #define POS_IMMEUBLE 140
 #define POS_GRATTE_CIEL 238
 
-enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER};
+enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
 enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{JEU, ELECTRICITE, EAU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEHAUT,ROUTEVIRAGEGAUCHE,ROUTEVIRAGEBAS, ROUTETRIPLEBASDROITE, ROUTETRIPLEBASGAUCHE, ROUTETRIPLE, ROUTETRIPLEHAUTDROITE, ROUTECROISEMENT};
 enum{BOUTON_1, BOUTON_2, BOUTON_3, BOUTON_QUITTER, BOUTON_1_GRIS, BOUTON_2_GRIS, BOUTON_3_GRIS, BOUTON_QUITTER_GRIS,NB_BOUTON_MENU = 4};
-
 
 typedef struct TIME{
     int frames;
@@ -74,8 +73,10 @@ typedef struct batiment {
 
 
 typedef struct image{
+    int varTabImageBat;
     Texture2D image_menu ;
-
+    Texture2D image_fond ;
+    Texture2D image_fond_nuit;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
@@ -121,6 +122,7 @@ typedef struct ece_city{
     int nbSommetGraphe;
     int orientation;
     int etage;
+    int nuit;
     toUpgrade upgrade;
     bool end;
     int eceFlouz;

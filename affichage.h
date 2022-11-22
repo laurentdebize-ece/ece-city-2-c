@@ -5,7 +5,7 @@
 #include "test.h"
 
 
-
+float posBatAffichage (ECE_City *eceCity, int Bat);
 void affichage_menu(ECE_City eceCity);
 void affichage_temps(ECE_City eceCity);
 void affichagePlateau0 (ECE_City eceCity);

@@ -134,14 +134,14 @@ void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color) {
     }
 }
 
-float posBatAffichage (int Bat) {
-    if (Bat == CABANE)
+float posBatAffichage (ECE_City *eceCity, int Bat) {
+    if (Bat == CABANE+eceCity->image.varTabImageBat)
         return POS_CABANE;
-    if (Bat == MAISON)
+    if (Bat == MAISON+eceCity->image.varTabImageBat)
         return POS_MAISON;
-    if (Bat == IMMEUBLE)
+    if (Bat == IMMEUBLE+eceCity->image.varTabImageBat)
         return POS_IMMEUBLE;
-    if (Bat == GRATTE_CIEL)
+    if (Bat == GRATTE_CIEL+eceCity->image.varTabImageBat)
         return POS_GRATTE_CIEL;
     return 0;
 }
@@ -185,15 +185,15 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
+                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL ) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
                                                 eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
-                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(parcoursGraphe->batiment), WHITE);
+                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity,parcoursGraphe->batiment+eceCity->image.varTabImageBat), WHITE);
                                     parcoursGraphe->poser = true;
                                 }
                             }
@@ -214,9 +214,9 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
                                                 eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.x,
-                                                eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.y - posBatAffichage(parcoursGraphe->batiment), WHITE);
+                                                eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity, parcoursGraphe->batiment), WHITE);
                                     parcoursGraphe->poser = true;
                                 }
                             }
@@ -280,12 +280,15 @@ void affichageRoutePoser (ECE_City * eceCity) {
 
 
 void affichageComplet (ECE_City * eceCity) {
-
-
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
-
+    if(eceCity->nuit==1){
+        DrawTexture(eceCity->image.image_fond_nuit,0,0,WHITE);
+    }
+    else if(eceCity->nuit==0){
+        DrawTexture(eceCity->image.image_fond,0,0,WHITE);
+    }
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {

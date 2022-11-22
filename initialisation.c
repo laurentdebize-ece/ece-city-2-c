@@ -178,6 +178,7 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../Images/Batiments/JOUR/MAISONOK.png");
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/JOUR/IMMEUBLEOK.png");
     eceCity->image.tabImageBat[GRATTE_CIEL-2] = LoadTexture("../Images/Batiments/JOUR/GRATTECIELOK.png");
+    eceCity->image.tabImageBat[CHATEAU_EAU-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU.png");
     eceCity->image.image_fond_nuit = LoadTexture("../Images/TESTFONDNUIT.png");
     eceCity->image.tabImageBat[TERRAIN_VAGUE_NUIT] = LoadTexture("../Images/Batiments/NUIT/TERRAINVAGUENUIT.png");
     eceCity->image.tabImageBat[CABANE_NUIT] = LoadTexture("../Images/Batiments/NUIT/CABANENUIT.png");

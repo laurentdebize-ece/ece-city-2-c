@@ -316,6 +316,8 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
 
+    DrawTexture(eceCity->image.tabImageBat[CHATEAU_EAU-2], eceCity->tabCase[0][0].pos.x, eceCity->tabCase[0][0].pos.y, WHITE);
+
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();
 }

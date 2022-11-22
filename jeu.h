@@ -5,6 +5,7 @@
 #include "affichage.h"
 #include "test.h"
 #include "initialisation.h"
+#include "EauEles.h"
 
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);

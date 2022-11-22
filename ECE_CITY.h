@@ -66,7 +66,6 @@ typedef struct batiment {
     int longueur;
     int largeur;
     int nbHabitantMax;
-    int nbHabitant;
     int prix;
     char* nomBatiment;
 }BatimentType;
@@ -92,7 +91,10 @@ typedef struct Sommet{
     int * tabAdjacent;
     int nbUpgrade;
     bool poser;
+    int consoEau;
+    bool decouverteBFS;
     struct Sommet * next;
+    bool dejaEcrit;
 }Sommet;
 
 typedef struct {
@@ -100,6 +102,11 @@ typedef struct {
     int upgradeEnCours;
     int idEnCours;
 }toUpgrade;
+
+typedef struct liste{
+    int id;
+    struct liste * next;
+}Liste;
 
 typedef struct ece_city{
     float coefTab;

@@ -251,18 +251,11 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
     }
 }
 
-void affichageElecEau (ECE_City * eceCity, Color color) {
-    for (int i = 0; i < NB_LIGNE; ++i) {
-        for (int j = 0; j < NB_COLONNE; ++j) {
-            if (eceCity->tabCase[i][j].Etat == ROUTE) {
-                affichageCase(eceCity, i, j, color);
-            }
-            if (eceCity->tabCase[i][j].Etat > ROUTE) {
-                affichageCase(eceCity, i, j, GRAY);
-            }
-        }
-    }
+void affichageElec (ECE_City * eceCity, Color color) {
+    affichageEau(eceCity, color);
 }
+
+
 
 void affichageRoutePoser (ECE_City * eceCity) {
     for (int i = NB_LIGNE-1; i > 0; --i) {
@@ -304,10 +297,10 @@ void affichageComplet (ECE_City * eceCity) {
         affichageRoutePoser(eceCity);
     }
     if (eceCity->etage == ELECTRICITE) {
-        affichageElecEau(eceCity, YELLOW);
+        affichageElec(eceCity, YELLOW);
     }
     if (eceCity->etage == EAU) {
-        affichageElecEau(eceCity, DARKBLUE);
+        affichageEau(eceCity, DARKBLUE);
     }
 
     DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
@@ -319,7 +312,6 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
-
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

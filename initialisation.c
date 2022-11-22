@@ -15,7 +15,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
-    eceCity->currentJeu = JEUMENU;
+    eceCity->currentJeu = MENU;
     eceCity->t.speedTime = 1;
     eceCity->end = false;
     initGraphe(eceCity);
@@ -50,7 +50,6 @@ void initBatiment (ECE_City * eceCity, char* fichier){
     }
 
     for (int i = 0; i < NB_BAT; ++i) {
-        eceCity->batiment[i].nbHabitant = 0;
         fscanf(ifs,"%d", &eceCity->batiment[i].longueur);
         fscanf(ifs,"%d", &eceCity->batiment[i].largeur);
         fscanf(ifs,"%d", &eceCity->batiment[i].nbHabitantMax);

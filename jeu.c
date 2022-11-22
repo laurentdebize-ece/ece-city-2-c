@@ -233,6 +233,7 @@ void poserBatiment(ECE_City * eceCity) {
                 }
             }
         }
+        repartitionEau(eceCity);
         eceCity->EtatPlacement = VIDE;
     }
     else if (eceCity->EtatPlacement == ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -254,7 +255,7 @@ void upgradeBatiment (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){
         Sommet * parcoursGraphe = eceCity->graphe;
         while (parcoursGraphe != NULL) {
-            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade) {
+            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau == eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
                 if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment < GRATTE_CIEL) {
                     parcoursGraphe->batiment++;
                     for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
@@ -262,6 +263,7 @@ void upgradeBatiment (ECE_City * eceCity) {
                             eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
                         }
                     }
+                    repartitionEau(eceCity);
                 }
             }
             parcoursGraphe = parcoursGraphe->next;

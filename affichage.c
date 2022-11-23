@@ -1,4 +1,5 @@
 #include "affichage.h"
+#include "jeu.h"
 #include "initialisation.h"
 
 unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur){// duplication fonction à optimiser
@@ -52,15 +53,15 @@ void affichage_temps(ECE_City eceCity){
             DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20 , 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20, BLACK);
+            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  %d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20, BLACK);
         }
     }
     else{
         if(eceCity.t.mois < 10){
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20 , BLACK);
+            DrawText(TextFormat(" Temps fictif : années : %d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60 , 20 , BLACK);
         }
         else {
-            DrawText(TextFormat(" Temps fictif : années : 0%d mois :  0%d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
+            DrawText(TextFormat(" Temps fictif : années : %d mois :  %d \n", eceCity.t.annee,eceCity.t.mois), 20, 60, 20 , BLACK);
         }
     }
 }
@@ -140,8 +141,10 @@ void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color) {
     }
 }
 
-float posBatAffichage (int Bat) {
-    if (Bat == CABANE)
+float posBatAffichage (ECE_City *eceCity, int Bat) {
+    if (Bat == TERRAIN_VAGUE+eceCity->image.varTabImageBat)
+        return POS_TERRAIN_VAGUE;
+    if (Bat == CABANE+eceCity->image.varTabImageBat)
         return POS_CABANE;
     if (Bat == MAISON)
         return POS_MAISON;
@@ -161,9 +164,6 @@ void affichageEtatCase (ECE_City * eceCity) {
     for (int i = NB_LIGNE-1; i > 0; --i) {
         for (int j = 0; j < NB_COLONNE; ++j) {
 
-            if (eceCity->tabCase[i][j].Etat == TERRAIN_VAGUE) {
-                affichageCase(eceCity, i, j, GREEN);
-            }
             if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
                 affichageCase(eceCity, i, j, YELLOW);
             }
@@ -191,15 +191,15 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
+                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL ) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
                                                 eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
-                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(parcoursGraphe->batiment), WHITE);
+                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity,parcoursGraphe->batiment+eceCity->image.varTabImageBat), WHITE);
                                     parcoursGraphe->poser = true;
                                 }
                             }
@@ -214,15 +214,15 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = NB_COLONNE-1; j > 0; --j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
+                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2],
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
                                                 eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.x,
-                                                eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.y - posBatAffichage(parcoursGraphe->batiment), WHITE);
+                                                eceCity->tabCase[parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur-1][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity, parcoursGraphe->batiment), WHITE);
                                     parcoursGraphe->poser = true;
                                 }
                             }
@@ -257,26 +257,44 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
     }
 }
 
-void affichageElecEau (ECE_City * eceCity, Color color) {
-    for (int i = 0; i < NB_LIGNE; ++i) {
-        for (int j = 0; j < NB_COLONNE; ++j) {
-            if (eceCity->tabCase[i][j].Etat == ROUTE) {
-                affichageCase(eceCity, i, j, color);
+void affichageElec (ECE_City * eceCity, Color color) {
+    affichageEau(eceCity, color);
+}
+
+
+
+void affichageRoutePoser (ECE_City * eceCity) {
+    for (int i = NB_LIGNE-1; i > 0; --i) {
+        if (eceCity->orientation == 0) {
+            for (int j = 0; j < NB_COLONNE; ++j) {
+                afficherRoute(eceCity, i, j);
+                if (eceCity->tabCase[i][j].Etat > ROUTE) {
+                    affichageCase(eceCity, i, j, GRAY);
+                }
             }
-            if (eceCity->tabCase[i][j].Etat > ROUTE) {
-                affichageCase(eceCity, i, j, GRAY);
+        }
+        if (eceCity->orientation == 1) {
+            for (int j = NB_COLONNE-1; j > 0; --j) {
+                afficherRoute(eceCity, i, j);
+                if (eceCity->tabCase[i][j].Etat > ROUTE) {
+                    affichageCase(eceCity, i, j, GRAY);
+                }
             }
         }
     }
 }
 
+
 void affichageComplet (ECE_City * eceCity) {
-
-
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
-
+    if(eceCity->nuit==1){
+        DrawTexture(eceCity->image.image_fond_nuit,0,0,WHITE);
+    }
+    else if(eceCity->nuit==0){
+        DrawTexture(eceCity->image.image_fond,0,0,WHITE);
+    }
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {
@@ -288,10 +306,10 @@ void affichageComplet (ECE_City * eceCity) {
         affichageRoutePoser(eceCity);
     }
     if (eceCity->etage == ELECTRICITE) {
-        affichageElecEau(eceCity, YELLOW);
+        affichageElec(eceCity, YELLOW);
     }
     if (eceCity->etage == EAU) {
-        affichageElecEau(eceCity, DARKBLUE);
+        affichageEau(eceCity, DARKBLUE);
     }
 
     DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
@@ -304,8 +322,6 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
 
-
     affichage_temps(temps(&eceCity->t, eceCity));
-
     EndDrawing();
 }

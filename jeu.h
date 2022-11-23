@@ -19,6 +19,8 @@ void detectionEtatPlacement (ECE_City * eceCity);
 bool detectionRouteBatiment (ECE_City * eceCity);
 void poserBatiment(ECE_City * eceCity);
 void upgradeBatiment (ECE_City * eceCity);
+void upgradeBatimentCOMMUNISTE (ECE_City * eceCity);
+void Upgrade (ECE_City * eceCity);
 void modeNuit(ECE_City * eceCity);
 void fontionJeu (ECE_City * eceCity);
 void menu(ECE_City * eceCity);

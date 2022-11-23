@@ -155,16 +155,12 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
 
 void detectEtage (ECE_City * eceCity) {
     if (IsKeyPressed(KEY_DOWN)) {
-        if (eceCity->etage == JEU)
-            eceCity->etage = ELECTRICITE;
-        else if (eceCity->etage == ELECTRICITE)
-            eceCity->etage = EAU;
+        if (eceCity->etage < EAU)
+            eceCity->etage--;
     }
     if (IsKeyPressed(KEY_UP)) {
-        if (eceCity->etage == ELECTRICITE)
-            eceCity->etage = JEU;
-        else if (eceCity->etage == EAU)
-            eceCity->etage = ELECTRICITE;
+        if (eceCity->etage > DESTRUCTION)
+            eceCity->etage++;
     }
     if (IsKeyPressed(KEY_RIGHT)) {
         if (eceCity->t.speedTime < 4){
@@ -246,6 +242,7 @@ void poserBatiment(ECE_City * eceCity) {
                     if (eceCity->tabCase[i][j].selec == true && eceCity->tabCase[i][j].Etat == VIDE) {
                         eceCity->tabCase[i][j].Etat = eceCity->EtatPlacement;
                         ajoutRouteGraphe(eceCity);
+                        repartitionEau(eceCity);
                     }
                 }
             }
@@ -272,6 +269,28 @@ void upgradeBatiment (ECE_City * eceCity) {
         }
     }
 }
+
+void upgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
+    if (eceCity->upgrade.Upgrade != -1){
+        Sommet * parcoursGraphe = eceCity->graphe;
+        while (parcoursGraphe != NULL) {
+            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau == eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment < GRATTE_CIEL &&
+                    parcoursGraphe->reserveChateauEau >= eceCity->batiment[parcoursGraphe->batiment].nbHabitantMax - eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                    parcoursGraphe->batiment++;
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
+                            eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
+                        }
+                    }
+                    repartitionEau(eceCity);
+                }
+            }
+            parcoursGraphe = parcoursGraphe->next;
+        }
+    }
+}
+
 void modeNuit(ECE_City * eceCity){
     if(IsKeyPressed(KEY_SPACE)){
         if(eceCity->nuit==0){
@@ -284,9 +303,23 @@ void modeNuit(ECE_City * eceCity){
             }
     }
 }
+
+void detruireBaatiment (ECE_City * eceCity){
+
+}
+
+void Upgrade (ECE_City * eceCity) {
+    if (eceCity->CapiCommu == COMMU) {
+        upgradeBatimentCOMMUNISTE(eceCity);
+    }
+    if (eceCity->CapiCommu == CAPI) {
+        upgradeBatimentCOMMUNISTE(eceCity);
+    }
+}
+
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
-    upgradeBatiment(eceCity);
+    Upgrade(eceCity);
 
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 

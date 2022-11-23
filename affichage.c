@@ -135,6 +135,8 @@ void affichageCase (ECE_City * eceCity, int Ligne, int Colonne, Color color) {
 }
 
 float posBatAffichage (ECE_City *eceCity, int Bat) {
+    if (Bat == TERRAIN_VAGUE+eceCity->image.varTabImageBat)
+        return POS_TERRAIN_VAGUE;
     if (Bat == CABANE+eceCity->image.varTabImageBat)
         return POS_CABANE;
     if (Bat == MAISON+eceCity->image.varTabImageBat)
@@ -155,9 +157,6 @@ void affichageEtatCase (ECE_City * eceCity) {
     for (int i = NB_LIGNE-1; i > 0; --i) {
         for (int j = 0; j < NB_COLONNE; ++j) {
 
-            if (eceCity->tabCase[i][j].Etat == TERRAIN_VAGUE) {
-                affichageCase(eceCity, i, j, GREEN);
-            }
             if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
                 affichageCase(eceCity, i, j, YELLOW);
             }
@@ -185,7 +184,7 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL ) {
+                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL ) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
@@ -208,7 +207,7 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = NB_COLONNE-1; j > 0; --j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
+                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
@@ -315,8 +314,6 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
-
-    DrawTexture(eceCity->image.tabImageBat[CHATEAU_EAU-2], eceCity->tabCase[0][0].pos.x, eceCity->tabCase[0][0].pos.y, WHITE);
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

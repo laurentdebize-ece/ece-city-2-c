@@ -20,6 +20,7 @@
 #define POS_ROUTE_X 1
 #define POS_ROUTE_Y 14
 #define POS_ROUTE_Y_2 15
+#define POS_TERRAIN_VAGUE 50
 #define POS_CABANE 78
 #define POS_MAISON 83
 #define POS_IMMEUBLE 140
@@ -27,7 +28,8 @@
 
 enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
 enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
-enum{JEU, ELECTRICITE, EAU};
+enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
+enum{CAPI, COMMU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEHAUT,ROUTEVIRAGEGAUCHE,ROUTEVIRAGEBAS, ROUTETRIPLEBASDROITE, ROUTETRIPLEBASGAUCHE, ROUTETRIPLE, ROUTETRIPLEHAUTDROITE, ROUTECROISEMENT};
 enum{BOUTON_1, BOUTON_2, BOUTON_3, BOUTON_QUITTER, BOUTON_1_GRIS, BOUTON_2_GRIS, BOUTON_3_GRIS, BOUTON_QUITTER_GRIS,NB_BOUTON_MENU = 4};
 
@@ -83,6 +85,11 @@ typedef struct image{
 
 }IMAGE;
 
+typedef struct liste{
+    int id;
+    struct liste * next;
+}Liste;
+
 typedef struct Sommet{
     int id;
     int ligne;
@@ -94,6 +101,9 @@ typedef struct Sommet{
     bool poser;
     int consoEau;
     bool decouverteBFS;
+    int idChateauEau [NB_BAT];
+    int nbChateauEau;
+    int reserveChateauEau;
     struct Sommet * next;
     bool dejaEcrit;
 }Sommet;
@@ -104,10 +114,6 @@ typedef struct {
     int idEnCours;
 }toUpgrade;
 
-typedef struct liste{
-    int id;
-    struct liste * next;
-}Liste;
 
 typedef struct ece_city{
     float coefTab;
@@ -126,6 +132,9 @@ typedef struct ece_city{
     toUpgrade upgrade;
     bool end;
     int eceFlouz;
+    int CapiCommu;
+    int nbChateauEau;
+    int nbHabitant;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

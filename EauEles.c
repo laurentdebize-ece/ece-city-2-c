@@ -24,22 +24,25 @@ void nextFilAttente (Liste ** filAttente) {
     *filAttente = (*filAttente)->next;
 }
 
-void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau) {
+void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau, int idChateau) {
     if (*reserveEau > 0) {
         Sommet * parcoursGraphe = eceCity->graphe;
         Sommet * parcoursGraphe2;
         while (parcoursGraphe->id != id) {
             parcoursGraphe = parcoursGraphe->next;
         }
-        if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment <= GRATTE_CIEL &&
-            parcoursGraphe->consoEau < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
-            if (*reserveEau > eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau) {
-                *reserveEau -= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau;
-                parcoursGraphe->consoEau = eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
-            }
-            else {
-                parcoursGraphe->consoEau += *reserveEau;
-                *reserveEau = 0;
+        if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL) {
+            if (parcoursGraphe->consoEau <= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                if (*reserveEau > eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau) {
+                    *reserveEau -= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau;
+                    parcoursGraphe->consoEau = eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
+                }
+                else {
+                    parcoursGraphe->consoEau += *reserveEau;
+                    *reserveEau = 0;
+                }
+                parcoursGraphe->idChateauEau[parcoursGraphe->nbChateauEau] = idChateau;
+                parcoursGraphe->nbChateauEau++;
             }
         }
         else {
@@ -76,42 +79,47 @@ void BFS_Chateau (ECE_City * eceCity, int idChateau) {
         parcoursGraphe = parcoursGraphe->next;
     }
 
-    etapeBFS(eceCity, idChateau, &filAttenteBatiment, &reserveEau);
+    etapeBFS(eceCity, idChateau, &filAttenteBatiment, &reserveEau, idChateau);
 
     while (filAttenteBatiment != NULL) {
-        etapeBFS(eceCity, filAttenteBatiment->id, &filAttenteBatiment, &reserveEau);
+        etapeBFS(eceCity, filAttenteBatiment->id, &filAttenteBatiment, &reserveEau, idChateau);
         nextFilAttente(&filAttenteBatiment);
     }
     parcoursGraphe = eceCity->graphe;
-    while (parcoursGraphe->id != idChateau) {
+    while (parcoursGraphe != NULL) {
+        if (parcoursGraphe->id == idChateau) {
+            parcoursGraphe->consoEau = reserveEau;
+        }
+        for (int i = 0; i < parcoursGraphe->nbChateauEau; ++i) {
+            if (parcoursGraphe->idChateauEau[i] == idChateau) {
+                parcoursGraphe->reserveChateauEau += reserveEau;
+            }
+        }
+
         parcoursGraphe = parcoursGraphe->next;
     }
-    parcoursGraphe->consoEau = reserveEau;
+
 }
 
 void repartitionEau (ECE_City * eceCity) {
     Sommet * parcoursGraphe = eceCity->graphe;
-    int nbChateauEau = 0;
-    int nbHabitant = 0;
-    while (parcoursGraphe != NULL) {
-        if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment <= GRATTE_CIEL) {
-            nbHabitant += eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
-        }
-        if (parcoursGraphe->batiment == CHATEAU_EAU) {
-            nbChateauEau++;
-        }
-        parcoursGraphe = parcoursGraphe->next;
-    }
-
-    parcoursGraphe = eceCity->graphe;
+    eceCity->nbChateauEau = 0;
+    eceCity->nbHabitant = 0;
     Liste * filAttenteChateau = NULL;
     while (parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment <= GRATTE_CIEL) {
+            eceCity->nbHabitant += eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
             parcoursGraphe->consoEau = 0;
             parcoursGraphe->decouverteBFS = 0;
+            parcoursGraphe->reserveChateauEau = 0;
+            for (int i = 0; i < parcoursGraphe->nbChateauEau; ++i) {
+                parcoursGraphe->idChateauEau[i] = 0;
+            }
+            parcoursGraphe->nbChateauEau = 0;
         }
         if (parcoursGraphe->batiment == CHATEAU_EAU) {
             ajoutFilAttente(&filAttenteChateau, parcoursGraphe->id);
+            eceCity->nbChateauEau++;
         }
         parcoursGraphe = parcoursGraphe->next;
     }

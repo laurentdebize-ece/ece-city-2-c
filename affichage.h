@@ -4,7 +4,7 @@
 #include "ECE_CITY.h"
 #include "test.h"
 
-
+void affichage_mode(ECE_City * eceCity);
 float posBatAffichage (ECE_City *eceCity, int Bat);
 void affichage_menu(ECE_City eceCity);
 void affichage_temps(ECE_City eceCity);

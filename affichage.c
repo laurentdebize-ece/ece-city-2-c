@@ -2,6 +2,11 @@
 #include "jeu.h"
 #include "initialisation.h"
 
+void affichage_mode(ECE_City * eceCity){
+    BeginDrawing();
+    DrawTexture(eceCity->image.image_choix,0,0,WHITE);
+    EndDrawing();
+}
 void affichage_menu(ECE_City eceCity){
   BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -314,6 +319,7 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
+    DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

@@ -7,7 +7,7 @@
 #include "initialisation.h"
 #include "EauEles.h"
 
-
+void impots( ECE_City * eceCity,Sommet * parcoursGraphe);
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);
 int positionRoute (int route);
 void detection_case_souris_0 (ECE_City * eceCity);
@@ -23,6 +23,7 @@ void upgradeBatimentCOMMUNISTE (ECE_City * eceCity);
 void Upgrade (ECE_City * eceCity);
 void modeNuit(ECE_City * eceCity);
 void fontionJeu (ECE_City * eceCity);
+void modeJeu ( ECE_City* eceCity);
 void menu(ECE_City * eceCity);
 void fonction_principale(ECE_City * eceCity);
 void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne);

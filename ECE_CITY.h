@@ -27,7 +27,7 @@
 #define POS_GRATTE_CIEL 238
 
 enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
-enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
+enum{MENU, MODEJEU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
 enum{CAPI, COMMU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEHAUT,ROUTEVIRAGEGAUCHE,ROUTEVIRAGEBAS, ROUTETRIPLEBASDROITE, ROUTETRIPLEBASGAUCHE, ROUTETRIPLE, ROUTETRIPLEHAUTDROITE, ROUTECROISEMENT};
@@ -72,12 +72,22 @@ typedef struct batiment {
 }BatimentType;
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
+typedef struct {
+    float x1;
+    float x2;
+    float y1;
+    float y2;
+}Bouton;
 
 
 typedef struct image{
     int varTabImageBat;
+    Bouton bouton_commu;
+    Bouton bouton_capi;
     Texture2D image_menu ;
+    Texture2D image_bonhomme;
     Texture2D image_fond ;
+    Texture2D image_choix;
     Texture2D image_fond_nuit;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
@@ -117,6 +127,7 @@ typedef struct {
 
 typedef struct ece_city{
     float coefTab;
+
     Case tabCase [NB_LIGNE][NB_COLONNE];
     BatimentType batiment [NB_BAT];
     Souris souris;
@@ -133,8 +144,10 @@ typedef struct ece_city{
     bool end;
     int eceFlouz;
     int CapiCommu;
+    int impots;
     int nbChateauEau;
     int nbHabitant;
+    int modeJeu;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

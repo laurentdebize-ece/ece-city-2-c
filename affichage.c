@@ -287,12 +287,24 @@ void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
-    if(eceCity->nuit==1){
-        DrawTexture(eceCity->image.image_fond_nuit,0,0,WHITE);
+    switch (eceCity->modeJeu) {
+        case COMMU:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU],0,0,WHITE);
+            }
+            break;
+        case CAPI:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI],0,0,WHITE);
+            }
     }
-    else if(eceCity->nuit==0){
-        DrawTexture(eceCity->image.image_fond,0,0,WHITE);
-    }
+
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {

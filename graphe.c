@@ -1,5 +1,5 @@
 #include "graphe.h"
-
+#include "EauEles.h"
 
 
 void detectionAdjacentRouteAjoutGraphe (ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
@@ -23,23 +23,11 @@ void detectionAdjacentRouteAjoutGraphe (ECE_City * eceCity, Sommet * ajoutGraphe
                 }
             }
 
-            if (ajoutGraphe->tabAdjacent == NULL) {
-                ajoutGraphe->tabAdjacent = calloc(1, sizeof (int));
-            }
-            else {
-                ajoutGraphe->tabAdjacent = realloc(ajoutGraphe->tabAdjacent, (ajoutGraphe->nbAdjacent+1)*sizeof (int));
-            }
+            ajoutListe(&ajoutGraphe->tabAdjacent, parcourGraphe->id);
             ajoutGraphe->nbAdjacent++;
-            ajoutGraphe->tabAdjacent[ajoutGraphe->nbAdjacent-1] = parcourGraphe->id;
 
-            if (parcourGraphe->tabAdjacent == NULL) {
-                parcourGraphe->tabAdjacent = calloc(1, sizeof (int));
-            }
-            else {
-                parcourGraphe->tabAdjacent = realloc(parcourGraphe->tabAdjacent, (parcourGraphe->nbAdjacent+1)*sizeof (int));
-            }
+            ajoutListe(&parcourGraphe->tabAdjacent, ajoutGraphe->id);
             parcourGraphe->nbAdjacent++;
-            parcourGraphe->tabAdjacent[parcourGraphe->nbAdjacent-1] = ajoutGraphe->id;
         }
     }
 }
@@ -55,6 +43,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         eceCity->graphe->ligne = eceCity->souris.posLigne;
         eceCity->graphe->next = NULL;
         eceCity->graphe->poser = NULL;
+        eceCity->graphe->detruire = false;
         eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours;
         eceCity->graphe->tabAdjacent = NULL;
         eceCity->graphe->nbAdjacent = 0;
@@ -75,6 +64,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         ajoutGraphe->next->nbUpgrade = eceCity->upgrade.upgradeEnCours;
         ajoutGraphe->next->tabAdjacent = NULL;
         ajoutGraphe->next->poser = NULL;
+        ajoutGraphe->next->detruire = false;
         ajoutGraphe->next->nbAdjacent = 0;
         ajoutGraphe->next->consoEau = 0;
         ajoutGraphe->next->reserveChateauEau = 0;

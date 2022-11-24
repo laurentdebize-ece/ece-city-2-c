@@ -250,6 +250,26 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
     }
 }
 
+void affichageCaseDestruction (ECE_City * eceCity) {
+    Sommet  * parcoursGraphe = eceCity->graphe;
+    while (parcoursGraphe != NULL){
+        if (parcoursGraphe->detruire == true) {
+            for (int i = 0; i < NB_LIGNE; ++i) {
+                for (int j = 0; j < NB_COLONNE; ++j) {
+                    if (parcoursGraphe->ligne <= i &&
+                        parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur > i &&
+                        parcoursGraphe->colonne <= j &&
+                        parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur > j) {
+                        affichageCase(eceCity, i, j, RED);
+                    }
+                }
+            }
+        }
+
+        parcoursGraphe = parcoursGraphe->next;
+    }
+}
+
 void affichageElec (ECE_City * eceCity, Color color) {
     affichageEau(eceCity, color);
 }
@@ -290,6 +310,10 @@ void affichageComplet (ECE_City * eceCity) {
     }
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
+    if (eceCity->etage == DESTRUCTION) {
+        affichageRoutePoser(eceCity);
+        affichageCaseDestruction(eceCity);
+    }
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {
         affichageCaseSelectionne(eceCity);
         affichageEtatCase(eceCity);

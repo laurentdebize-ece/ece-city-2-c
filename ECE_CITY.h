@@ -96,12 +96,13 @@ typedef struct Sommet{
     int colonne;
     int batiment;
     int nbAdjacent;
-    int * tabAdjacent;
+    Liste * tabAdjacent;
     int nbUpgrade;
     bool poser;
+    bool detruire;
     int consoEau;
     bool decouverteBFS;
-    int idChateauEau [NB_BAT];
+    int idChateauEau [NB_IMAGE_BAT];
     int nbChateauEau;
     int reserveChateauEau;
     struct Sommet * next;

@@ -15,7 +15,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
-    eceCity->currentJeu = JEUMENU;
+    eceCity->currentJeu = MENU;
     eceCity->CapiCommu = COMMU;
     eceCity->t.speedTime = 1;
     eceCity->end = false;

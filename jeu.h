@@ -6,6 +6,7 @@
 #include "test.h"
 #include "initialisation.h"
 #include "EauEles.h"
+#include "ChargeSauvegarde.h"
 
 void impots( ECE_City * eceCity,Sommet * parcoursGraphe);
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);

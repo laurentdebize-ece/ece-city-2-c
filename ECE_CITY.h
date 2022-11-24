@@ -130,7 +130,6 @@ typedef struct {
 
 typedef struct ece_city{
     float coefTab;
-
     Case tabCase [NB_LIGNE][NB_COLONNE];
     BatimentType batiment [NB_BAT];
     Souris souris;
@@ -146,7 +145,6 @@ typedef struct ece_city{
     toUpgrade upgrade;
     bool end;
     int eceFlouz;
-    int CapiCommu;
     int impots;
     int nbChateauEau;
     int nbHabitant;

@@ -355,63 +355,67 @@ void detruireBatiment (ECE_City * eceCity){
     }
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         parcoursGraphe = eceCity->graphe;
-        while (parcoursGraphe->detruire != true) {
+        while (parcoursGraphe != NULL) {
+            if (parcoursGraphe->detruire == true) {
+                Sommet * parcoursGraphe2 = eceCity->graphe;
+                while (parcoursGraphe2 != NULL) {
+                    if (parcoursGraphe2->tabAdjacent != NULL) {
+                        if (parcoursGraphe2->tabAdjacent->id == parcoursGraphe->id) {
+                            parcoursGraphe2->tabAdjacent = parcoursGraphe2->tabAdjacent->next;
+                        }
+                        else {
+                            Liste * parcoursTabAdjacent = parcoursGraphe2->tabAdjacent;
+                            while (parcoursTabAdjacent->next != NULL) {
+                                if (parcoursTabAdjacent->next->id == parcoursGraphe->id) {
+                                    parcoursTabAdjacent->next = parcoursTabAdjacent->next->next;
+                                }
+                                if (parcoursTabAdjacent->next == NULL) {
+                                    break;
+                                }
+                                parcoursTabAdjacent = parcoursTabAdjacent->next;
+                            }
+
+                        }
+                    }
+                    parcoursGraphe2 = parcoursGraphe2->next;
+                }
+                for (int i = 0; i < NB_LIGNE; ++i) {
+                    for (int j = 0; j < NB_COLONNE; ++j) {
+                        if (parcoursGraphe->ligne <= i &&
+                            parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur > i &&
+                            parcoursGraphe->colonne <= j &&
+                            parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur > j) {
+                            eceCity->tabCase[i][j].Etat = VIDE;
+                        }
+                    }
+                }
+                if (eceCity->graphe->batiment == CHATEAU_EAU) {
+                    eceCity->nbChateauEau--;
+                }
+                if (parcoursGraphe == eceCity->graphe) {
+                    eceCity->graphe = eceCity->graphe->next;
+                }
+                else {
+                    parcoursGraphe2 = eceCity->graphe;
+                    while (parcoursGraphe2->next != parcoursGraphe){
+                        parcoursGraphe2 = parcoursGraphe2->next;
+                    }
+                    parcoursGraphe2->next = parcoursGraphe2->next->next;
+                }
+                eceCity->nbSommetGraphe--;
+                repartitionEau(eceCity);
+            }
             parcoursGraphe = parcoursGraphe->next;
         }
-        Sommet * parcoursGraphe2 = eceCity->graphe;
-        while (parcoursGraphe2 != NULL) {
-            if (parcoursGraphe2->tabAdjacent->id == parcoursGraphe->id) {
-                parcoursGraphe2->tabAdjacent = parcoursGraphe2->tabAdjacent->next;
-            }
-            else {
-                Liste * parcoursTabAdjacent = parcoursGraphe2->tabAdjacent;
-                while (parcoursTabAdjacent->next != NULL) {
-                    if (parcoursTabAdjacent->next->id == parcoursGraphe->id) {
-                        parcoursTabAdjacent->next = parcoursTabAdjacent->next->next;
-                    }
-                    if (parcoursTabAdjacent->next == NULL) {
-                        break;
-                    }
-                    parcoursTabAdjacent = parcoursTabAdjacent->next;
-                }
-
-            }
-            parcoursGraphe2 = parcoursGraphe2->next;
-        }
-        for (int i = 0; i < NB_LIGNE; ++i) {
-            for (int j = 0; j < NB_COLONNE; ++j) {
-                if (parcoursGraphe->ligne <= i &&
-                    parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur > i &&
-                    parcoursGraphe->colonne <= j &&
-                    parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur > j) {
-                    eceCity->tabCase[i][j].Etat = VIDE;
-                }
-            }
-        }
-        if (eceCity->graphe->batiment == CHATEAU_EAU) {
-            eceCity->nbChateauEau--;
-        }
-        if (parcoursGraphe == eceCity->graphe) {
-            eceCity->graphe = eceCity->graphe->next;
-        }
-        else {
-            parcoursGraphe2 = eceCity->graphe;
-            while (parcoursGraphe2->next != parcoursGraphe){
-                parcoursGraphe2 = parcoursGraphe2->next;
-            }
-            parcoursGraphe2->next = parcoursGraphe2->next->next;
-        }
-        eceCity->nbSommetGraphe--;
-        repartitionEau(eceCity);
     }
 }
 
 void Upgrade (ECE_City * eceCity) {
-    if (eceCity->CapiCommu == COMMU) {
+    if (eceCity->modeJeu == COMMU) {
         upgradeBatimentCOMMUNISTE(eceCity);
         downgradeBatimentCOMMUNISTE(eceCity);
     }
-    if (eceCity->CapiCommu == CAPI) {
+    if (eceCity->modeJeu == CAPI) {
         upgradeBatimentCOMMUNISTE(eceCity);
         downgradeBatimentCOMMUNISTE(eceCity);
     }
@@ -499,6 +503,7 @@ void fonction_principale(ECE_City * eceCity){
             eceCity->end = true;
         }
     }
+    //sauvegarde(eceCity);
     unloadImages(eceCity);
 }
 

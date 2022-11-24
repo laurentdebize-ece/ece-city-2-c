@@ -2,6 +2,11 @@
 #include "jeu.h"
 #include "initialisation.h"
 
+void affichage_mode(ECE_City * eceCity){
+    BeginDrawing();
+    DrawTexture(eceCity->image.image_choix,0,0,WHITE);
+    EndDrawing();
+}
 void affichage_menu(ECE_City eceCity){
   BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -302,12 +307,24 @@ void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
-    if(eceCity->nuit==1){
-        DrawTexture(eceCity->image.image_fond_nuit,0,0,WHITE);
+    switch (eceCity->modeJeu) {
+        case COMMU:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU],0,0,WHITE);
+            }
+            break;
+        case CAPI:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI],0,0,WHITE);
+            }
     }
-    else if(eceCity->nuit==0){
-        DrawTexture(eceCity->image.image_fond,0,0,WHITE);
-    }
+
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == DESTRUCTION) {
@@ -338,6 +355,7 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
+    DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

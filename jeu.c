@@ -1,6 +1,14 @@
 #include "jeu.h"
 #include "graphe.h"
 
+void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
+    if(parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade){
+        eceCity->impots =  (eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax)* 10;
+        eceCity->eceFlouz = eceCity->eceFlouz + eceCity->impots;
+    }
+
+
+}
 
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
@@ -277,6 +285,7 @@ void upgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){
         Sommet * parcoursGraphe = eceCity->graphe;
         while (parcoursGraphe != NULL) {
+            impots(eceCity,parcoursGraphe);
             if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau == eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
                 if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment < GRATTE_CIEL &&
                     parcoursGraphe->reserveChateauEau >= eceCity->batiment[parcoursGraphe->batiment].nbHabitantMax - eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
@@ -429,6 +438,23 @@ void fonctionJeu (ECE_City * eceCity) {
 
     affichageComplet (eceCity);
 }
+void modeJeu ( ECE_City* eceCity){
+    eceCity->souris.pos = getPosMouse(eceCity);
+    affichage_mode(eceCity);
+
+    if((eceCity->image.bouton_commu.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.bouton_commu.x2 )&& ( eceCity->image.bouton_commu.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.bouton_commu.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->modeJeu = COMMU;
+        eceCity->currentJeu = JEUMENU;
+    }
+    if((eceCity->image.bouton_capi.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.bouton_capi.x2 )&& ( eceCity->image.bouton_capi.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.bouton_capi.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->modeJeu = CAPI;
+        eceCity->currentJeu = JEUMENU;
+    }
+    if((eceCity->image.tabBoutonMenu[BOUTON_QUITTER].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonMenu[BOUTON_QUITTER].x2 )&& ( eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->currentJeu = QUITTER;
+    }
+
+}
 void menu(ECE_City *eceCity){
 
     eceCity->souris.pos = getPosMouse(eceCity);
@@ -436,7 +462,7 @@ void menu(ECE_City *eceCity){
 
     for (int i = BOUTON_1; i <= BOUTON_QUITTER; ++i) {
         if ((eceCity->image.tabBoutonMenu[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonMenu[i].x2 )&& ( eceCity->image.tabBoutonMenu[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonMenu[i].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
-            eceCity->currentJeu= i==BOUTON_1?JEUMENU:i==BOUTON_2?CHARGER:i==BOUTON_3?REGLE:QUITTER;
+            eceCity->currentJeu = i==BOUTON_1?MODEJEU:i==BOUTON_2?CHARGER:i==BOUTON_3?REGLE:QUITTER;
         }
     }
 
@@ -452,6 +478,9 @@ void fonction_principale(ECE_City * eceCity){
         switch (eceCity->currentJeu) {
             case MENU:
                 menu(eceCity);
+                break;
+            case MODEJEU:
+                modeJeu(eceCity);
                 break;
             case JEUMENU:
                 fonctionJeu(eceCity);

@@ -310,24 +310,14 @@ void affichageRoutePoser (ECE_City * eceCity) {
 }
 
 void affichageBouton(ECE_City * eceCity) {
+    BeginDrawing();
 
-    Image bo = LoadImage(".../Images/BoutonsIcones/iconebo.png");
-    ImageCrop(&bo, (Rectangle) {100, 10, 50, 50});
-    ImageFlipHorizontal(&bo);
+    DrawTexture(eceCity->image.eau, 1000,800,BLACK);
+    DrawTexture(eceCity->image.elec,1000,750,BLACK);
+    DrawTexture(eceCity->image.pompier,1000,600,BLACK);
+    DrawTexture(eceCity->image.construction,1000,500,BLACK);
 
-    //ImageDraw( bo, (Rectangle){ 0, 0, (float)bo.width, (float)bo.height }, (Rectangle){ 30, 40, bo.width*1.5f, bo.height*1.5f }, WHITE);
-
-
-    UnloadImage(bo);
-
-    SetTargetFPS(60);
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-
-        EndDrawing();
-    }
+    EndDrawing();
 }
 
 void affichageComplet (ECE_City * eceCity) {
@@ -338,6 +328,7 @@ void affichageComplet (ECE_City * eceCity) {
         case COMMU:
             if(eceCity->nuit==1){
                 DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU_NUIT],0,0,WHITE);
+                affichageBouton(eceCity);
             }
             else if(eceCity->nuit==0){
                 DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU],0,0,WHITE);

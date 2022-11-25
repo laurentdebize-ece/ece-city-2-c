@@ -99,6 +99,7 @@ typedef struct image{
     Texture2D eau;
     Texture2D elec;
     Texture2D pompier;
+    Texture2D construction;
 }IMAGE;
 
 typedef struct liste{

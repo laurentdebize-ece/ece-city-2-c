@@ -124,6 +124,11 @@ typedef struct Sommet{
     int reserveChateauEau;
     struct Sommet * next;
     bool dejaEcrit;
+    bool decouvertePasApasElec;
+    int reserveCentral;
+    int idCEntral [NB_BAT];
+    int nbCentral;
+    int consoElec;
 }Sommet;
 
 typedef struct {
@@ -152,6 +157,7 @@ typedef struct ece_city{
     int eceFlouz;
     int impots;
     int nbChateauEau;
+    int nbCentral;
     int nbHabitant;
     int modeJeu;
 }ECE_City;

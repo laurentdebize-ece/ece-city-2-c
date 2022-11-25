@@ -7,6 +7,7 @@
 
 unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur);
 void affichage_mode(ECE_City * eceCity);
+void affichageBouton(ECE_City * ece_city);
 float posBatAffichage (ECE_City *eceCity, int Bat);
 void affichage_menu(ECE_City eceCity);
 void affichage_temps(ECE_City eceCity);

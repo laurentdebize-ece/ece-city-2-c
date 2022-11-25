@@ -312,10 +312,10 @@ void affichageRoutePoser (ECE_City * eceCity) {
 void affichageBouton(ECE_City * eceCity) {
     BeginDrawing();
 
-    DrawTexture(eceCity->image.eau, 1000,800,BLACK);
-    DrawTexture(eceCity->image.elec,1000,750,BLACK);
-    DrawTexture(eceCity->image.pompier,1000,600,BLACK);
-    DrawTexture(eceCity->image.construction,1000,500,BLACK);
+    DrawTexture(eceCity->image.eau, 1000,800,GRAY);
+    DrawTexture(eceCity->image.elec,1000,750,GRAY);
+    DrawTexture(eceCity->image.pompier,1000,600,GRAY);
+    DrawTexture(eceCity->image.construction,1000,500,GRAY);
 
     EndDrawing();
 }

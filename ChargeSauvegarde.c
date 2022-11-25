@@ -127,3 +127,44 @@ void load (ECE_City * eceCity) {
         }
     }
 }
+
+/*
+FILE* creerFichier(){
+    char chemin[LG_MAX_CHEMIN_SAUVEGARDE];
+    char nomPartie[LG_MAX_NOM_PARTIE];
+    printf("Comment voulez-vous appeler votre partie?\n");
+    scanf("%s",nomPartie);
+    sprintf(chemin,"%s/%s", CHEMIN_SAUVEGARDE, nomPartie);
+    FILE* monFichier = fopen(chemin,"w");
+    return monFichier;
+}*/
+
+/*
+void copierJoueur(Joueur j[], Partie donneePartie, FILE* creerFichier(), FILE *myFile, Classe classe){
+    for(int i=0; i < donneePartie.nbJoueurs; i++){
+        fprintf(myFile, "JOUEUR:%s\n",donneePartie.nom);
+        fprintf(myFile,"%s%\n",
+                classe.nom,
+                classe.skin,
+                classe.sorts);
+    }
+}
+
+
+int fermerFichier(FILE* myFile){
+    return fclose (myFile);
+}
+
+int sauvegarderPartie(){
+    FILE *sauvegarde = creerFichier();
+    //ouvrirFichier();
+    if (NULL != sauvegarde){
+        copierJoueur(sauvegarde);
+    }
+    else {
+        printf("Erreur sur création fichier\n");
+    }
+    if (0 != fermerFichier(sauvegarde)) {
+        printf ("Erreur lors de la fermeture du fichier de sauvegarde\n");
+    }
+}*/

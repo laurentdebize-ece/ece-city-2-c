@@ -157,6 +157,22 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.bouton_commu.y1 = 250;
     eceCity->image.bouton_commu.x2 = 855;
     eceCity->image.bouton_commu.y2 = 932;
+    eceCity->image.elec.x1 = 950;
+    eceCity->image.elec.y1 = 900;
+    eceCity->image.elec.x2 = 930 ;
+    eceCity->image.elec.y2 = 860;
+    eceCity->image.eau.x1 = 1000;
+    eceCity->image.eau.y1 = 980;
+    eceCity->image.eau.x2 = 950;
+    eceCity->image.eau.y2 = 880;
+    eceCity->image.pompier.x1 = 870;
+    eceCity->image.pompier.y1 = 850 ;
+    eceCity->image.pompier.x2 = 950 ;
+    eceCity->image.pompier.y2 = 870;
+    eceCity->image.construction.x1 = 950;
+    eceCity->image.construction.y1 = 880;
+    eceCity->image.construction.x2 = 950;
+    eceCity->image.construction.y2 = 870;
 }
 
 

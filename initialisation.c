@@ -166,6 +166,7 @@ void initBouton(ECE_City * eceCity){
 void loadImages(ECE_City * eceCity){
     eceCity->image.image_menu = LoadTexture("../Images/ACCEUIL.png");
     eceCity->image.image_bonhomme = LoadTexture("../Images/BONHOMME.png");
+    eceCity->image.image_icone = LoadTexture(".../Images/Boutons Icones/iconebo.png");
     eceCity->image.tabImageJeu[FOND_COMMU]= LoadTexture("../Images/FOND.png");
     eceCity->image.tabImageJeu[FOND_COMMU_NUIT] = LoadTexture("../Images/FOND_NUIT.png");
     eceCity->image.tabImageJeu[FOND_CAPI] = LoadTexture("../Images/FONDCAPITALISTE.png");

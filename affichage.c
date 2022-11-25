@@ -309,9 +309,26 @@ void affichageRoutePoser (ECE_City * eceCity) {
     }
 }
 
-//void affichageBouton(ECE_City * eceCity){
-    
-//}
+void affichageBouton(ECE_City * eceCity) {
+
+    Image bo = LoadImage(".../Images/Boutons Icones/iconebo.png");
+    ImageCrop(&bo, (Rectangle) {100, 10, 50, 50});
+    ImageFlipHorizontal(&bo);
+
+    //ImageDraw( bo, (Rectangle){ 0, 0, (float)bo.width, (float)bo.height }, (Rectangle){ 30, 40, bo.width*1.5f, bo.height*1.5f }, WHITE);
+
+
+    UnloadImage(bo);
+
+    SetTargetFPS(60);
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+
+        EndDrawing();
+    }
+}
 
 void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();

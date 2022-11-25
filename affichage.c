@@ -311,7 +311,7 @@ void affichageRoutePoser (ECE_City * eceCity) {
 
 void affichageBouton(ECE_City * eceCity) {
 
-    Image bo = LoadImage(".../Images/Boutons Icones/iconebo.png");
+    Image bo = LoadImage(".../Images/BoutonsIcones/iconebo.png");
     ImageCrop(&bo, (Rectangle) {100, 10, 50, 50});
     ImageFlipHorizontal(&bo);
 

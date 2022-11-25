@@ -16,7 +16,6 @@
 #define NB_IMAGE_BAT 50
 #define NB_IMAGE_ROUTE 11
 #define NB_IMAGE_MENU 8
-#define NB_IMAGE_ICONE 5
 #define NB_IMAGE_JEU 4
 
 #define POS_ROUTE_X 1
@@ -96,7 +95,10 @@ typedef struct image{
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
     Texture2D tabImageJeu[NB_IMAGE_JEU];
-    Texture2D image_icone ;
+    Texture2D iconebo ;
+    Texture2D eau;
+    Texture2D elec;
+    Texture2D pompier;
 }IMAGE;
 
 typedef struct liste{

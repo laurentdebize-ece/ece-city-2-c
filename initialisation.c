@@ -157,16 +157,17 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.bouton_commu.y1 = 250;
     eceCity->image.bouton_commu.x2 = 855;
     eceCity->image.bouton_commu.y2 = 932;
-    eceCity->image.image_icone.x1 = 1800;
-    eceCity->image.image_icone.y1 = 950;
-    eceCity->image.image_icone.x2 = 1950;
-    eceCity->image.image_icone.y2 = 1000;
 }
+
+
 
 void loadImages(ECE_City * eceCity){
     eceCity->image.image_menu = LoadTexture("../Images/ACCEUIL.png");
     eceCity->image.image_bonhomme = LoadTexture("../Images/BONHOMME.png");
-    eceCity->image.image_icone = LoadTexture(".../Images/Boutons Icones/iconebo.png");
+    eceCity->image.iconebo = LoadTexture(".../Images/BoutonsIcones/iconebo.png");
+    eceCity->image.eau = LoadTexture(".../Images/BoutonsIcones/eau.png");
+    eceCity->image.elec = LoadTexture(".../Images/BoutonsIcones/elec.png");
+    eceCity->image.pompier = LoadTexture(".../Images/BoutonsIcones/pompier.png");
     eceCity->image.tabImageJeu[FOND_COMMU]= LoadTexture("../Images/FOND.png");
     eceCity->image.tabImageJeu[FOND_COMMU_NUIT] = LoadTexture("../Images/FOND_NUIT.png");
     eceCity->image.tabImageJeu[FOND_CAPI] = LoadTexture("../Images/FONDCAPITALISTE.png");
@@ -210,7 +211,10 @@ void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_menu);
     UnloadTexture(eceCity->image.image_bonhomme);
     UnloadTexture(eceCity->image.image_choix);
-    UnloadTexture(eceCity->image.image_icone);
+    UnloadTexture(eceCity->image.iconebo);
+    UnloadTexture(eceCity->image.eau);
+    UnloadTexture(eceCity->image.elec);
+    UnloadTexture(eceCity->image.pompier);
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }

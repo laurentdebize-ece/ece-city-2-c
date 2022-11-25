@@ -2,6 +2,7 @@
 #include "initialisation.h"
 
 #include "ECE_CITY.h"
+#include "ChargeSauvegarde.h"
 
 #define FPS 60
 
@@ -14,7 +15,9 @@ int main ()
 
 
     initECECity(&eceCity);
-    //fonction3D(&eceCity);
+    //load (&eceCity);
+
     fonction_principale(&eceCity);
+
     return 0;
 }

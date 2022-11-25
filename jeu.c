@@ -1,6 +1,14 @@
 #include "jeu.h"
 #include "graphe.h"
 
+void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
+    if(parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade){
+        eceCity->impots =  (eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax)* 10;
+        eceCity->eceFlouz = eceCity->eceFlouz + eceCity->impots;
+    }
+
+
+}
 
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
@@ -156,11 +164,14 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
 void detectEtage (ECE_City * eceCity) {
     if (IsKeyPressed(KEY_DOWN)) {
         if (eceCity->etage < EAU)
-            eceCity->etage--;
+            eceCity->etage++;
     }
     if (IsKeyPressed(KEY_UP)) {
         if (eceCity->etage > DESTRUCTION)
-            eceCity->etage++;
+            eceCity->etage--;
+    }
+    if (eceCity->etage != JEU) {
+        eceCity->EtatPlacement = VIDE;
     }
     if (IsKeyPressed(KEY_RIGHT)) {
         if (eceCity->t.speedTime < 4){
@@ -274,10 +285,31 @@ void upgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){
         Sommet * parcoursGraphe = eceCity->graphe;
         while (parcoursGraphe != NULL) {
+            impots(eceCity,parcoursGraphe);
             if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau == eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
                 if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment < GRATTE_CIEL &&
                     parcoursGraphe->reserveChateauEau >= eceCity->batiment[parcoursGraphe->batiment].nbHabitantMax - eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
                     parcoursGraphe->batiment++;
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
+                            eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
+                        }
+                    }
+                    repartitionEau(eceCity);
+                }
+            }
+            parcoursGraphe = parcoursGraphe->next;
+        }
+    }
+}
+
+void downgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
+    if (eceCity->upgrade.Upgrade != -1){
+        Sommet * parcoursGraphe = eceCity->graphe;
+        while (parcoursGraphe != NULL) {
+            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                if (parcoursGraphe->batiment > TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL) {
+                    parcoursGraphe->batiment--;
                     for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
                         for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
                             eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
@@ -304,16 +336,97 @@ void modeNuit(ECE_City * eceCity){
     }
 }
 
-void detruireBaatiment (ECE_City * eceCity){
+void detruireBatiment (ECE_City * eceCity){
+    Sommet * parcoursGraphe = eceCity->graphe;
 
+    while (parcoursGraphe != NULL) {
+        parcoursGraphe->detruire = false;
+        parcoursGraphe = parcoursGraphe->next;
+    }
+    if (eceCity->tabCase[eceCity->souris.posLigne][eceCity->souris.posColonne].Etat != VIDE) {
+        parcoursGraphe = eceCity->graphe;
+        while (parcoursGraphe->ligne > eceCity->souris.posLigne ||
+                parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur <= eceCity->souris.posLigne ||
+                parcoursGraphe->colonne > eceCity->souris.posColonne ||
+                parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur <= eceCity->souris.posColonne) {
+            parcoursGraphe = parcoursGraphe->next;
+        }
+        parcoursGraphe->detruire = true;
+    }
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        parcoursGraphe = eceCity->graphe;
+        while (parcoursGraphe != NULL) {
+            if (parcoursGraphe->detruire == true) {
+                Sommet * parcoursGraphe2 = eceCity->graphe;
+                while (parcoursGraphe2 != NULL) {
+                    if (parcoursGraphe2->tabAdjacent != NULL) {
+                        if (parcoursGraphe2->tabAdjacent->id == parcoursGraphe->id) {
+                            parcoursGraphe2->tabAdjacent = parcoursGraphe2->tabAdjacent->next;
+                        }
+                        else {
+                            Liste * parcoursTabAdjacent = parcoursGraphe2->tabAdjacent;
+                            while (parcoursTabAdjacent->next != NULL) {
+                                if (parcoursTabAdjacent->next->id == parcoursGraphe->id) {
+                                    parcoursTabAdjacent->next = parcoursTabAdjacent->next->next;
+                                }
+                                if (parcoursTabAdjacent->next == NULL) {
+                                    break;
+                                }
+                                parcoursTabAdjacent = parcoursTabAdjacent->next;
+                            }
+
+                        }
+                    }
+                    parcoursGraphe2 = parcoursGraphe2->next;
+                }
+                for (int i = 0; i < NB_LIGNE; ++i) {
+                    for (int j = 0; j < NB_COLONNE; ++j) {
+                        if (parcoursGraphe->ligne <= i &&
+                            parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur > i &&
+                            parcoursGraphe->colonne <= j &&
+                            parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur > j) {
+                            eceCity->tabCase[i][j].Etat = VIDE;
+                        }
+                    }
+                }
+                if (eceCity->graphe->batiment == CHATEAU_EAU) {
+                    eceCity->nbChateauEau--;
+                }
+                if (parcoursGraphe == eceCity->graphe) {
+                    eceCity->graphe = eceCity->graphe->next;
+                }
+                else {
+                    parcoursGraphe2 = eceCity->graphe;
+                    while (parcoursGraphe2->next != parcoursGraphe){
+                        parcoursGraphe2 = parcoursGraphe2->next;
+                    }
+                    parcoursGraphe2->next = parcoursGraphe2->next->next;
+                }
+                eceCity->nbSommetGraphe--;
+                repartitionEau(eceCity);
+            }
+            parcoursGraphe = parcoursGraphe->next;
+        }
+    }
 }
 
 void Upgrade (ECE_City * eceCity) {
-    if (eceCity->CapiCommu == COMMU) {
+    if (eceCity->modeJeu == COMMU) {
         upgradeBatimentCOMMUNISTE(eceCity);
+        downgradeBatimentCOMMUNISTE(eceCity);
     }
-    if (eceCity->CapiCommu == CAPI) {
+    if (eceCity->modeJeu == CAPI) {
         upgradeBatimentCOMMUNISTE(eceCity);
+        downgradeBatimentCOMMUNISTE(eceCity);
+    }
+}
+
+void poserDetruireBatiment (ECE_City * eceCity) {
+    if (eceCity->etage == JEU) {
+        poserBatiment(eceCity);
+    }
+    if (eceCity->etage == DESTRUCTION) {
+        detruireBatiment(eceCity);
     }
 }
 
@@ -323,11 +436,28 @@ void fonctionJeu (ECE_City * eceCity) {
 
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 
-    poserBatiment(eceCity);
+    poserDetruireBatiment(eceCity);
 
     detectionEtatPlacement(eceCity);
 
     affichageComplet (eceCity);
+}
+void modeJeu ( ECE_City* eceCity){
+    eceCity->souris.pos = getPosMouse(eceCity);
+    affichage_mode(eceCity);
+
+    if((eceCity->image.bouton_commu.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.bouton_commu.x2 )&& ( eceCity->image.bouton_commu.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.bouton_commu.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->modeJeu = COMMU;
+        eceCity->currentJeu = JEUMENU;
+    }
+    if((eceCity->image.bouton_capi.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.bouton_capi.x2 )&& ( eceCity->image.bouton_capi.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.bouton_capi.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->modeJeu = CAPI;
+        eceCity->currentJeu = JEUMENU;
+    }
+    if((eceCity->image.tabBoutonMenu[BOUTON_QUITTER].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonMenu[BOUTON_QUITTER].x2 )&& ( eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->currentJeu = QUITTER;
+    }
+
 }
 void menu(ECE_City *eceCity){
 
@@ -336,7 +466,7 @@ void menu(ECE_City *eceCity){
 
     for (int i = BOUTON_1; i <= BOUTON_QUITTER; ++i) {
         if ((eceCity->image.tabBoutonMenu[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonMenu[i].x2 )&& ( eceCity->image.tabBoutonMenu[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonMenu[i].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
-            eceCity->currentJeu= i==BOUTON_1?JEUMENU:i==BOUTON_2?CHARGER:i==BOUTON_3?REGLE:QUITTER;
+            eceCity->currentJeu = i==BOUTON_1?MODEJEU:i==BOUTON_2?CHARGER:i==BOUTON_3?REGLE:QUITTER;
         }
     }
 
@@ -353,8 +483,10 @@ void fonction_principale(ECE_City * eceCity){
             case MENU:
                 menu(eceCity);
                 break;
+            case MODEJEU:
+                modeJeu(eceCity);
+                break;
             case JEUMENU:
-
                 fonctionJeu(eceCity);
                 break;
             case CHARGER:
@@ -371,10 +503,11 @@ void fonction_principale(ECE_City * eceCity){
             eceCity->end = true;
         }
     }
+    //sauvegarde(eceCity);
     unloadImages(eceCity);
 }
 
-void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
+/*void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
 
 
 
@@ -419,4 +552,4 @@ void Eau(ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
             parcourGraphe->tabAdjacent[parcourGraphe->nbAdjacent-1] = ajoutGraphe->id;
         }
     }
-}
+}*/

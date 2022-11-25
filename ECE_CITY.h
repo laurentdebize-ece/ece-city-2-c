@@ -16,6 +16,7 @@
 #define NB_IMAGE_BAT 50
 #define NB_IMAGE_ROUTE 11
 #define NB_IMAGE_MENU 8
+#define NB_IMAGE_JEU 4
 
 #define POS_ROUTE_X 1
 #define POS_ROUTE_Y 14
@@ -27,11 +28,12 @@
 #define POS_GRATTE_CIEL 238
 
 enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
-enum{MENU, JEUMENU, CHARGER, REGLE, QUITTER};
+enum{MENU, MODEJEU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
 enum{CAPI, COMMU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEHAUT,ROUTEVIRAGEGAUCHE,ROUTEVIRAGEBAS, ROUTETRIPLEBASDROITE, ROUTETRIPLEBASGAUCHE, ROUTETRIPLE, ROUTETRIPLEHAUTDROITE, ROUTECROISEMENT};
 enum{BOUTON_1, BOUTON_2, BOUTON_3, BOUTON_QUITTER, BOUTON_1_GRIS, BOUTON_2_GRIS, BOUTON_3_GRIS, BOUTON_QUITTER_GRIS,NB_BOUTON_MENU = 4};
+enum{FOND_COMMU, FOND_COMMU_NUIT, FOND_CAPI, FOND_CAPI_NUIT};
 
 typedef struct TIME{
     int frames;
@@ -72,17 +74,27 @@ typedef struct batiment {
 }BatimentType;
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
+typedef struct {
+    float x1;
+    float x2;
+    float y1;
+    float y2;
+}Bouton;
 
 
 typedef struct image{
     int varTabImageBat;
+    Bouton bouton_commu;
+    Bouton bouton_capi;
     Texture2D image_menu ;
+    Texture2D image_bonhomme;
     Texture2D image_fond ;
+    Texture2D image_choix;
     Texture2D image_fond_nuit;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
-
+    Texture2D tabImageJeu[NB_IMAGE_JEU];
 }IMAGE;
 
 typedef struct liste{
@@ -96,12 +108,13 @@ typedef struct Sommet{
     int colonne;
     int batiment;
     int nbAdjacent;
-    int * tabAdjacent;
+    Liste * tabAdjacent;
     int nbUpgrade;
     bool poser;
+    bool detruire;
     int consoEau;
     bool decouverteBFS;
-    int idChateauEau [NB_BAT];
+    int idChateauEau [NB_IMAGE_BAT];
     int nbChateauEau;
     int reserveChateauEau;
     struct Sommet * next;
@@ -132,9 +145,10 @@ typedef struct ece_city{
     toUpgrade upgrade;
     bool end;
     int eceFlouz;
-    int CapiCommu;
+    int impots;
     int nbChateauEau;
     int nbHabitant;
+    int modeJeu;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

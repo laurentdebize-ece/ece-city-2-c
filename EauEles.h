@@ -3,7 +3,7 @@
 
 #include "ECE_CITY.h"
 
-void ajoutFilAttente (Liste ** filAttente, int id);
+void ajoutListe (Liste ** filAttente, int id);
 void nextFilAttente (Liste ** filAttente);
 void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau, int idChateau);
 void affichageEau (ECE_City * eceCity, Color color);

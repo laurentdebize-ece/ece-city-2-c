@@ -9,6 +9,11 @@ unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int
     return 0;
 }
 
+void affichage_mode(ECE_City * eceCity){
+    BeginDrawing();
+    DrawTexture(eceCity->image.image_choix,0,0,WHITE);
+    EndDrawing();
+}
 void affichage_menu(ECE_City eceCity){
   BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -257,6 +262,26 @@ void affichageCaseSelectionne (ECE_City * eceCity) {
     }
 }
 
+void affichageCaseDestruction (ECE_City * eceCity) {
+    Sommet  * parcoursGraphe = eceCity->graphe;
+    while (parcoursGraphe != NULL){
+        if (parcoursGraphe->detruire == true) {
+            for (int i = 0; i < NB_LIGNE; ++i) {
+                for (int j = 0; j < NB_COLONNE; ++j) {
+                    if (parcoursGraphe->ligne <= i &&
+                        parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur > i &&
+                        parcoursGraphe->colonne <= j &&
+                        parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur > j) {
+                        affichageCase(eceCity, i, j, RED);
+                    }
+                }
+            }
+        }
+
+        parcoursGraphe = parcoursGraphe->next;
+    }
+}
+
 void affichageElec (ECE_City * eceCity, Color color) {
     affichageEau(eceCity, color);
 }
@@ -289,14 +314,30 @@ void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
-    if(eceCity->nuit==1){
-        DrawTexture(eceCity->image.image_fond_nuit,0,0,WHITE);
+    switch (eceCity->modeJeu) {
+        case COMMU:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU],0,0,WHITE);
+            }
+            break;
+        case CAPI:
+            if(eceCity->nuit==1){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI_NUIT],0,0,WHITE);
+            }
+            else if(eceCity->nuit==0){
+                DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI],0,0,WHITE);
+            }
     }
-    else if(eceCity->nuit==0){
-        DrawTexture(eceCity->image.image_fond,0,0,WHITE);
-    }
+
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
+    if (eceCity->etage == DESTRUCTION) {
+        affichageRoutePoser(eceCity);
+        affichageCaseDestruction(eceCity);
+    }
     if (eceCity->etage == JEU && eceCity->EtatPlacement < ROUTE) {
         affichageCaseSelectionne(eceCity);
         affichageEtatCase(eceCity);
@@ -321,6 +362,7 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
+    DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

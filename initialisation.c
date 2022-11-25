@@ -15,8 +15,7 @@ void initECECity (ECE_City * eceCity) {
     eceCity->etage = JEU;
     eceCity->upgrade.Upgrade = -1;
     eceCity->upgrade.upgradeEnCours = 0;
-    eceCity->currentJeu = JEUMENU;
-    eceCity->CapiCommu = COMMU;
+    eceCity->currentJeu = MENU;
     eceCity->t.speedTime = 1;
     eceCity->end = false;
     eceCity->nuit = 0;
@@ -150,11 +149,24 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y1 = 1004;
     eceCity->image.tabBoutonMenu[BOUTON_QUITTER].x2 = 1880;
     eceCity->image.tabBoutonMenu[BOUTON_QUITTER].y2 = 1044;
+    eceCity->image.bouton_capi.x1 = 1045;
+    eceCity->image.bouton_capi.y1 = 250;
+    eceCity->image.bouton_capi.x2 = 1715;
+    eceCity->image.bouton_capi.y2 = 932;
+    eceCity->image.bouton_commu.x1 = 185;
+    eceCity->image.bouton_commu.y1 = 250;
+    eceCity->image.bouton_commu.x2 = 855;
+    eceCity->image.bouton_commu.y2 = 932;
 }
 
 void loadImages(ECE_City * eceCity){
     eceCity->image.image_menu = LoadTexture("../Images/ACCEUIL.png");
-    eceCity->image.image_fond = LoadTexture("../Images/FOND.png");
+    eceCity->image.image_bonhomme = LoadTexture("../Images/BONHOMME.png");
+    eceCity->image.tabImageJeu[FOND_COMMU]= LoadTexture("../Images/FOND.png");
+    eceCity->image.tabImageJeu[FOND_COMMU_NUIT] = LoadTexture("../Images/FOND_NUIT.png");
+    eceCity->image.tabImageJeu[FOND_CAPI] = LoadTexture("../Images/FONDCAPITALISTE.png");
+    eceCity->image.tabImageJeu[FOND_CAPI_NUIT] = LoadTexture("../Images/FONDNUITCAPITALISTE.png");
+    eceCity->image.image_choix = LoadTexture("../Images/CHOIX.png");
     eceCity->image.tabBoutonMenu[BOUTON_1] = LoadTexture("../Images/Boutons/12.png");
     eceCity->image.tabBoutonMenu[BOUTON_2] = LoadTexture("../Images/Boutons/8.png");
     eceCity->image.tabBoutonMenu[BOUTON_3] = LoadTexture("../Images/Boutons/6.png");
@@ -179,8 +191,7 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../Images/Batiments/JOUR/MAISONOK.png");
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/JOUR/IMMEUBLEOK.png");
     eceCity->image.tabImageBat[GRATTE_CIEL-2] = LoadTexture("../Images/Batiments/JOUR/GRATTECIELOK.png");
-    eceCity->image.tabImageBat[CHATEAU_EAU-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU.png");
-    eceCity->image.image_fond_nuit = LoadTexture("../Images/TESTFONDNUIT.png");
+    eceCity->image.tabImageBat[CHATEAU_EAU-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU_SENS1.png");
     eceCity->image.tabImageBat[TERRAIN_VAGUE_NUIT] = LoadTexture("../Images/Batiments/NUIT/TERRAINVAGUENUIT.png");
     eceCity->image.tabImageBat[CABANE_NUIT] = LoadTexture("../Images/Batiments/NUIT/CABANENUIT.png");
     eceCity->image.tabImageBat[MAISON_NUIT] = LoadTexture("../Images/Batiments/NUIT/MAISONNUIT.png");
@@ -192,8 +203,8 @@ void loadImages(ECE_City * eceCity){
 
 void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_menu);
-    UnloadTexture(eceCity->image.image_fond);
-    UnloadTexture(eceCity->image.image_fond_nuit);
+    UnloadTexture(eceCity->image.image_bonhomme);
+    UnloadTexture(eceCity->image.image_choix);
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }
@@ -202,5 +213,8 @@ void unloadImages(ECE_City * eceCity){
     }
     for (int i = 0; i < NB_IMAGE_BAT; ++i) {
         UnloadTexture(eceCity->image.tabImageBat[i]);
+    }
+    for (int i = 0; i < NB_IMAGE_JEU; ++i) {
+        UnloadTexture(eceCity->image.tabImageJeu[i]);
     }
 }

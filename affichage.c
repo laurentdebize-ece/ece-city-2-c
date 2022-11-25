@@ -309,6 +309,9 @@ void affichageRoutePoser (ECE_City * eceCity) {
     }
 }
 
+void affichageBouton(ECE_City * eceCity){
+    
+}
 
 void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();

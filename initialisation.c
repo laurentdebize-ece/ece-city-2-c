@@ -157,6 +157,10 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.bouton_commu.y1 = 250;
     eceCity->image.bouton_commu.x2 = 855;
     eceCity->image.bouton_commu.y2 = 932;
+    eceCity->image.image_icone.x1 = 1800;
+    eceCity->image.image_icone.y1 = 950;
+    eceCity->image.image_icone.x2 = 1950;
+    eceCity->image.image_icone.y2 = 1000;
 }
 
 void loadImages(ECE_City * eceCity){
@@ -205,6 +209,7 @@ void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_menu);
     UnloadTexture(eceCity->image.image_bonhomme);
     UnloadTexture(eceCity->image.image_choix);
+    UnloadTexture(eceCity->image.image_icone);
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }

@@ -2,6 +2,7 @@
 #define ECE_CITY_2_C_AFFICHAGE_H
 
 #include "ECE_CITY.h"
+#include "jeu.h"
 #include "test.h"
 
 unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur);

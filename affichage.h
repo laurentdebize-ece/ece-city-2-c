@@ -5,6 +5,7 @@
 #include "jeu.h"
 #include "test.h"
 
+void afficherBoiteOutils(ECE_City *eceCity);
 unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur);
 void affichage_mode(ECE_City * eceCity);
 void affichageBouton(ECE_City * ece_city);

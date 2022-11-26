@@ -12,6 +12,7 @@ unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int
 void affichage_mode(ECE_City * eceCity){
     BeginDrawing();
     DrawTexture(eceCity->image.image_choix,0,0,WHITE);
+    DrawTexture(eceCity->image.tabBoutonMenu[BOUTON_QUITTER],0,0,WHITE);
     EndDrawing();
 }
 void affichage_menu(ECE_City eceCity){
@@ -308,17 +309,19 @@ void affichageRoutePoser (ECE_City * eceCity) {
         }
     }
 }
+void afficherBoiteOutils(ECE_City *eceCity){
+    if(eceCity->image.boite_outils.perm || eceCity->image.boite_outils.temp){
+        DrawTexture(eceCity->image.tabImageJeu[BOITE_OUTILS],0,0,WHITE);
+        for (int i = 0; i < NB_BOUTON_BOS ; ++i) {
+            if(eceCity->image.tabBoutonBOS[i].perm || eceCity->image.tabBoutonBOS[i].temp){
+                DrawTexture(eceCity->image.tabImageJeu[i+5],0,0,WHITE);
+            }
+        }
+    }
 
-void affichageBouton(ECE_City * eceCity) {
-    BeginDrawing();
 
-    DrawTexture(eceCity->image.eau, 1000,800,GRAY);
-    DrawTexture(eceCity->image.elec,1000,750,GRAY);
-    DrawTexture(eceCity->image.pompier,1000,600,GRAY);
-    DrawTexture(eceCity->image.construction,1000,500,GRAY);
-
-    EndDrawing();
 }
+
 
 void affichageComplet (ECE_City * eceCity) {
     BeginDrawing();
@@ -328,7 +331,6 @@ void affichageComplet (ECE_City * eceCity) {
         case COMMU:
             if(eceCity->nuit==1){
                 DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU_NUIT],0,0,WHITE);
-                affichageBouton(eceCity);
             }
             else if(eceCity->nuit==0){
                 DrawTexture(eceCity->image.tabImageJeu[FOND_COMMU],0,0,WHITE);
@@ -374,6 +376,7 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText("Route --> R", 12, 300, 20, BLACK);
     DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
     DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
+    afficherBoiteOutils(eceCity);
 
     affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();

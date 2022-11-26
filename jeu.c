@@ -6,10 +6,41 @@ void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
         eceCity->impots =  (eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax)* 10;
         eceCity->eceFlouz = eceCity->eceFlouz + eceCity->impots;
     }
-
-
 }
 
+void boiteOutils(ECE_City *eceCity){
+    eceCity->souris.pos = getPosMouse(eceCity);
+    eceCity->image.boite_outils.temp = false;
+    if((eceCity->image.boite_outils.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.boite_outils.x2 )&& ( eceCity->image.boite_outils.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.boite_outils.y2  )){
+        eceCity->image.boite_outils.temp = true;
+    }
+    if(eceCity->image.boite_outils.perm==false&&(eceCity->image.boite_outils.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.boite_outils.x2 )&& ( eceCity->image.boite_outils.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.boite_outils.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->image.boite_outils.perm = true;
+    }
+    else if(eceCity->image.boite_outils.perm&&(eceCity->image.boite_outils.x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.boite_outils.x2 )&& ( eceCity->image.boite_outils.y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.boite_outils.y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        eceCity->image.boite_outils.perm = false;
+    }
+    if(eceCity->image.boite_outils.perm || eceCity->image.boite_outils.temp) {
+        for (int i = 0; i < NB_BOUTON_BOS; ++i) {
+            eceCity->image.tabBoutonBOS[i].temp = false;
+            if((eceCity->image.tabBoutonBOS[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[i].x2 )&& ( eceCity->image.tabBoutonBOS[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[i].y2  )){
+                eceCity->image.tabBoutonBOS[i].temp = true;
+            }
+            if(eceCity->image.tabBoutonBOS[i].perm==false&&(eceCity->image.tabBoutonBOS[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[i].x2 )&& ( eceCity->image.tabBoutonBOS[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[i].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+                eceCity->image.tabBoutonBOS[i].perm = true;
+                if(eceCity->image.tabBoutonBOS[i].clique==0){
+                    eceCity->image.tabBoutonBOS[i].clique = 1;
+                }
+            }
+            else if(eceCity->image.tabBoutonBOS[i].perm&&(eceCity->image.tabBoutonBOS[i].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[i].x2 )&& ( eceCity->image.tabBoutonBOS[i].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[i].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+                eceCity->image.tabBoutonBOS[i].perm = false;
+                if(eceCity->image.tabBoutonBOS[i].clique==2){
+                    eceCity->image.tabBoutonBOS[i].clique = 3;
+                }
+            }
+        }
+    }
+}
 
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
     if ((eceCity->tabCase[ligne-1][colonne].Etat == ROUTE || eceCity->tabCase[ligne+1][colonne].Etat == ROUTE) &&
@@ -152,12 +183,29 @@ Vector2 getPosMouse (ECE_City * eceCity) {
 }
 
 void detectEtat (ECE_City * eceCity, int key, int plac) {
-    if (IsKeyPressed(key)) {
+    for (int i=0; i < NB_BOUTON_BOS ; ++i) {
+        if(key == eceCity->image.tabBoutonBOS[i].equivalenceClavier){
+            eceCity->bouton.equivalenceClavier = i;
+        }
+    }
+    if (IsKeyPressed(key)||eceCity->image.tabBoutonBOS[eceCity->bouton.equivalenceClavier].clique==1) {
         if (eceCity->EtatPlacement == plac) {
             eceCity->EtatPlacement = VIDE;
         }
-        else
+        else{
             eceCity->EtatPlacement = plac;
+            eceCity->image.tabBoutonBOS[eceCity->bouton.equivalenceClavier].clique = 2;
+        }
+    }
+    else if (eceCity->image.tabBoutonBOS[eceCity->bouton.equivalenceClavier].clique == 3){
+        eceCity->EtatPlacement = VIDE;
+        eceCity->image.tabBoutonBOS[eceCity->bouton.equivalenceClavier].clique = 0;
+    }
+
+    for (int i = 0; i < NB_BOUTON_BOS; ++i) {
+        if(eceCity->image.tabBoutonBOS[eceCity->bouton.equivalenceClavier].perm == false){
+            eceCity->bouton.equivalenceClavier = 0;
+        }
     }
 }
 
@@ -206,6 +254,8 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     detectEtat(eceCity, KEY_P, CASERNE_POMPIER);
     detectEtage(eceCity);
     modeNuit(eceCity);
+
+
 }
 
 bool detectionRouteBatiment (ECE_City * eceCity) {
@@ -432,8 +482,8 @@ void poserDetruireBatiment (ECE_City * eceCity) {
 
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
+    boiteOutils(eceCity);
     Upgrade(eceCity);
-
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 
     poserDetruireBatiment(eceCity);
@@ -473,6 +523,14 @@ void menu(ECE_City *eceCity){
 }
 void fonction_principale(ECE_City * eceCity){
 
+
+
+
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].equivalenceClavier=KEY_R;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].equivalenceClavier=KEY_T;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].equivalenceClavier=KEY_E;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].equivalenceClavier=KEY_H;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].equivalenceClavier=KEY_P;
 
 
     while (!eceCity->end){

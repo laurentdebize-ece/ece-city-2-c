@@ -5,7 +5,6 @@
 
 
 void initECECity (ECE_City * eceCity);
-
 void initBatiment (ECE_City * eceCity, char* fichier);
 void initEtatCase (ECE_City * eceCity);
 void initCase0 (ECE_City * ece_city);

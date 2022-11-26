@@ -16,7 +16,10 @@
 #define NB_IMAGE_BAT 50
 #define NB_IMAGE_ROUTE 11
 #define NB_IMAGE_MENU 8
-#define NB_IMAGE_JEU 4
+#define NB_IMAGE_ICONE 5
+#define NB_IMAGE_JEU 12
+#define NB_BOUTON_BOS 7
+
 
 #define POS_ROUTE_X 1
 #define POS_ROUTE_Y 14
@@ -33,7 +36,8 @@ enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
 enum{CAPI, COMMU};
 enum{ROUTEHAUTBAS, ROUTEBASHAUT,ROUTEVIRAGEDROITE,ROUTEVIRAGEHAUT,ROUTEVIRAGEGAUCHE,ROUTEVIRAGEBAS, ROUTETRIPLEBASDROITE, ROUTETRIPLEBASGAUCHE, ROUTETRIPLE, ROUTETRIPLEHAUTDROITE, ROUTECROISEMENT};
 enum{BOUTON_1, BOUTON_2, BOUTON_3, BOUTON_QUITTER, BOUTON_1_GRIS, BOUTON_2_GRIS, BOUTON_3_GRIS, BOUTON_QUITTER_GRIS,NB_BOUTON_MENU = 4};
-enum{FOND_COMMU, FOND_COMMU_NUIT, FOND_CAPI, FOND_CAPI_NUIT};
+enum{FOND_COMMU, FOND_COMMU_NUIT, FOND_CAPI, FOND_CAPI_NUIT, BOITE_OUTILS, BOS_DESTRUCTION, BOS_ROUTE, BOS_BAT, BOS_MAISON,BOS_EAU,BOS_POMPIER,BOS_ELEC};
+
 
 typedef struct TIME{
     int frames;
@@ -79,6 +83,10 @@ typedef struct {
     float x2;
     float y1;
     float y2;
+    bool perm;
+    bool temp;
+    int clique;
+    int equivalenceClavier;
 }Bouton;
 
 
@@ -86,20 +94,15 @@ typedef struct image{
     int varTabImageBat;
     Bouton bouton_commu;
     Bouton bouton_capi;
+    Bouton boite_outils;
+    Bouton tabBoutonBOS[NB_BOUTON_BOS];
     Texture2D image_menu ;
     Texture2D image_bonhomme;
-    Texture2D image_fond ;
     Texture2D image_choix;
-    Texture2D image_fond_nuit;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
     Texture2D tabImageJeu[NB_IMAGE_JEU];
-    Texture2D iconebo ;
-    Texture2D eau;
-    Texture2D elec;
-    Texture2D pompier;
-    Texture2D construction;
 }IMAGE;
 
 typedef struct liste{
@@ -138,6 +141,7 @@ typedef struct {
 }toUpgrade;
 
 
+
 typedef struct ece_city{
     float coefTab;
     Case tabCase [NB_LIGNE][NB_COLONNE];
@@ -146,6 +150,7 @@ typedef struct ece_city{
     TIME t;
     int EtatPlacement;
     IMAGE image;
+    Bouton bouton;
     int currentJeu;
     Sommet * graphe;
     int nbSommetGraphe;
@@ -160,6 +165,7 @@ typedef struct ece_city{
     int nbCentral;
     int nbHabitant;
     int modeJeu;
+    int key;
 }ECE_City;
 
 #endif //ECE_CITY_2_C_ECE_CITY_H

@@ -20,10 +20,20 @@ void initECECity (ECE_City * eceCity) {
     eceCity->end = false;
     eceCity->nuit = 0;
     eceCity->image.varTabImageBat = 0;
+    eceCity->image.boite_outils.temp = false;
+    eceCity->image.boite_outils.perm = false;
+
+    for (int i = 0; i < NB_BOUTON_BOS; ++i) {
+        eceCity->image.tabBoutonBOS[i].temp = false;
+        eceCity->image.tabBoutonBOS[i].perm = false;
+        eceCity->image.tabBoutonBOS[i].clique= 0;
+    }
+    eceCity->key;
     initGraphe(eceCity);
     loadImages(eceCity);
     initBouton(eceCity);
 }
+
 
 void initSouris (ECE_City * eceCity) {
     eceCity->souris.pos.x = 0;
@@ -157,38 +167,58 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.bouton_commu.y1 = 250;
     eceCity->image.bouton_commu.x2 = 855;
     eceCity->image.bouton_commu.y2 = 932;
-    eceCity->image.elec.x1 = 950;
-    eceCity->image.elec.y1 = 900;
-    eceCity->image.elec.x2 = 930 ;
-    eceCity->image.elec.y2 = 860;
-    eceCity->image.eau.x1 = 1000;
-    eceCity->image.eau.y1 = 980;
-    eceCity->image.eau.x2 = 950;
-    eceCity->image.eau.y2 = 880;
-    eceCity->image.pompier.x1 = 870;
-    eceCity->image.pompier.y1 = 850 ;
-    eceCity->image.pompier.x2 = 950 ;
-    eceCity->image.pompier.y2 = 870;
-    eceCity->image.construction.x1 = 950;
-    eceCity->image.construction.y1 = 880;
-    eceCity->image.construction.x2 = 950;
-    eceCity->image.construction.y2 = 870;
+    eceCity->image.boite_outils.x1 = 50;
+    eceCity->image.boite_outils.y1 = 700;
+    eceCity->image.boite_outils.x2 = 260;
+    eceCity->image.boite_outils.y2 = 1010;
+    eceCity->image.tabBoutonBOS[BOS_DESTRUCTION-5].x1 = 282;
+    eceCity->image.tabBoutonBOS[BOS_DESTRUCTION-5].y1 = 725;
+    eceCity->image.tabBoutonBOS[BOS_DESTRUCTION-5].x2 = 372;
+    eceCity->image.tabBoutonBOS[BOS_DESTRUCTION-5].y2 = 815;
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].x1 = 62;
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].y1 = 635;
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].x2 = 152;
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].y2 = 725;
+    eceCity->image.tabBoutonBOS[BOS_BAT-5].x1 = 192;
+    eceCity->image.tabBoutonBOS[BOS_BAT-5].y1 = 636;
+    eceCity->image.tabBoutonBOS[BOS_BAT-5].x2 = 277;
+    eceCity->image.tabBoutonBOS[BOS_BAT-5].y2 = 721;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].x1 = 298;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].y1 = 648;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].x2 = 353;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].y2 = 703;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].x1 = 278 ;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].y1 = 579;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].x2 = 333;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].y2 = 634;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].x1 = 208;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].y1 = 552;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].x2 = 263;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].y2 = 607;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].x1 = 144;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].y1 = 576;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].x2 = 199;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].y2 = 631;
 }
+
 
 
 
 void loadImages(ECE_City * eceCity){
     eceCity->image.image_menu = LoadTexture("../Images/ACCEUIL.png");
     eceCity->image.image_bonhomme = LoadTexture("../Images/BONHOMME.png");
-    eceCity->image.iconebo = LoadTexture(".../Images/BoutonsIcones/iconebo.png");
-    eceCity->image.eau = LoadTexture(".../Images/BoutonsIcones/eau.png");
-    eceCity->image.elec = LoadTexture(".../Images/BoutonsIcones/elec.png");
-    eceCity->image.pompier = LoadTexture(".../Images/BoutonsIcones/pompier.png");
-    eceCity->image.construction = LoadTexture(".../Images/BoutonIcones/constructions.png");
     eceCity->image.tabImageJeu[FOND_COMMU]= LoadTexture("../Images/FOND.png");
     eceCity->image.tabImageJeu[FOND_COMMU_NUIT] = LoadTexture("../Images/FOND_NUIT.png");
     eceCity->image.tabImageJeu[FOND_CAPI] = LoadTexture("../Images/FONDCAPITALISTE.png");
     eceCity->image.tabImageJeu[FOND_CAPI_NUIT] = LoadTexture("../Images/FONDNUITCAPITALISTE.png");
+    eceCity->image.tabImageJeu[BOITE_OUTILS] = LoadTexture("../Images/bouton boite outils/BOITEOUTILS.png");
+    eceCity->image.tabImageJeu[BOS_BAT] = LoadTexture("../Images/bouton boite outils/BOS_BAT.png");
+    eceCity->image.tabImageJeu[BOS_ELEC] = LoadTexture("../Images/bouton boite outils/BOS_ELEC.png");
+    eceCity->image.tabImageJeu[BOS_EAU] = LoadTexture("../Images/bouton boite outils/BOS_EAU.png");
+    eceCity->image.tabImageJeu[BOS_DESTRUCTION] = LoadTexture("../Images/bouton boite outils/BOS_DESTRUCTION.png");
+    eceCity->image.tabImageJeu[BOS_MAISON] = LoadTexture("../Images/bouton boite outils/BOS_MAISON.png");
+    eceCity->image.tabImageJeu[BOS_POMPIER] = LoadTexture("../Images/bouton boite outils/BOS_POMPIER.png");
+    eceCity->image.tabImageJeu[BOS_ROUTE] = LoadTexture("../Images/bouton boite outils/BOS_ROUTE.png");
     eceCity->image.image_choix = LoadTexture("../Images/CHOIX.png");
     eceCity->image.tabBoutonMenu[BOUTON_1] = LoadTexture("../Images/Boutons/12.png");
     eceCity->image.tabBoutonMenu[BOUTON_2] = LoadTexture("../Images/Boutons/8.png");
@@ -220,20 +250,13 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageBat[MAISON_NUIT] = LoadTexture("../Images/Batiments/NUIT/MAISONNUIT.png");
     eceCity->image.tabImageBat[IMMEUBLE_NUIT] = LoadTexture("../Images/Batiments/NUIT/IMMEUBLENUIT.png");
     eceCity->image.tabImageBat[GRATTE_CIEL_NUIT] = LoadTexture("../Images/Batiments/NUIT/GRATTECIELNUIT.png");
-
-
+    eceCity->image.tabImageBat[CENTRALE_ELECTRIQUE] = LoadTexture("../Images/Batiments/CENTRALE.png");
     }
 
 void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_menu);
     UnloadTexture(eceCity->image.image_bonhomme);
     UnloadTexture(eceCity->image.image_choix);
-    UnloadTexture(eceCity->image.iconebo);
-    UnloadTexture(eceCity->image.eau);
-    UnloadTexture(eceCity->image.elec);
-    UnloadTexture(eceCity->image.pompier);
-    UnloadTexture(eceCity->image.construction);
-
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }

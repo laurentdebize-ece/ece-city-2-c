@@ -392,6 +392,7 @@ void poserBatiment(ECE_City * eceCity) {
     }
 }
 
+//evolution des batiments
 void upgradeBatiment (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){
         Sommet * parcoursGraphe = eceCity->graphe;
@@ -412,6 +413,7 @@ void upgradeBatiment (ECE_City * eceCity) {
         }
     }
 }
+
 
 void upgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){

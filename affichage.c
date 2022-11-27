@@ -375,7 +375,7 @@ void affichageComplet (ECE_City * eceCity) {
         DrawText(TextFormat(" +%d", eceCity->impots), 1550, 148, 30, BLUE);
     }
     afficherBoiteOutils(eceCity);
-
+    DrawTexture(eceCity->image.tabImageBat[CASERNE_POMPIER-2], 500, 500, WHITE);
     affichage_temps(temps( eceCity));
     EndDrawing();
 }

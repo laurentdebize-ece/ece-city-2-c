@@ -47,6 +47,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         eceCity->graphe->nbUpgrade =  eceCity->upgrade.upgradeEnCours;
         eceCity->graphe->tabAdjacent = NULL;
         eceCity->graphe->nbAdjacent = 0;
+        eceCity->graphe->feu = 0;
     }
     else {
         Sommet * ajoutGraphe = eceCity->graphe;
@@ -66,6 +67,7 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         ajoutGraphe->next->poser = NULL;
         ajoutGraphe->next->detruire = false;
         ajoutGraphe->next->nbAdjacent = 0;
+        ajoutGraphe->next->feu = 0;
         ajoutGraphe->next->consoEau = 0;
         ajoutGraphe->next->reserveChateauEau = 0;
         ajoutGraphe->next->dejaEcrit = false;

@@ -663,7 +663,7 @@ Detailed changes:
 [build] REVIEWED: VS2017 64bit compilation issues, by @spec-chum
 [build] REVIEWED: Multiple fixes on projects building, by @ChrisDill, @JuDelCo, @electronstudio
 [core] ADDED: Support touch/mouse indistinctly
-[core] ADDED: FLAG_WINDOW_ALWAYS_RUN to avoid pause on minimize
+[core] ADDED: FLAG_WINDOW_ALWAYS_RUN to avoid proba on minimize
 [core] ADDED: Config flag SUPPORT_HALFBUSY_WAIT_LOOP
 [core] ADDED: RPI mouse cursor point support on native mode
 [core] ADDED: GetWorldToScreen2D()- Get screen space position for a 2d camera world space position, by @arvyy
@@ -1598,7 +1598,7 @@ NOTE:
 [audio] Added support for OGG files as Sound
 [audio] PlayMusicStream() - Added, open a new music stream and play it
 [audio] StopMusicStream() - Added, stop music stream playing and close stream
-[audio] PauseMusicStream() - Added, pause music stream playing
+[audio] PauseMusicStream() - Added, proba music stream playing
 [audio] MusicIsPlaying() - Added, to check if music is playing
 [audio] SetMusicVolume() - Added, set volume for music
 [audio] GetMusicTimeLength() - Added, get current music time length (in seconds)

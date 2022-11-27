@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #define FPS 60
 #define NB_LIGNE 35
@@ -30,7 +31,7 @@
 #define POS_IMMEUBLE 140
 #define POS_GRATTE_CIEL 238
 
-enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
+enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,RUINE, TERRAIN_VAGUE_FEU,CABANE_FEU, MAISON_FEU, IMMEUBLE_FEU, GRATTE_CIEL_FEU, TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
 enum{MENU, MODEJEU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
 enum{CAPI, COMMU};
@@ -75,9 +76,21 @@ typedef struct batiment {
     int nbHabitantMax;
     int prix;
     char* nomBatiment;
+    int feu;
 }BatimentType;
 //structure qui stock les info d'un batiment en general
 // !!!!! pas de chaque batiment posés !!!!!
+
+
+typedef struct incendie{
+
+    int varSeconde;
+    int num;
+    int var;
+    int feu;
+    int max;
+    int proba;
+}Incendie;
 typedef struct {
     float x1;
     float x2;
@@ -99,6 +112,8 @@ typedef struct image{
     Texture2D image_menu ;
     Texture2D image_bonhomme;
     Texture2D image_choix;
+    Texture2D image_flamme;
+    Texture2D image_affichage;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];
     Texture2D tabImageRoute [NB_IMAGE_ROUTE];
@@ -112,6 +127,7 @@ typedef struct liste{
 
 typedef struct Sommet{
     int id;
+    int feu;
     int ligne;
     int colonne;
     int batiment;
@@ -148,6 +164,7 @@ typedef struct ece_city{
     BatimentType batiment [NB_BAT];
     Souris souris;
     TIME t;
+    Incendie incendie;
     int EtatPlacement;
     IMAGE image;
     Bouton bouton;

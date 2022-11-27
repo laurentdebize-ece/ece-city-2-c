@@ -1,6 +1,45 @@
 #include "jeu.h"
 #include "graphe.h"
 
+
+/*
+void incendie(ECE_City*eceCity){
+    temps(eceCity);
+    Sommet * parcoursGraphe = eceCity->graphe;
+    while(parcoursGraphe != NULL) {
+        if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
+            if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
+                eceCity->incendie.proba= rand() %500;
+                if(eceCity->incendie.proba == 1){
+                    eceCity->incendie.feu=1;
+                    parcoursGraphe->feu = 1;
+
+                    for(int i=1; i<=10; i++)
+                    {
+
+                        clock_t goal;
+
+                        goal = (1 * CLOCKS_PER_SEC) + clock();
+
+                        while(goal > clock())
+                        {
+                            while()
+                            ;
+                        }
+
+                    }
+
+                    if(eceCity->incendie.feu==0&&parcoursGraphe->feu == 1){
+                        parcoursGraphe->feu = 0;
+                    }
+                }
+            }
+        }
+        parcoursGraphe = parcoursGraphe->next;
+    }
+}
+ */
+
 void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     if(parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade){
         eceCity->impots =  (eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax)* 10;
@@ -39,6 +78,7 @@ void boiteOutils(ECE_City *eceCity){
                 }
             }
         }
+
     }
 }
 
@@ -377,7 +417,7 @@ void modeNuit(ECE_City * eceCity){
     if(IsKeyPressed(KEY_SPACE)){
         if(eceCity->nuit==0){
             eceCity->nuit = 1;
-            eceCity->image.varTabImageBat = 8;
+            eceCity->image.varTabImageBat = 14;
         }
         else if(eceCity->nuit==1){
             eceCity->nuit = 0;
@@ -489,7 +529,7 @@ void fonctionJeu (ECE_City * eceCity) {
     poserDetruireBatiment(eceCity);
 
     detectionEtatPlacement(eceCity);
-
+//    incendie(eceCity);
     affichageComplet (eceCity);
 }
 void modeJeu ( ECE_City* eceCity){
@@ -523,19 +563,7 @@ void menu(ECE_City *eceCity){
 }
 void fonction_principale(ECE_City * eceCity){
 
-
-
-
-    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].equivalenceClavier=KEY_R;
-    eceCity->image.tabBoutonBOS[BOS_MAISON-5].equivalenceClavier=KEY_T;
-    eceCity->image.tabBoutonBOS[BOS_ELEC-5].equivalenceClavier=KEY_E;
-    eceCity->image.tabBoutonBOS[BOS_EAU-5].equivalenceClavier=KEY_H;
-    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].equivalenceClavier=KEY_P;
-
-
     while (!eceCity->end){
-
-        float f = (float)GetScreenWidth() / (float)GetScreenHeight();
 
         switch (eceCity->currentJeu) {
             case MENU:

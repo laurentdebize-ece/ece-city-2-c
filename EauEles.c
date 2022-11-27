@@ -103,7 +103,7 @@ void BFS_Chateau (ECE_City * eceCity, int idChateau) {
 
 }
 
-void repartitionEau (ECE_City * eceCity) {
+void repartitionEau (ECE_City  * eceCity) {
     Sommet * parcoursGraphe = eceCity->graphe;
     eceCity->nbChateauEau = 0;
     eceCity->nbHabitant = 0;

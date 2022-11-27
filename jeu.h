@@ -8,6 +8,7 @@
 #include "EauEles.h"
 #include "ChargeSauvegarde.h"
 
+void incendie(ECE_City*eceCity);
 void impots( ECE_City * eceCity,Sommet * parcoursGraphe);
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne);
 int positionRoute (int route);

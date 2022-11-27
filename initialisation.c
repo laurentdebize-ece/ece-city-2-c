@@ -28,7 +28,12 @@ void initECECity (ECE_City * eceCity) {
         eceCity->image.tabBoutonBOS[i].perm = false;
         eceCity->image.tabBoutonBOS[i].clique= 0;
     }
-    eceCity->key;
+    eceCity->incendie.varSeconde = 1;
+    eceCity->incendie.num =15;
+    eceCity->incendie.var =0;
+    eceCity->incendie.feu =0;
+    eceCity->incendie.max =0;
+    eceCity->incendie.proba=3;
     initGraphe(eceCity);
     loadImages(eceCity);
     initBouton(eceCity);
@@ -66,7 +71,7 @@ void initBatiment (ECE_City * eceCity, char* fichier){
         fscanf(ifs,"%d", &eceCity->batiment[i].largeur);
         fscanf(ifs,"%d", &eceCity->batiment[i].nbHabitantMax);
         fscanf(ifs,"%d", &eceCity->batiment[i].prix);
-
+        eceCity->batiment[i].feu =0;
         eceCity->batiment[i].nomBatiment = calloc(30, sizeof (char));
         int j = 0;
         char  caractere;
@@ -199,6 +204,11 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].y1 = 576;
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].x2 = 199;
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].y2 = 631;
+    eceCity->image.tabBoutonBOS[BOS_ROUTE-5].equivalenceClavier=KEY_R;
+    eceCity->image.tabBoutonBOS[BOS_MAISON-5].equivalenceClavier=KEY_T;
+    eceCity->image.tabBoutonBOS[BOS_ELEC-5].equivalenceClavier=KEY_E;
+    eceCity->image.tabBoutonBOS[BOS_EAU-5].equivalenceClavier=KEY_H;
+    eceCity->image.tabBoutonBOS[BOS_POMPIER-5].equivalenceClavier=KEY_P;
 }
 
 
@@ -220,6 +230,8 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageJeu[BOS_POMPIER] = LoadTexture("../Images/bouton boite outils/BOS_POMPIER.png");
     eceCity->image.tabImageJeu[BOS_ROUTE] = LoadTexture("../Images/bouton boite outils/BOS_ROUTE.png");
     eceCity->image.image_choix = LoadTexture("../Images/CHOIX.png");
+    eceCity->image.image_flamme = LoadTexture("../Images/FLAMME.png");
+    eceCity->image.image_affichage = LoadTexture("../Images/AFFICHAGE.png");
     eceCity->image.tabBoutonMenu[BOUTON_1] = LoadTexture("../Images/Boutons/12.png");
     eceCity->image.tabBoutonMenu[BOUTON_2] = LoadTexture("../Images/Boutons/8.png");
     eceCity->image.tabBoutonMenu[BOUTON_3] = LoadTexture("../Images/Boutons/6.png");
@@ -245,18 +257,25 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/JOUR/IMMEUBLEOK.png");
     eceCity->image.tabImageBat[GRATTE_CIEL-2] = LoadTexture("../Images/Batiments/JOUR/GRATTECIELOK.png");
     eceCity->image.tabImageBat[CHATEAU_EAU-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU_SENS1.png");
-    eceCity->image.tabImageBat[TERRAIN_VAGUE_NUIT] = LoadTexture("../Images/Batiments/NUIT/TERRAINVAGUENUIT.png");
-    eceCity->image.tabImageBat[CABANE_NUIT] = LoadTexture("../Images/Batiments/NUIT/CABANENUIT.png");
-    eceCity->image.tabImageBat[MAISON_NUIT] = LoadTexture("../Images/Batiments/NUIT/MAISONNUIT.png");
-    eceCity->image.tabImageBat[IMMEUBLE_NUIT] = LoadTexture("../Images/Batiments/NUIT/IMMEUBLENUIT.png");
-    eceCity->image.tabImageBat[GRATTE_CIEL_NUIT] = LoadTexture("../Images/Batiments/NUIT/GRATTECIELNUIT.png");
-    eceCity->image.tabImageBat[CENTRALE_ELECTRIQUE] = LoadTexture("../Images/Batiments/CENTRALE.png");
-    }
+    eceCity->image.tabImageBat[TERRAIN_VAGUE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/TERRAINVAGUENUIT.png");
+    eceCity->image.tabImageBat[CABANE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/CABANENUIT.png");
+    eceCity->image.tabImageBat[MAISON_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/MAISONNUIT.png");
+    eceCity->image.tabImageBat[IMMEUBLE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/IMMEUBLENUIT.png");
+    eceCity->image.tabImageBat[GRATTE_CIEL_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/GRATTECIELNUIT.png");
+    eceCity->image.tabImageBat[CENTRALE_ELECTRIQUE-2] = LoadTexture("../Images/Batiments/CENTRALE.png");
+    eceCity->image.tabImageBat[TERRAIN_VAGUE_FEU-2] = LoadTexture("../Images/Batiments/FEU/TERRAIN_VAGUE_FEU.png");
+    eceCity->image.tabImageBat[CABANE_FEU-2] = LoadTexture("../Images/Batiments/FEU/CABANE_FEU.png");
+    eceCity->image.tabImageBat[MAISON_FEU-2] = LoadTexture("../Images/Batiments/FEU/MAISON_FEU.png");
+    eceCity->image.tabImageBat[IMMEUBLE_FEU-2] = LoadTexture("../Images/Batiments/FEU/IMMEUBLE_FEU.png");
+    eceCity->image.tabImageBat[GRATTE_CIEL_FEU-2] = LoadTexture("../Images/Batiments/FEU/GRATTE_CIEL_FEU.png");
+}
 
 void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_menu);
     UnloadTexture(eceCity->image.image_bonhomme);
     UnloadTexture(eceCity->image.image_choix);
+    UnloadTexture(eceCity->image.image_flamme);
+    UnloadTexture(eceCity->image.image_affichage);
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }

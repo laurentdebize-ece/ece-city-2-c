@@ -1,32 +1,48 @@
 #include "test.h"
 
 
-ECE_City temps(TIME *t, ECE_City * eceCity){
+
+
+
+ECE_City temps( ECE_City * eceCity){
     if (eceCity->t.speedTime > 0) {
         eceCity->upgrade.Upgrade = -1;
-        t->frames++;
-        //TEMPMS REEL
-        if(t->frames==60/eceCity->t.speedTime) {
-            t->secondereel++;
-            eceCity->upgrade.upgradeEnCours++;
-            eceCity->upgrade.Upgrade = eceCity->upgrade.upgradeEnCours;
-            t->secondefictif++;
-            t->frames = 0;
-            if(t->secondereel==60){
-                t->minutereel++;
-                t->secondereel = 0;
-                if(t->minutereel==60){
-                    t->heurereel++;
-                    t->minutereel = 0;
+        eceCity->t.frames++;
+
+        if( eceCity->incendie.num ==0){
+            eceCity->incendie.num = rand()%12;
+        }
+        //TEMPS REEL
+        if(eceCity->t.frames==60/eceCity->t.speedTime) {
+            eceCity->t.secondereel++;
+            if(eceCity->incendie.feu == 1){
+                eceCity->incendie.var++;
+                if(eceCity->incendie.var == 30){
+                    eceCity->incendie.feu = 0;
+                    eceCity->incendie.var=0;
                 }
             }
-            if(t->secondefictif==15){
-                t->mois++;
+            eceCity->upgrade.upgradeEnCours++;
+            eceCity->upgrade.Upgrade = eceCity->upgrade.upgradeEnCours;
+            eceCity->t.secondefictif++;
+            eceCity->t.frames = 0;
+            if(eceCity->t.secondereel==60){
+                eceCity->t.minutereel++;
+                eceCity->t.secondereel = 0;
+                if(eceCity->t.minutereel==60){
+                    eceCity->t.heurereel++;
+                    eceCity->t.minutereel = 0;
+                }
+            }
+
+            if(eceCity->t.secondefictif==15){
+                eceCity->t.mois++;
                 eceCity->upgrade.upgradeEnCours = 0;
-                t->secondefictif = 0;
-                if(t->mois == 12){
-                    t->annee ++;
-                    t->mois =0;
+                eceCity->t.secondefictif = 0;
+                if(eceCity->t.mois == 12){
+                    eceCity->t.annee ++;
+                    eceCity->incendie.varSeconde = 1;
+                    eceCity->t.mois =0;
                 }
             }
         }

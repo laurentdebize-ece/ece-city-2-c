@@ -273,6 +273,8 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
 
 //Detection destrction ou de l'etage (du point de vue)
 void detectEtage (ECE_City * eceCity) {
+    eceCity->souris.pos = getPosMouse(eceCity);
+
     if (IsKeyDown(KEY_Y)) {
         printf ("ok");
     }
@@ -301,7 +303,31 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime++;
         }
     }
+    if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+    if((eceCity->image.tabImageJeu[FOND_CAPI].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
     if (IsKeyPressed(KEY_LEFT)) {
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
+    if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
+    if((eceCity->image.tabImageJeu[FOND_CAPI].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
             eceCity->t.speedTime--;
@@ -322,6 +348,7 @@ void detectEtage (ECE_City * eceCity) {
 //identification des touches a appuyer selon ce que l'on souhaite poser
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
+    getPosMouse(eceCity);
     detectEtat(eceCity, KEY_R, ROUTE);
     detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
     detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);

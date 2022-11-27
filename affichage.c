@@ -377,6 +377,8 @@ void affichageComplet (ECE_City * eceCity) {
         DrawText(TextFormat(" +%d", eceCity->impots), 1550, 148, 30, BLUE);
     }
     afficherBoiteOutils(eceCity);
+
+
     affichage_temps(temps( eceCity));
     EndDrawing();
 }

@@ -2,6 +2,7 @@
 #include "graphe.h"
 
 
+
 // Déclenche des incendies aléatoirement, les incendies sont réglés si il y a une caserne sinon deviennent des ruines
 void incendie(ECE_City*eceCity){
     temps(eceCity);
@@ -10,7 +11,7 @@ void incendie(ECE_City*eceCity){
     while(parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
             if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
-                eceCity->incendie.proba= rand() %500;
+                eceCity->incendie.proba= rand() %2500;
                 if(eceCity->incendie.proba == 1&&parcoursGraphe->feu ==0){
                     eceCity->incendie.feu=1;
                     eceCity->incendie.max=1;
@@ -44,6 +45,31 @@ void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     }
 }
 
+void boutonJEU(ECE_City*eceCity){
+    eceCity->souris.pos = getPosMouse(eceCity);
+
+        eceCity->image.tabBoutonBOS[BOS_PAUSE-5].temp = false;
+        if(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 0&&eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm==false&&(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x2 )&& ( eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm = true;
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique = 1;
+        }
+        if(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 1&&eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm==true&&(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x2 )&& ( eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm = true;
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique = 2;
+        }
+        if(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 2&&eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm==true&&(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x2 )&& ( eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm = true;
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique = 3;
+        }
+        else if(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 3&&eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm&&(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x1 <= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x2 )&& ( eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].perm = false;
+            eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique = 0;
+        }
+
+}
+
+
+//Boite à outils pour selectionner à la souris les foncytionnalités qu'on souhaite
 //Boite à outils pour selectionner à la souris les fonctionnalités qu'on souhaite
 void boiteOutils(ECE_City *eceCity){
     eceCity->souris.pos = getPosMouse(eceCity);
@@ -302,7 +328,10 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime++;
         }
     }
-    /*
+
+
+
+
     if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
         if (eceCity->t.speedTime < 4){
             eceCity->t.frames = 0;
@@ -315,14 +344,28 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime++;
         }
     }
-     */
+
     if (IsKeyPressed(KEY_LEFT)) {
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
             eceCity->t.speedTime--;
         }
     }
-    /*
+
+
+
+    if (IsKeyPressed(KEY_LEFT)||eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 1||eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 3) {
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime=0;
+        }
+    }
+    if(eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 2||eceCity->image.tabBoutonBOS[BOS_PAUSE-5].clique == 0){
+        if (eceCity->t.speedTime == 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime=1;
+        }
+    }
     if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
@@ -335,7 +378,7 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime--;
         }
     }
-     */
+
     if (IsKeyPressed(KEY_O)) {
         if (eceCity->orientation == 0) {
             eceCity->orientation++;
@@ -687,6 +730,7 @@ void poserDetruireBatiment (ECE_City * eceCity) {
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     boiteOutils(eceCity);
+    boutonJEU(eceCity);
     Upgrade(eceCity);
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 

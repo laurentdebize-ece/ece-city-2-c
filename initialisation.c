@@ -44,6 +44,8 @@ void initECECity (ECE_City * eceCity) {
     eceCity->image.tabBoutonBOS[BOS_ELEC-5].equivalenceClavier=KEY_E;
     eceCity->image.tabBoutonBOS[BOS_EAU-5].equivalenceClavier=KEY_H;
     eceCity->image.tabBoutonBOS[BOS_POMPIER-5].equivalenceClavier=KEY_P;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEMOINS-5].equivalenceClavier=KEY_LEFT;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEPLUS-5].equivalenceClavier=KEY_RIGHT;
 }
 
 
@@ -209,6 +211,26 @@ void initBouton(ECE_City * eceCity){
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].y1 = 576;
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].x2 = 199;
     eceCity->image.tabBoutonBOS[BOS_MAISON-5].y2 = 631;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEMOINS-5].x1 = 1635;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEMOINS-5].y1 = 1007;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEMOINS-5].x2 = 1685;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEMOINS-5].y2 = 1057;
+    eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x1 = 1695;
+    eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y1 = 1007;
+    eceCity->image.tabBoutonBOS[BOS_PAUSE-5].x2 = 1745;
+    eceCity->image.tabBoutonBOS[BOS_PAUSE-5].y2 = 1057;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEPLUS-5].x1= 1750;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEPLUS-5].y1 = 1007;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEPLUS-5].x2 = 1800;
+    eceCity->image.tabBoutonBOS[BOS_VITESSEPLUS-5].y2 = 1057;
+    eceCity->image.tabBoutonBOS[BOS_SAUVEGARDE-5].x1 = 55;
+    eceCity->image.tabBoutonBOS[BOS_SAUVEGARDE-5].y1 = 105;
+    eceCity->image.tabBoutonBOS[BOS_SAUVEGARDE-5].x2 = 345;
+    eceCity->image.tabBoutonBOS[BOS_SAUVEGARDE-5].y2 = 145;
+    eceCity->image.tabBoutonBOS[BOS_QUITTER-5].x1 = 55;
+    eceCity->image.tabBoutonBOS[BOS_QUITTER-5].y1 = 160;
+    eceCity->image.tabBoutonBOS[BOS_QUITTER-5].x2 = 345;
+    eceCity->image.tabBoutonBOS[BOS_QUITTER-5].y2 = 200;
 }
 
 

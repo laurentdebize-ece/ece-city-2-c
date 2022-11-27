@@ -283,7 +283,7 @@ void affichageCaseDestruction (ECE_City * eceCity) {
     }
 }
 
-void affichageElec (ECE_City * eceCity, Color color) {
+void affichageElec1 (ECE_City * eceCity, Color color) {
     affichageEau(eceCity, color);
 }
 
@@ -378,6 +378,6 @@ void affichageComplet (ECE_City * eceCity) {
     DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
     afficherBoiteOutils(eceCity);
 
-    affichage_temps(temps(&eceCity->t, eceCity));
+    affichage_temps(temps( eceCity));
     EndDrawing();
 }

@@ -19,7 +19,7 @@ void affichageEtatCase (ECE_City * eceCity);
 void afficherRoute (ECE_City * eceCity, int i, int j);
 void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe);
 void affichageCaseSelectionne (ECE_City * eceCity);
-void affichageElec (ECE_City * eceCity, Color color);
+void affichageElec1 (ECE_City * eceCity, Color color);
 void affichageRoutePoser (ECE_City * eceCity);
 
 void affichageComplet (ECE_City * eceCity);

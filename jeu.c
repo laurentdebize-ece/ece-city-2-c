@@ -2,10 +2,11 @@
 #include "graphe.h"
 
 
-
+// Déclenche des incendies aléatoirement, les incendies sont réglés si il y a une caserne sinon deviennent des ruines
 void incendie(ECE_City*eceCity){
     temps(eceCity);
     Sommet * parcoursGraphe = eceCity->graphe;
+    ajoutCaserne(eceCity);
     while(parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
             if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
@@ -35,7 +36,7 @@ void incendie(ECE_City*eceCity){
     }
 }
 
-
+//Les habitants payent chaque mois la cagnotte globale
 void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     if(parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade){
         eceCity->impots =  (eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax)* 10;
@@ -43,6 +44,7 @@ void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     }
 }
 
+//Boite à outils pour selectionner à la souris les foncytionnalités qu'on souhaite
 void boiteOutils(ECE_City *eceCity){
     eceCity->souris.pos = getPosMouse(eceCity);
     eceCity->image.boite_outils.temp = false;
@@ -100,6 +102,7 @@ void boiteOutils(ECE_City *eceCity){
     }
 }
 
+//Détermine quelle image de route est necessaire selon la ligne ou la cologne et selon si d'autre route sont a cote ou non
 int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
     if ((eceCity->tabCase[ligne-1][colonne].Etat == ROUTE || eceCity->tabCase[ligne+1][colonne].Etat == ROUTE) &&
         eceCity->tabCase[ligne][colonne+1].Etat != ROUTE && eceCity->tabCase[ligne][colonne-1].Etat != ROUTE) {
@@ -148,6 +151,7 @@ int detectionImageRoute (ECE_City * eceCity, int ligne, int colonne) {
     return ROUTEBASHAUT;
 }
 
+
 int positionRoute (int route) {
     if (route == ROUTEHAUTBAS || route == ROUTEVIRAGEGAUCHE) {
         return POS_ROUTE_Y_2;
@@ -155,7 +159,7 @@ int positionRoute (int route) {
     return POS_ROUTE_Y;
 }
 
-
+//Detection sur quelle case est la souris sur la map isométrique
 void detection_case_souris_0 (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
     eceCity->souris.posColonne = -1;
@@ -192,8 +196,6 @@ void detection_case_souris_0 (ECE_City * eceCity) {
         eceCity->souris.posColonne = -1;
     }
 }
-
-
 void detection_case_souris_1 (ECE_City * eceCity) {
     eceCity->souris.posLigne = -1;
     eceCity->souris.posColonne = -1;
@@ -231,6 +233,7 @@ void detection_case_souris_1 (ECE_City * eceCity) {
     }
 }
 
+//Récupération des données de position de la souris
 Vector2 getPosMouse (ECE_City * eceCity) {
     eceCity->souris.pos = GetMousePosition();
     if (eceCity->orientation == 0)
@@ -240,6 +243,7 @@ Vector2 getPosMouse (ECE_City * eceCity) {
     return eceCity->souris.pos;
 }
 
+//Détection de l'etat (ce qu'on peut poser) au clavier ou a la sourie
 void detectEtat (ECE_City * eceCity, int key, int plac) {
     for (int i=0; i < NB_BOUTON_BOS ; ++i) {
         if(key == eceCity->image.tabBoutonBOS[i].equivalenceClavier){
@@ -267,6 +271,7 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
     }
 }
 
+//Detection destrction ou de l'etage (du point de vue)
 void detectEtage (ECE_City * eceCity) {
     if (IsKeyDown(KEY_Y)) {
         printf ("ok");
@@ -314,6 +319,7 @@ void detectEtage (ECE_City * eceCity) {
     }
 }
 
+//identification des touches a appuyer selon ce que l'on souhaite poser
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
     detectEtat(eceCity, KEY_R, ROUTE);
@@ -324,7 +330,7 @@ void detectionEtatPlacement (ECE_City * eceCity) {
     detectEtage(eceCity);
     modeNuit(eceCity);
 }
-
+//Verifie si on peut poser un batiment
 bool detectionRouteBatiment (ECE_City * eceCity) {
     bool detection = false;
     for (int i = 0; i < NB_LIGNE; ++i) {
@@ -344,6 +350,7 @@ bool detectionRouteBatiment (ECE_City * eceCity) {
     return detection;
 }
 
+//Placement des routes et des batiments sur la map selon les coordonnees
 void poserBatiment(ECE_City * eceCity) {
     if (eceCity->EtatPlacement != VIDE && eceCity->EtatPlacement != ROUTE && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
             detectionRouteBatiment(eceCity)) {
@@ -364,7 +371,7 @@ void poserBatiment(ECE_City * eceCity) {
         }
         repartitionEau(eceCity);
         repartitionElec(eceCity);
-        ajoutCaserne(eceCity);
+
         eceCity->EtatPlacement = VIDE;
 
     }

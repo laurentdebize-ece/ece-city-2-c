@@ -2,8 +2,9 @@
 #include "jeu.h"
 #include "initialisation.h"
 
-unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur){// duplication fonction à optimiser
-    if(mouse_x >= x && mouse_y >= y && mouse_x <= x + largeur && mouse_y <= y + hauteur){
+unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur, ECE_City * eceCity){// duplication fonction à optimiser
+    eceCity->souris.pos = getPosMouse(eceCity);
+    if(eceCity->souris.pos.x >= x && eceCity->souris.pos.y >= y && eceCity->souris.pos.x <= x + 400 && eceCity->souris.pos.y <= y + 500){
         return 1;
     }
     return 0;

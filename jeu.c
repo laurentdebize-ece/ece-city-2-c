@@ -44,7 +44,7 @@ void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     }
 }
 
-//Boite à outils pour selectionner à la souris les foncytionnalités qu'on souhaite
+//Boite à outils pour selectionner à la souris les fonctionnalités qu'on souhaite
 void boiteOutils(ECE_City *eceCity){
     eceCity->souris.pos = getPosMouse(eceCity);
     eceCity->image.boite_outils.temp = false;
@@ -273,7 +273,6 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
 
 //Detection destrction ou de l'etage (du point de vue)
 void detectEtage (ECE_City * eceCity) {
-    eceCity->souris.pos = getPosMouse(eceCity);
 
     if (IsKeyDown(KEY_Y)) {
         printf ("ok");
@@ -303,6 +302,7 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime++;
         }
     }
+    /*
     if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
         if (eceCity->t.speedTime < 4){
             eceCity->t.frames = 0;
@@ -315,12 +315,14 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime++;
         }
     }
+     */
     if (IsKeyPressed(KEY_LEFT)) {
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
             eceCity->t.speedTime--;
         }
     }
+    /*
     if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
         if (eceCity->t.speedTime > 0) {
             eceCity->t.frames = 0;
@@ -333,6 +335,7 @@ void detectEtage (ECE_City * eceCity) {
             eceCity->t.speedTime--;
         }
     }
+     */
     if (IsKeyPressed(KEY_O)) {
         if (eceCity->orientation == 0) {
             eceCity->orientation++;
@@ -341,6 +344,63 @@ void detectEtage (ECE_City * eceCity) {
         else {
             eceCity->orientation--;
             initCase0(eceCity);
+        }
+    }
+}
+void TempsBoutonChgt(ECE_City * eceCity){
+    eceCity->souris.pos = getPosMouse(eceCity);
+
+    if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+    if((eceCity->image.tabImageJeu[FOND_CAPI].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+
+    if((eceCity->image.tabImageJeu[FOND_CAPI_NUIT].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI_NUIT].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI_NUIT].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI_NUIT].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+
+    if((eceCity->image.tabImageJeu[FOND_COMMU_NUIT].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU_NUIT].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU_NUIT].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU_NUIT].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))){
+        if (eceCity->t.speedTime < 4){
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime++;
+        }
+    }
+
+    if((eceCity->image.tabImageJeu[FOND_COMMU].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
+    if((eceCity->image.tabImageJeu[FOND_CAPI].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
+
+    if((eceCity->image.tabImageJeu[FOND_CAPI_NUIT].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_CAPI_NUIT].x2 )&& ( eceCity->image.tabImageJeu[FOND_CAPI_NUIT].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_CAPI_NUIT].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
+        }
+    }
+
+    if((eceCity->image.tabImageJeu[FOND_COMMU_NUIT].x1<= eceCity->souris.pos.x )&&(eceCity->souris.pos.x <= eceCity->image.tabImageJeu[FOND_COMMU_NUIT].x2 )&& ( eceCity->image.tabImageJeu[FOND_COMMU_NUIT].y1  <= eceCity->souris.pos.y)&&( eceCity->souris.pos.y <= eceCity->image.tabImageJeu[FOND_COMMU_NUIT].y2  )&&(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))){
+        if (eceCity->t.speedTime > 0) {
+            eceCity->t.frames = 0;
+            eceCity->t.speedTime--;
         }
     }
 }
@@ -628,6 +688,7 @@ void poserDetruireBatiment (ECE_City * eceCity) {
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     boiteOutils(eceCity);
+    TempsBoutonChgt(eceCity);
     Upgrade(eceCity);
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 

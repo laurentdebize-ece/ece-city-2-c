@@ -252,18 +252,22 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageRoute[ROUTETRIPLEHAUTDROITE] = LoadTexture("../Images/Routes/ROUTETRIPLEHAUTDROITE.png");
     eceCity->image.tabImageRoute[ROUTECROISEMENT] = LoadTexture("../Images/Routes/ROUTECROISEMENT.png");
     eceCity->image.tabImageBat[TERRAIN_VAGUE-2] = LoadTexture("../Images/Batiments/JOUR/TERRAINVAGUE.png");
+    eceCity->image.tabImageBat[RUINE-2] = LoadTexture("../Images/Batiments/JOUR/RUINE.png");
     eceCity->image.tabImageBat[CABANE-2] = LoadTexture("../Images/Batiments/JOUR/CABANEOK.png");
     eceCity->image.tabImageBat[MAISON-2] = LoadTexture("../Images/Batiments/JOUR/MAISONOK.png");
     eceCity->image.tabImageBat[IMMEUBLE-2] = LoadTexture("../Images/Batiments/JOUR/IMMEUBLEOK.png");
     eceCity->image.tabImageBat[GRATTE_CIEL-2] = LoadTexture("../Images/Batiments/JOUR/GRATTECIELOK.png");
     eceCity->image.tabImageBat[CHATEAU_EAU-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU_SENS1.png");
-    eceCity->image.tabImageBat[CHATEAU_EAU_SENS] = LoadTexture("../Images/Batiments/CHATEAU_EAU_SENS2.png");
+    eceCity->image.tabImageBat[CHATEAU_EAU_SENS-2] = LoadTexture("../Images/Batiments/CHATEAU_EAU_SENS2.png");
     eceCity->image.tabImageBat[TERRAIN_VAGUE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/TERRAINVAGUENUIT.png");
     eceCity->image.tabImageBat[CABANE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/CABANENUIT.png");
     eceCity->image.tabImageBat[MAISON_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/MAISONNUIT.png");
     eceCity->image.tabImageBat[IMMEUBLE_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/IMMEUBLENUIT.png");
     eceCity->image.tabImageBat[GRATTE_CIEL_NUIT-2] = LoadTexture("../Images/Batiments/NUIT/GRATTECIELNUIT.png");
     eceCity->image.tabImageBat[CENTRALE_ELECTRIQUE-2] = LoadTexture("../Images/Batiments/CENTRALE.png");
+    eceCity->image.tabImageBat[CENTRALE_ELECTRIQUE_SENS-2] = LoadTexture("../Images/Batiments/CENTRALE_SENS2.png");
+    eceCity->image.tabImageBat[CASERNE_POMPIER-2] = LoadTexture("../Images/Batiments/CASERNE.png");
+    eceCity->image.tabImageBat[CASERNE_POMPIER_SENS-2] = LoadTexture("../Images/Batiments/CASERNE_SENS2.png");
 
 }
 

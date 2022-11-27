@@ -20,7 +20,7 @@ void etapePasAPas (ECE_City * eceCity, int id, Liste ** filAttente, int * reserv
                 parcoursGraphe->nbCentral++;
             }
         }
-        else {
+        else if (parcoursGraphe->batiment == ROUTE || parcoursGraphe->id == idCentral){
             Liste * parcoursTabAdjacent = parcoursGraphe->tabAdjacent;
             while (parcoursTabAdjacent != NULL) {
                 Liste * parcoursListe = *filAttente;

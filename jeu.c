@@ -433,6 +433,18 @@ void upgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
                     repartitionEau(eceCity);
                     repartitionElec(eceCity);
                 }
+                else if (parcoursGraphe->batiment == RUINE &&
+                    parcoursGraphe->reserveChateauEau >= eceCity->batiment[parcoursGraphe->batiment].nbHabitantMax - eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax &&
+                    parcoursGraphe->reserveCentral >= eceCity->batiment[parcoursGraphe->batiment].nbHabitantMax - eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                    parcoursGraphe->batiment = CABANE;
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
+                            eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
+                        }
+                    }
+                    repartitionEau(eceCity);
+                    repartitionElec(eceCity);
+                }
             }
             parcoursGraphe = parcoursGraphe->next;
         }
@@ -443,9 +455,19 @@ void downgradeBatimentCOMMUNISTE (ECE_City * eceCity) {
     if (eceCity->upgrade.Upgrade != -1){
         Sommet * parcoursGraphe = eceCity->graphe;
         while (parcoursGraphe != NULL) {
-            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
-                if (parcoursGraphe->batiment > TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL) {
+            if (parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade && parcoursGraphe->consoEau < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax || parcoursGraphe->consoElec < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                if (parcoursGraphe->batiment > CABANE && parcoursGraphe->batiment <= GRATTE_CIEL) {
                     parcoursGraphe->batiment--;
+                    for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
+                        for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
+                            eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;
+                        }
+                    }
+                    repartitionEau(eceCity);
+                    repartitionElec(eceCity);
+                }
+                else if (parcoursGraphe->batiment == CABANE) {
+                    parcoursGraphe->batiment = RUINE;
                     for (int i = parcoursGraphe->ligne; i < parcoursGraphe->ligne + eceCity->batiment[parcoursGraphe->batiment-1].longueur; ++i) {
                         for (int j = parcoursGraphe->colonne; j < parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur; ++j) {
                             eceCity->tabCase[i][j].Etat = parcoursGraphe->batiment;

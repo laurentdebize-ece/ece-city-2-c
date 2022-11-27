@@ -8,7 +8,7 @@ void sauvegarde (ECE_City * eceCity) {
     if (!ifs)
     {
         printf("Erreur de lecture fichier\n");
-        exit(-1);
+        exit(1);
     }
 
     fprintf(ifs,"%d\n", eceCity->modeJeu);
@@ -60,7 +60,9 @@ void sauvegarde (ECE_City * eceCity) {
             fprintf(ifs, "%d\n", eceCity->tabCase[i][j].Etat);
         }
     }
+    fclose(ifs);
 }
+
 
 void load (ECE_City * eceCity) {
     initECECity(eceCity);
@@ -73,7 +75,7 @@ void load (ECE_City * eceCity) {
     if (!ifs)
     {
         printf("Erreur de lecture fichier\n");
-        exit(-1);
+        exit(1);
     }
 
     fscanf(ifs,"%d", &eceCity->modeJeu);

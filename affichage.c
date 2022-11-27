@@ -165,11 +165,11 @@ float posBatAffichage (ECE_City *eceCity, int Bat) {
         return POS_CHATEAU_EAU;
     if (Bat == CHATEAU_EAU_SENS)
         return POS_CHATEAU_EAU_SENS;
-    if (Bat == CENTRALE_ELECTRIQUE)
+    if (Bat == CENTRALE_ELECTRIQUE+eceCity->image.varTabImageBat)
         return POS_CENTRALE_ELEC;
     if (Bat == CENTRALE_ELECTRIQUE_SENS)
         return POS_CENTRALE_ELEC_SENS;
-    if (Bat == CASERNE_POMPIER)
+    if (Bat == CASERNE_POMPIER+eceCity->image.varTabImageBat)
         return POS_CASERNE;
     if (Bat == CASERNE_POMPIER_SENS)
         return POS_CASERNE_SENS;
@@ -377,17 +377,6 @@ void affichageComplet (ECE_City * eceCity) {
         DrawText(TextFormat(" +%d", eceCity->impots), 1550, 148, 30, BLUE);
     }
     afficherBoiteOutils(eceCity);
-
-    DrawTexture(eceCity->image.tabImageBat[CASERNE_POMPIER-2],
-                eceCity->tabCase[5][5].pos.x,
-                eceCity->tabCase[5][5].pos.y - posBatAffichage(eceCity, CASERNE_POMPIER), WHITE);
-    DrawTexture(eceCity->image.tabImageBat[CASERNE_POMPIER_SENS-2],
-                eceCity->tabCase[10][10].pos.x,
-                eceCity->tabCase[10][10].pos.y - posBatAffichage(eceCity, CASERNE_POMPIER_SENS), WHITE);
-    DrawTexture(eceCity->image.tabImageBat[RUINE-2],
-                eceCity->tabCase[0][0].pos.x,
-                eceCity->tabCase[0][0].pos.y - posBatAffichage(eceCity, RUINE), WHITE);
-
     affichage_temps(temps( eceCity));
     EndDrawing();
 }

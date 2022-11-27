@@ -10,7 +10,7 @@ void incendie(ECE_City*eceCity){
     while(parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
             if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
-                eceCity->incendie.proba= rand() %2500;
+                eceCity->incendie.proba= rand() %500;
                 if(eceCity->incendie.proba == 1&&parcoursGraphe->feu ==0){
                     eceCity->incendie.feu=1;
                     eceCity->incendie.max=1;
@@ -20,7 +20,7 @@ void incendie(ECE_City*eceCity){
                         parcoursGraphe->feu = 0;
                     }
                     else if(eceCity->incendie.feu==1&&eceCity->incendie.var==0){
-                        parcoursGraphe->batiment=TERRAIN_VAGUE-2;
+                        parcoursGraphe->batiment=RUINE-2;
                         eceCity->incendie.feu=0;
                         parcoursGraphe->feu = 2;
                     }
@@ -408,7 +408,6 @@ void TempsBoutonChgt(ECE_City * eceCity){
 //identification des touches a appuyer selon ce que l'on souhaite poser
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
-    getPosMouse(eceCity);
     detectEtat(eceCity, KEY_R, ROUTE);
     detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
     detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);
@@ -573,7 +572,7 @@ void modeNuit(ECE_City * eceCity){
     if(IsKeyPressed(KEY_SPACE)){
         if(eceCity->nuit==0){
             eceCity->nuit = 1;
-            eceCity->image.varTabImageBat = 0;
+            eceCity->image.varTabImageBat = 10;
         }
         else if(eceCity->nuit==1){
             eceCity->nuit = 0;
@@ -688,7 +687,6 @@ void poserDetruireBatiment (ECE_City * eceCity) {
 void fonctionJeu (ECE_City * eceCity) {
     eceCity->souris.pos = getPosMouse(eceCity);
     boiteOutils(eceCity);
-    TempsBoutonChgt(eceCity);
     Upgrade(eceCity);
     eceCity->orientation == 0?detection_case_souris_0(eceCity):detection_case_souris_1(eceCity);
 

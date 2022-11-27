@@ -4,7 +4,7 @@
 #include "ECE_CITY.h"
 #include "ChargeSauvegarde.h"
 
-#define FPS 60
+#define FPS 30
 
 int main ()
 {

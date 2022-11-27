@@ -14,7 +14,6 @@ ECE_City temps( ECE_City * eceCity){
         }
         //TEMPS REEL
         if(eceCity->t.frames==60/eceCity->t.speedTime) {
-            eceCity->t.secondereel++;
             if(eceCity->incendie.max == 1){
                 eceCity->incendie.var++;
                 if(eceCity->incendie.var == 30){
@@ -22,6 +21,7 @@ ECE_City temps( ECE_City * eceCity){
                     eceCity->incendie.var=0;
                 }
             }
+            eceCity->t.secondereel++;
             eceCity->upgrade.upgradeEnCours++;
             eceCity->upgrade.Upgrade = eceCity->upgrade.upgradeEnCours;
             eceCity->t.secondefictif++;

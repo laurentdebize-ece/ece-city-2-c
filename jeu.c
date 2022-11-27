@@ -273,11 +273,6 @@ void detectEtat (ECE_City * eceCity, int key, int plac) {
 
 //Detection destrction ou de l'etage (du point de vue)
 void detectEtage (ECE_City * eceCity) {
-    eceCity->souris.pos = getPosMouse(eceCity);
-
-    if (IsKeyDown(KEY_Y)) {
-        printf ("ok");
-    }
     if (eceCity->image.tabBoutonBOS[0].clique == 1) {
         eceCity->image.tabBoutonBOS[0].clique = 2;
         eceCity->etage = DESTRUCTION;
@@ -348,7 +343,6 @@ void detectEtage (ECE_City * eceCity) {
 //identification des touches a appuyer selon ce que l'on souhaite poser
 void detectionEtatPlacement (ECE_City * eceCity) {
     GetKeyPressed();
-    getPosMouse(eceCity);
     detectEtat(eceCity, KEY_R, ROUTE);
     detectEtat(eceCity, KEY_T, TERRAIN_VAGUE);
     detectEtat(eceCity, KEY_E, CENTRALE_ELECTRIQUE);

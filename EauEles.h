@@ -9,9 +9,10 @@ void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau
 void affichageEau (ECE_City * eceCity, Color color);
 void repartitionEau (ECE_City * eceCity);
 
-void etapePasAPas (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveElec, int idCentral) ;
+void etapePasAPas (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveElec, int idCentral);
 void ParcoursElec (ECE_City * eceCity, int idCentral);
-void repartitionElec (ECE_City * eceCity) ;
+void repartitionElec (ECE_City * eceCity);
+void affichageElec (ECE_City * eceCity, Color color);
 
 
 

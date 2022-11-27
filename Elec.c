@@ -1,48 +1,23 @@
 #include "EauEles.h"
 #include "affichage.h"
 
-//**************************      EAU        *********************************************************
 
-void ajoutListe (Liste ** filAttente, int id) {
-    if (*filAttente == NULL) {
-        *filAttente = malloc(sizeof (Liste));
-        (*filAttente)->id = id;
-        (*filAttente)->next = NULL;
-    }
-    else {
-        Liste * parcoursListe = *filAttente;
-        while (parcoursListe->next != NULL){
-            parcoursListe = parcoursListe->next;
-        }
-        parcoursListe->next = malloc(sizeof(Liste));
-        parcoursListe->next->id = id;
-        parcoursListe->next->next = NULL;
-    }
-}
 
-void nextFilAttente (Liste ** filAttente) {
-    *filAttente = (*filAttente)->next;
-}
-
-void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau, int idChateau) {
-    if (*reserveEau > 0) {
+void etapePasAPas (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveElec, int idCentral) {
+    if (*reserveElec > 0) {
         Sommet * parcoursGraphe = eceCity->graphe;
         Sommet * parcoursGraphe2;
         while (parcoursGraphe->id != id) {
             parcoursGraphe = parcoursGraphe->next;
         }
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL) {
-            if (parcoursGraphe->consoEau <= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
-                if (*reserveEau > eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau) {
-                    *reserveEau -= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax - parcoursGraphe->consoEau;
-                    parcoursGraphe->consoEau = eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
+            if (parcoursGraphe->consoElec < eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax || !eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                if (*reserveElec >= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax) {
+                    *reserveElec -= eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
+                    parcoursGraphe->consoElec = eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
                 }
-                else {
-                    parcoursGraphe->consoEau += *reserveEau;
-                    *reserveEau = 0;
-                }
-                parcoursGraphe->idChateauEau[parcoursGraphe->nbChateauEau] = idChateau;
-                parcoursGraphe->nbChateauEau++;
+                parcoursGraphe->idCEntral[parcoursGraphe->nbCentral] = idCentral;
+                parcoursGraphe->nbCentral++;
             }
         }
         else {
@@ -61,78 +36,82 @@ void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau
                     while (parcoursGraphe2->id != parcoursTabAdjacent->id) {
                         parcoursGraphe2 = parcoursGraphe2->next;
                     }
-                    if (parcoursGraphe2->decouverteBFS == false) {
+                    if (parcoursGraphe2->decouvertePasApasElec == false) {
                         ajoutListe(filAttente, parcoursTabAdjacent->id);
                     }
                 }
                 parcoursTabAdjacent = parcoursTabAdjacent->next;
             }
         }
-        parcoursGraphe->decouverteBFS = true;
+        parcoursGraphe->decouvertePasApasElec = true;
     }
 }
 
-void BFS_Chateau (ECE_City * eceCity, int idChateau) {
-    int reserveEau = 5000;
-    Liste * filAttenteBatiment = NULL;
+void ParcoursElec (ECE_City * eceCity, int idCentral){
+    int reserveElec = 5000;
+    Liste * filAttenteBatimentELec = NULL;
     Sommet * parcoursGraphe = eceCity->graphe;
+
     while (parcoursGraphe != NULL) {
-        parcoursGraphe->decouverteBFS = false;
+        parcoursGraphe->decouvertePasApasElec = false;
         parcoursGraphe = parcoursGraphe->next;
     }
 
-    etapeBFS(eceCity, idChateau, &filAttenteBatiment, &reserveEau, idChateau);
+    etapePasAPas(eceCity, idCentral, &filAttenteBatimentELec, &reserveElec, idCentral);
 
-    while (filAttenteBatiment != NULL) {
-        etapeBFS(eceCity, filAttenteBatiment->id, &filAttenteBatiment, &reserveEau, idChateau);
-        nextFilAttente(&filAttenteBatiment);
+    while (filAttenteBatimentELec != NULL) {
+        etapePasAPas(eceCity, filAttenteBatimentELec->id, &filAttenteBatimentELec, &reserveElec, idCentral);
+        nextFilAttente(&filAttenteBatimentELec);
     }
     parcoursGraphe = eceCity->graphe;
     while (parcoursGraphe != NULL) {
-        if (parcoursGraphe->id == idChateau) {
-            parcoursGraphe->consoEau = reserveEau;
+        if (parcoursGraphe->id == idCentral) {
+            parcoursGraphe->consoElec = reserveElec;
         }
-        for (int i = 0; i < parcoursGraphe->nbChateauEau; ++i) {
-            if (parcoursGraphe->idChateauEau[i] == idChateau) {
-                parcoursGraphe->reserveChateauEau += reserveEau;
+        for (int i = 0; i < parcoursGraphe->nbCentral; ++i) {
+            if (parcoursGraphe->idCEntral[i] == idCentral) {
+                parcoursGraphe->reserveCentral += reserveElec;
             }
         }
 
         parcoursGraphe = parcoursGraphe->next;
     }
-
 }
 
-void repartitionEau (ECE_City * eceCity) {
+
+void repartitionElec (ECE_City * eceCity) {
     Sommet * parcoursGraphe = eceCity->graphe;
-    eceCity->nbChateauEau = 0;
+    eceCity->nbCentral = 0;
     eceCity->nbHabitant = 0;
-    Liste * filAttenteChateau = NULL;
+    Liste * filAttenteCentral = NULL;
+    if (IsKeyDown(KEY_Y)){
+        printf ("ok");
+    }
     while (parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= CABANE && parcoursGraphe->batiment <= GRATTE_CIEL) {
             eceCity->nbHabitant += eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax;
-            parcoursGraphe->consoEau = 0;
-            parcoursGraphe->decouverteBFS = 0;
-            parcoursGraphe->reserveChateauEau = 0;
-            for (int i = 0; i < parcoursGraphe->nbChateauEau; ++i) {
-                parcoursGraphe->idChateauEau[i] = 0;
+            parcoursGraphe->consoElec = 0;
+            parcoursGraphe->decouvertePasApasElec = 0;
+            parcoursGraphe->reserveCentral = 0;
+            for (int i = 0; i < parcoursGraphe->nbCentral; ++i) {
+                parcoursGraphe->idCEntral[i] = 0;
             }
         }
-        parcoursGraphe->nbChateauEau = 0;
-        if (parcoursGraphe->batiment == CHATEAU_EAU) {
-            ajoutListe(&filAttenteChateau, parcoursGraphe->id);
-            eceCity->nbChateauEau++;
+        parcoursGraphe->nbCentral = 0;
+        if (parcoursGraphe->batiment == CENTRALE_ELECTRIQUE) {
+            ajoutListe(&filAttenteCentral, parcoursGraphe->id);
+            eceCity->nbCentral++;
         }
         parcoursGraphe = parcoursGraphe->next;
     }
-    while (filAttenteChateau != NULL) {
-        BFS_Chateau(eceCity, filAttenteChateau->id);
-        nextFilAttente(&filAttenteChateau);
+    while (filAttenteCentral != NULL) {
+        ParcoursElec(eceCity, filAttenteCentral->id);
+        nextFilAttente(&filAttenteCentral);
     }
 
 }
 
-void affichageEau (ECE_City * eceCity, Color color) {
+void affichageElec (ECE_City * eceCity, Color color) {
     Sommet * parcoursGraphe = eceCity->graphe;
     while (parcoursGraphe != NULL) {
         parcoursGraphe->dejaEcrit = false;
@@ -146,8 +125,8 @@ void affichageEau (ECE_City * eceCity, Color color) {
             if (eceCity->tabCase[i][j].Etat >= CABANE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL) {
                 affichageCase(eceCity, i, j, GRAY);
             }
-            if (eceCity->tabCase[i][j].Etat == CHATEAU_EAU) {
-                affichageCase(eceCity, i, j, BLUE);
+            if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
+                affichageCase(eceCity, i, j, GREEN);
             }
         }
     }
@@ -160,25 +139,23 @@ void affichageEau (ECE_City * eceCity, Color color) {
                     parcoursGraphe = parcoursGraphe->next;
                 }
                 if (parcoursGraphe->dejaEcrit == false) {
-                    DrawText(TextFormat("%d", parcoursGraphe->consoEau), eceCity->tabCase[i][j].pos.x+40, eceCity->tabCase[i][j].pos.y-20, 20, BLACK);
+                    DrawText(TextFormat("%d", parcoursGraphe->consoElec), eceCity->tabCase[i][j].pos.x+40, eceCity->tabCase[i][j].pos.y-20, 20, BLACK);
                     DrawText(TextFormat("/%d", eceCity->batiment[parcoursGraphe->batiment-1].nbHabitantMax), eceCity->tabCase[i][j].pos.x+30, eceCity->tabCase[i][j].pos.y, 20, BLACK);
                     parcoursGraphe->dejaEcrit = true;
                 }
             }
-            else if (eceCity->tabCase[i][j].Etat == CHATEAU_EAU) {
+            else if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
                 parcoursGraphe = eceCity->graphe;
                 while (parcoursGraphe->ligne > i || parcoursGraphe->ligne+eceCity->batiment[parcoursGraphe->batiment-1].longueur <= i
                        || parcoursGraphe->colonne > j || parcoursGraphe->colonne+eceCity->batiment[parcoursGraphe->batiment-1].largeur <= j) {
                     parcoursGraphe = parcoursGraphe->next;
                 }
                 if (parcoursGraphe->dejaEcrit == false) {
-                    DrawText(TextFormat("Stokage :", parcoursGraphe->consoEau), eceCity->tabCase[i][j].pos.x +40, eceCity->tabCase[i][j].pos.y-10, 20, BLACK);
-                    DrawText(TextFormat("%d/5000", parcoursGraphe->consoEau), eceCity->tabCase[i][j].pos.x +60, eceCity->tabCase[i][j].pos.y+10, 20, BLACK);
+                    DrawText(TextFormat("Stokage :"), eceCity->tabCase[i][j].pos.x +40, eceCity->tabCase[i][j].pos.y-10, 20, BLACK);
+                    DrawText(TextFormat("%d/5000", parcoursGraphe->consoElec), eceCity->tabCase[i][j].pos.x +60, eceCity->tabCase[i][j].pos.y+10, 20, BLACK);
                     parcoursGraphe->dejaEcrit = true;
                 }
             }
         }
     }
 }
-
-//**************************      ELEC      *********************************************************

@@ -29,8 +29,11 @@
 #define POS_MAISON 83
 #define POS_IMMEUBLE 140
 #define POS_GRATTE_CIEL 238
+#define POS_CHATEAU_EAU 121
+#define POS_CHATEAU_EAU_SENS 143
+#define POS_CENTRALE_ELEC 100
 
-enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT};
+enum{VIDE, ROUTE, TERRAIN_VAGUE, CABANE, MAISON, IMMEUBLE, GRATTE_CIEL, CENTRALE_ELECTRIQUE, CHATEAU_EAU, CASERNE_POMPIER, ROUTE_NUIT,TERRAIN_VAGUE_NUIT, CABANE_NUIT, MAISON_NUIT, IMMEUBLE_NUIT, GRATTE_CIEL_NUIT, CENTRAL_ELECTRIQUE_NUIT, CHATEAU_EAU_NUIT, CASERNE_POMPIER_NUIT, CENTRAL_ELECTRIQUE_SENS, CHATEAU_EAU_SENS};
 enum{MENU, MODEJEU, JEUMENU, CHARGER, REGLE, QUITTER};
 enum{DESTRUCTION, JEU, ELECTRICITE, EAU};
 enum{CAPI, COMMU};
@@ -62,8 +65,6 @@ typedef struct Case{
 typedef struct souris{
     int posLigne;
     int posColonne;
-    int oldPosLigne;
-    int oldPosColonne;
     Vector2 pos;
     float repLigne;
     float repColonne;
@@ -76,8 +77,7 @@ typedef struct batiment {
     int prix;
     char* nomBatiment;
 }BatimentType;
-//structure qui stock les info d'un batiment en general
-// !!!!! pas de chaque batiment posés !!!!!
+
 typedef struct {
     float x1;
     float x2;
@@ -120,18 +120,18 @@ typedef struct Sommet{
     int nbUpgrade;
     bool poser;
     bool detruire;
-    int consoEau;
-    bool decouverteBFS;
-    int idChateauEau [NB_IMAGE_BAT];
-    int nbChateauEau;
-    int reserveChateauEau;
-    struct Sommet * next;
     bool dejaEcrit;
+    bool decouverteBFS;
     bool decouvertePasApasElec;
+    int reserveChateauEau;
     int reserveCentral;
-    int idCEntral [NB_BAT];
+    int idChateauEau [NB_IMAGE_BAT];
+    int idCEntral [NB_IMAGE_BAT];
+    int nbChateauEau;
     int nbCentral;
+    int consoEau;
     int consoElec;
+    struct Sommet * next;
 }Sommet;
 
 typedef struct {

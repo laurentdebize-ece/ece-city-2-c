@@ -23,12 +23,7 @@ void sauvegarde (ECE_City * eceCity) {
     fprintf(ifs,"%d\n", eceCity->t.secondefictif);
     fprintf(ifs,"%d\n", eceCity->t.mois);
     fprintf(ifs,"%d\n", eceCity->t.annee);
-    fprintf(ifs,"%d\n", eceCity->t.frames);
-    fprintf(ifs,"%d\n", eceCity->t.speedTime);
 
-
-    fprintf(ifs,"%d\n", eceCity->upgrade.Upgrade);
-    fprintf(ifs,"%d\n", eceCity->upgrade.upgradeEnCours);
     fprintf(ifs,"%d\n", eceCity->upgrade.idEnCours);
 
     Sommet * parcoursGraphe = eceCity->graphe;
@@ -69,7 +64,6 @@ void load (ECE_City * eceCity) {
 
     eceCity->currentJeu = JEUMENU;
 
-
     FILE * ifs = fopen("Sauvegarde","r");
 
     if (!ifs)
@@ -77,7 +71,6 @@ void load (ECE_City * eceCity) {
         printf("Erreur de lecture fichier\n");
         exit(1);
     }
-
     fscanf(ifs,"%d", &eceCity->modeJeu);
     fscanf(ifs,"%d", &eceCity->nbHabitant);
     fscanf(ifs,"%d", &eceCity->nbChateauEau);
@@ -90,12 +83,7 @@ void load (ECE_City * eceCity) {
     fscanf(ifs,"%d", &eceCity->t.secondefictif);
     fscanf(ifs,"%d", &eceCity->t.mois);
     fscanf(ifs,"%d", &eceCity->t.annee);
-    fscanf(ifs,"%d", &eceCity->t.frames);
-    fscanf(ifs,"%d", &eceCity->t.speedTime);
 
-
-    fscanf(ifs,"%d", &eceCity->upgrade.Upgrade);
-    fscanf(ifs,"%d", &eceCity->upgrade.upgradeEnCours);
     fscanf(ifs,"%d", &eceCity->upgrade.idEnCours);
 
     Sommet * parcoursGraphe = eceCity->graphe;

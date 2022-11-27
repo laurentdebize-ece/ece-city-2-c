@@ -31,7 +31,9 @@ void affichage_menu(ECE_City eceCity){
             DrawTexture(eceCity.image.tabBoutonMenu[i+NB_BOUTON_MENU],0,0, WHITE);
         }
     }
-
+    if (eceCity.currentJeu == REGLE) {
+        DrawTexture(eceCity.image.image_règles,0,0,WHITE);
+    }
   EndDrawing();
 }
 
@@ -348,9 +350,7 @@ void affichageComplet (ECE_City * eceCity) {
     }
     DrawTexture(eceCity->image.image_affichage,0,0,WHITE);
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
-    if (eceCity->currentJeu == REGLE) {
-        DrawTexture(eceCity->image.image_règles,0,0,WHITE);
-    }
+
     if (eceCity->etage == DESTRUCTION) {
         affichageRoutePoser(eceCity);
         affichageCaseDestruction(eceCity);

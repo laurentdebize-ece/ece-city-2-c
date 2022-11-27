@@ -7,7 +7,7 @@
 
 //void affichage_incendie(ECE_City*eceCity);
 void afficherBoiteOutils(ECE_City *eceCity);
-unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur, ECE_City * struct ece_city);
+unsigned char surPassage(int mouse_x, int mouse_y, int x, int y, int largeur,int hauteur, ECE_City * ece_city);
 void affichage_mode(ECE_City * eceCity);
 void affichageBouton(ECE_City * ece_city);
 float posBatAffichage (ECE_City *eceCity, int Bat);

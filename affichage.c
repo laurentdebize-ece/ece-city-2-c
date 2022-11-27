@@ -203,7 +203,7 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment+eceCity->image.varTabImageBat],
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
                                                 eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
                                                 eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity,parcoursGraphe->batiment+eceCity->image.varTabImageBat), WHITE);
                                     parcoursGraphe->poser = true;
@@ -344,7 +344,7 @@ void affichageComplet (ECE_City * eceCity) {
                 DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI],0,0,WHITE);
             }
     }
-
+    DrawTexture(eceCity->image.image_affichage,0,0,WHITE);
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == DESTRUCTION) {
@@ -365,17 +365,15 @@ void affichageComplet (ECE_City * eceCity) {
     if (eceCity->etage == EAU) {
         affichageEau(eceCity, DARKBLUE);
     }
-
-    DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
-    DrawText(TextFormat("%s", eceCity->batiment[eceCity->EtatPlacement-1].nomBatiment), 12  , 120, 20 , BLACK);
-    DrawText(TextFormat("%d ECE-Flouz", eceCity->eceFlouz), 12, 180, 20, BLACK);
-    DrawText("Terrain Vague --> T", 12, 140, 20, BLACK);
-    DrawText("Centrale elec --> E", 12, 220, 20, BLACK);
-    DrawText("Chateau d eau --> H", 12, 240, 20, BLACK);
-    DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
-    DrawText("Route --> R", 12, 300, 20, BLACK);
-    DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
-    DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
+    if(eceCity->incendie.max ==1){
+        DrawTexture(eceCity->image.image_flamme,0,0,WHITE);
+    }
+    DrawText(TextFormat("%d habitants", eceCity->nbHabitant),1710,240,25,BLACK);
+    DrawText(TextFormat("%d ECE-Flouz", eceCity->eceFlouz), 1680, 148, 25, BLACK);
+    DrawText(TextFormat("x%d", eceCity->t.speedTime), 1818, 1019, 25, BLACK);
+    if(eceCity->impots!=0){
+        DrawText(TextFormat(" +%d", eceCity->impots), 1550, 148, 30, BLUE);
+    }
     afficherBoiteOutils(eceCity);
 
     affichage_temps(temps( eceCity));

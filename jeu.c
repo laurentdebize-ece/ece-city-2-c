@@ -2,43 +2,39 @@
 #include "graphe.h"
 
 
-/*
+
 void incendie(ECE_City*eceCity){
     temps(eceCity);
     Sommet * parcoursGraphe = eceCity->graphe;
     while(parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
             if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
-                eceCity->incendie.proba= rand() %500;
-                if(eceCity->incendie.proba == 1){
+                eceCity->incendie.proba= rand() %2500;
+                if(eceCity->incendie.proba == 1&&parcoursGraphe->feu ==0){
                     eceCity->incendie.feu=1;
+                    eceCity->incendie.max=1;
                     parcoursGraphe->feu = 1;
-
-                    for(int i=1; i<=10; i++)
-                    {
-
-                        clock_t goal;
-
-                        goal = (1 * CLOCKS_PER_SEC) + clock();
-
-                        while(goal > clock())
-                        {
-                            while()
-                            ;
-                        }
-
+                    if(eceCity->incendie.feu==1&&eceCity->nbCaserne!=0&&eceCity->incendie.var==0){
+                        eceCity->incendie.feu=0;
+                        parcoursGraphe->feu = 0;
                     }
+                    else if(eceCity->incendie.feu==1&&eceCity->incendie.var==0){
+                        parcoursGraphe->batiment=TERRAIN_VAGUE-2;
+                        eceCity->incendie.feu=0;
+                        parcoursGraphe->feu = 2;
+                    }
+                }
 
                     if(eceCity->incendie.feu==0&&parcoursGraphe->feu == 1){
                         parcoursGraphe->feu = 0;
                     }
-                }
+
             }
         }
         parcoursGraphe = parcoursGraphe->next;
     }
 }
- */
+
 
 void impots( ECE_City * eceCity,Sommet * parcoursGraphe){
     if(parcoursGraphe->nbUpgrade == eceCity->upgrade.Upgrade){
@@ -368,6 +364,7 @@ void poserBatiment(ECE_City * eceCity) {
         }
         repartitionEau(eceCity);
         repartitionElec(eceCity);
+        ajoutCaserne(eceCity);
         eceCity->EtatPlacement = VIDE;
 
     }
@@ -458,7 +455,7 @@ void modeNuit(ECE_City * eceCity){
     if(IsKeyPressed(KEY_SPACE)){
         if(eceCity->nuit==0){
             eceCity->nuit = 1;
-            eceCity->image.varTabImageBat = NB_BAT;
+            eceCity->image.varTabImageBat = 0;
         }
         else if(eceCity->nuit==1){
             eceCity->nuit = 0;
@@ -579,7 +576,7 @@ void fonctionJeu (ECE_City * eceCity) {
     poserDetruireBatiment(eceCity);
 
     detectionEtatPlacement(eceCity);
-//    incendie(eceCity);
+    incendie(eceCity);
     affichageComplet (eceCity);
 }
 void modeJeu ( ECE_City* eceCity){

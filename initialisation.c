@@ -29,7 +29,7 @@ void initECECity (ECE_City * eceCity) {
         eceCity->image.tabBoutonBOS[i].perm = false;
         eceCity->image.tabBoutonBOS[i].clique= 0;
     }
-    eceCity->incendie.varSeconde = 1;
+    eceCity->incendie.varSeconde = 0;
     eceCity->incendie.num =15;
     eceCity->incendie.var =0;
     eceCity->incendie.feu =0;
@@ -230,7 +230,7 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.tabImageJeu[BOS_POMPIER] = LoadTexture("../Images/bouton boite outils/BOS_POMPIER.png");
     eceCity->image.tabImageJeu[BOS_ROUTE] = LoadTexture("../Images/bouton boite outils/BOS_ROUTE.png");
     eceCity->image.image_choix = LoadTexture("../Images/CHOIX.png");
-    eceCity->image.image_flamme = LoadTexture("../Images/FLAMME.png");
+    eceCity->image.image_flamme = LoadTexture("../Images/FEU.png");
     eceCity->image.image_affichage = LoadTexture("../Images/AFFICHAGE.png");
     eceCity->image.tabBoutonMenu[BOUTON_1] = LoadTexture("../Images/Boutons/12.png");
     eceCity->image.tabBoutonMenu[BOUTON_2] = LoadTexture("../Images/Boutons/8.png");

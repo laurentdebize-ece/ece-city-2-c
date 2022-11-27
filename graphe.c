@@ -1,7 +1,16 @@
 #include "graphe.h"
 #include "EauEles.h"
 
-
+void ajoutCaserne(ECE_City*eceCity){
+    Sommet * parcoursGraphe = eceCity->graphe;
+    eceCity->nbCaserne = 0;
+    while(parcoursGraphe!=NULL){
+        if (parcoursGraphe->batiment == CASERNE_POMPIER) {
+            eceCity->nbCaserne++;
+        }
+        parcoursGraphe=parcoursGraphe->next;
+    }
+}
 void detectionAdjacentRouteAjoutGraphe (ECE_City * eceCity, Sommet * ajoutGraphe, int ligne, int colonne) {
     if (eceCity->tabCase[ligne][colonne].Etat != VIDE) {
         if (eceCity->tabCase[ligne][colonne].Etat != ROUTE && ajoutGraphe->batiment == ROUTE ||

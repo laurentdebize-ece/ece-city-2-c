@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 #define FPS 60
 #define NB_LIGNE 35
 #define NB_COLONNE 45
@@ -182,6 +183,7 @@ typedef struct ece_city{
     int impots;
     int nbChateauEau;
     int nbCentral;
+    int nbCaserne;
     int nbHabitant;
     int modeJeu;
     int key;

@@ -15,10 +15,10 @@ ECE_City temps( ECE_City * eceCity){
         //TEMPS REEL
         if(eceCity->t.frames==60/eceCity->t.speedTime) {
             eceCity->t.secondereel++;
-            if(eceCity->incendie.feu == 1){
+            if(eceCity->incendie.max == 1){
                 eceCity->incendie.var++;
                 if(eceCity->incendie.var == 30){
-                    eceCity->incendie.feu = 0;
+                    eceCity->incendie.max = 0;
                     eceCity->incendie.var=0;
                 }
             }

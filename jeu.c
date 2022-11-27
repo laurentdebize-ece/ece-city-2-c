@@ -10,7 +10,7 @@ void incendie(ECE_City*eceCity){
     while(parcoursGraphe != NULL) {
         if (parcoursGraphe->batiment >= TERRAIN_VAGUE && parcoursGraphe->batiment <= GRATTE_CIEL){
             if( eceCity->incendie.varSeconde == 1&&eceCity->incendie.feu==0){
-                eceCity->incendie.proba= rand() %2500;
+                eceCity->incendie.proba= rand() %500;
                 if(eceCity->incendie.proba == 1&&parcoursGraphe->feu ==0){
                     eceCity->incendie.feu=1;
                     eceCity->incendie.max=1;
@@ -20,7 +20,7 @@ void incendie(ECE_City*eceCity){
                         parcoursGraphe->feu = 0;
                     }
                     else if(eceCity->incendie.feu==1&&eceCity->incendie.var==0){
-                        parcoursGraphe->batiment=TERRAIN_VAGUE-2;
+                        parcoursGraphe->batiment=RUINE-2;
                         eceCity->incendie.feu=0;
                         parcoursGraphe->feu = 2;
                     }
@@ -513,7 +513,7 @@ void modeNuit(ECE_City * eceCity){
     if(IsKeyPressed(KEY_SPACE)){
         if(eceCity->nuit==0){
             eceCity->nuit = 1;
-            eceCity->image.varTabImageBat = 0;
+            eceCity->image.varTabImageBat = 10;
         }
         else if(eceCity->nuit==1){
             eceCity->nuit = 0;

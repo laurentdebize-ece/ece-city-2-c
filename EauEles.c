@@ -45,7 +45,7 @@ void etapeBFS (ECE_City * eceCity, int id, Liste ** filAttente, int * reserveEau
                 parcoursGraphe->nbChateauEau++;
             }
         }
-        else {
+        else if (parcoursGraphe->batiment == ROUTE || parcoursGraphe->id == idChateau){
             Liste * parcoursTabAdjacent = parcoursGraphe->tabAdjacent;
             while (parcoursTabAdjacent != NULL) {
                 Liste * parcoursListe = *filAttente;

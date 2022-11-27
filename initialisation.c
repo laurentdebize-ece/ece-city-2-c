@@ -254,6 +254,7 @@ void loadImages(ECE_City * eceCity){
     eceCity->image.image_choix = LoadTexture("../Images/CHOIX.png");
     eceCity->image.image_flamme = LoadTexture("../Images/FEU.png");
     eceCity->image.image_affichage = LoadTexture("../Images/AFFICHAGE.png");
+    eceCity->image.image_règles = LoadTexture("../Images/regles.png");
     eceCity->image.tabBoutonMenu[BOUTON_1] = LoadTexture("../Images/Boutons/12.png");
     eceCity->image.tabBoutonMenu[BOUTON_2] = LoadTexture("../Images/Boutons/8.png");
     eceCity->image.tabBoutonMenu[BOUTON_3] = LoadTexture("../Images/Boutons/6.png");
@@ -304,6 +305,7 @@ void unloadImages(ECE_City * eceCity){
     UnloadTexture(eceCity->image.image_choix);
     UnloadTexture(eceCity->image.image_flamme);
     UnloadTexture(eceCity->image.image_affichage);
+    UnloadTexture(eceCity->image.image_règles);
     for (int i = BOUTON_1; i <= BOUTON_QUITTER_GRIS; ++i) {
         UnloadTexture(eceCity->image.tabBoutonMenu[i]);
     }

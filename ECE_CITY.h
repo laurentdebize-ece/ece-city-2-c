@@ -120,6 +120,7 @@ typedef struct image{
     Texture2D image_bonhomme;
     Texture2D image_choix;
     Texture2D image_flamme;
+    Texture2D image_règles;
     Texture2D image_affichage;
     Texture2D tabBoutonMenu [NB_IMAGE_MENU];
     Texture2D tabImageBat [NB_IMAGE_BAT];

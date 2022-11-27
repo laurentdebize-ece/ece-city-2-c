@@ -69,7 +69,9 @@ void ajoutRouteGraphe (ECE_City * eceCity) {
         ajoutGraphe->next->nbAdjacent = 0;
         ajoutGraphe->next->feu = 0;
         ajoutGraphe->next->consoEau = 0;
+        ajoutGraphe->next->consoElec = 0;
         ajoutGraphe->next->reserveChateauEau = 0;
+        ajoutGraphe->next->reserveCentral = 0;
         ajoutGraphe->next->dejaEcrit = false;
         if (eceCity->EtatPlacement != ROUTE) {
             for (int i = eceCity->souris.posLigne; i < eceCity->souris.posLigne + eceCity->batiment[eceCity->EtatPlacement-1].longueur; ++i) {

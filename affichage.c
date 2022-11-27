@@ -158,6 +158,12 @@ float posBatAffichage (ECE_City *eceCity, int Bat) {
         return POS_IMMEUBLE;
     if (Bat == GRATTE_CIEL+eceCity->image.varTabImageBat)
         return POS_GRATTE_CIEL;
+    if (Bat == CHATEAU_EAU+eceCity->image.varTabImageBat)
+        return POS_CHATEAU_EAU;
+    if (Bat == CHATEAU_EAU_SENS)
+        return POS_CHATEAU_EAU_SENS;
+    if (Bat == CENTRALE_ELECTRIQUE)
+        return POS_CENTRALE_ELEC;
     return 0;
 }
 
@@ -170,13 +176,6 @@ void affichageEtatCase (ECE_City * eceCity) {
     }
     for (int i = NB_LIGNE-1; i > 0; --i) {
         for (int j = 0; j < NB_COLONNE; ++j) {
-
-            if (eceCity->tabCase[i][j].Etat == CENTRALE_ELECTRIQUE) {
-                affichageCase(eceCity, i, j, YELLOW);
-            }
-            if (eceCity->tabCase[i][j].Etat == CHATEAU_EAU) {
-                affichageCase(eceCity, i, j, DARKBLUE);
-            }
             if (eceCity->tabCase[i][j].Etat == CASERNE_POMPIER) {
                 affichageCase(eceCity, i, j, RED);
             }
@@ -198,16 +197,15 @@ void affichageEtatCaseBatiment (ECE_City * eceCity, Sommet * parcoursGraphe) {
         for (int i = NB_LIGNE-1; i > 0; --i) {
             for (int j = 0; j < NB_COLONNE; ++j) {
                 afficherRoute(eceCity, i, j);
-                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= GRATTE_CIEL_FEU ) {
+                if (eceCity->tabCase[i][j].Etat >= TERRAIN_VAGUE && eceCity->tabCase[i][j].Etat <= CHATEAU_EAU) {
                     parcoursGraphe = eceCity->graphe;
                     while (parcoursGraphe != NULL) {
                         if (parcoursGraphe->batiment == eceCity->tabCase[i][j].Etat) {
                             if (i == parcoursGraphe->ligne && j == parcoursGraphe->colonne + eceCity->batiment[parcoursGraphe->batiment-1].largeur -1) {
                                 if (!parcoursGraphe->poser) {
-                                        DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment-2+eceCity->image.varTabImageBat],
-                                                    eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
-                                                    eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity,parcoursGraphe->batiment+eceCity->image.varTabImageBat), WHITE);
-
+                                    DrawTexture(eceCity->image.tabImageBat[parcoursGraphe->batiment+eceCity->image.varTabImageBat],
+                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.x,
+                                                eceCity->tabCase[parcoursGraphe->ligne][parcoursGraphe->colonne].pos.y - posBatAffichage(eceCity,parcoursGraphe->batiment+eceCity->image.varTabImageBat), WHITE);
                                     parcoursGraphe->poser = true;
                                 }
                             }
@@ -346,7 +344,7 @@ void affichageComplet (ECE_City * eceCity) {
                 DrawTexture(eceCity->image.tabImageJeu[FOND_CAPI],0,0,WHITE);
             }
     }
-    DrawTexture(eceCity->image.image_affichage,0,0,WHITE);
+
     eceCity->orientation == 0?affichagePlateau0(*eceCity):affichagePlateau1(*eceCity);
 
     if (eceCity->etage == DESTRUCTION) {
@@ -367,16 +365,19 @@ void affichageComplet (ECE_City * eceCity) {
     if (eceCity->etage == EAU) {
         affichageEau(eceCity, DARKBLUE);
     }
-    if(eceCity->incendie.feu==1){
-        DrawRectangle(500,500,100,100,RED);
-    }
-    DrawText(TextFormat("%d habitants", eceCity->nbHabitant),1740, 240,25,BLACK);
-    DrawText(TextFormat("%d ECE-Flouz", eceCity->eceFlouz), 1680, 150, 25, BLACK);
-    if(eceCity->impots!=0){
-        DrawText(TextFormat(" +%d", eceCity->impots), 1600, 150, 25, BLUE);
-    }
+
+    DrawText(TextFormat("[%d][%d]", eceCity->souris.posLigne, eceCity->souris.posColonne), 12  , 100, 20 , BLACK);
+    DrawText(TextFormat("%s", eceCity->batiment[eceCity->EtatPlacement-1].nomBatiment), 12  , 120, 20 , BLACK);
+    DrawText(TextFormat("%d ECE-Flouz", eceCity->eceFlouz), 12, 180, 20, BLACK);
+    DrawText("Terrain Vague --> T", 12, 140, 20, BLACK);
+    DrawText("Centrale elec --> E", 12, 220, 20, BLACK);
+    DrawText("Chateau d eau --> H", 12, 240, 20, BLACK);
+    DrawText("Caserne pompier --> P", 12, 260, 20, BLACK);
+    DrawText("Route --> R", 12, 300, 20, BLACK);
+    DrawText(TextFormat("Vitesse x%d", eceCity->t.speedTime), 12, 340, 20, BLACK);
+    DrawText(TextFormat("Impots : %d", eceCity->impots), 12, 400, 20, BLACK);
     afficherBoiteOutils(eceCity);
 
-    affichage_temps(temps(eceCity));
+    affichage_temps(temps(&eceCity->t, eceCity));
     EndDrawing();
 }
